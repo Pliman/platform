@@ -1,0 +1,23 @@
+#if($goods)
+<div class="uc_index_uc_unit">
+	<div class="uc_index_uc_desc">
+		<div class="f14360b uc_index_uc_title" title="$!{goods.name}">
+			<a href="$!{appContext}/couponDetail?id=$!{goods.id}">$!{goods.name}</a>
+		</div>
+		<div class="uc_index_uc_c" title="$!{goods.description}">
+			$!{goods.description}
+			<br />
+			2011/09/01 -2012/03/31(2)
+			优惠期：$!date.format('yyyy/MM/dd',$!{goods.begin_time})-$!date.format('yyyy/MM/dd',$!{goods.end_time})
+		</div>
+		<div>
+			<a href="$!{appContext}/couponDetail?id=$!{goods.id}"><img src="$!{appPic}/right_download.png" /> </a>
+		</div>
+	</div>
+	<div>
+		<a href="$!{appContext}/couponDetail?id=$!{goods.id}">
+			<img width="110px" height="110px" src="${appUploadedPic}/$!{goods.default_pic}" />
+		</a>
+	</div>
+</div>
+#end

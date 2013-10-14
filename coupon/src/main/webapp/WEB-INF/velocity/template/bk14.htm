@@ -1,0 +1,29 @@
+		
+		
+		
+		
+		
+		 #foreach($homePage in $homePageList)
+		<li class="rec_btm_content_act">
+					<div>
+						<img width="90" height="90" src="/coupon/goods0/img/$!{homePage.imgurl}" title="活动"></img>
+					</div>
+					<div class="rec_btm_act_desc">
+						<div class="rec_btm_act_desc_c">
+						
+							#set($str=$!{homePage.description}) 
+				   #if($str.length()>33)
+				      #set($str=$str.substring(0,33)+"...")
+				     #end $str...
+						</div>
+						<div class="rec_btm_act_desc_btn">
+							<a href="$!{homePage.link}">立即查看</a>
+						</div>
+					</div>
+				</li>
+				#if($velocityCount!=3)
+		<li class="rec_btm_content_sep"><div></div></li>
+				#end
+		#end
+		
+		

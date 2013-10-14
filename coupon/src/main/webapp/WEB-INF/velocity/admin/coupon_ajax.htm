@@ -1,0 +1,116 @@
+ <script type="text/javascript">
+
+ 	function selectCoupon(id,obj){
+ 	#if($from==0)
+ 		$("#belong_coupon").val(id);
+ 		$("#couponname").val($(obj).attr("couponname"));
+ 	#end
+ 	#if($from==1)
+ 	 	var num=$("#couponajax").attr("currentText");
+ 	 	$("#linkid"+num).val("/coupon/couponDetail.html?id="+id);
+ 	#end
+ 		$(".pop_win_bg").hide();
+ 		$(".pop_win").hide();
+ 	}
+
+ 	function searchCoupon(p){
+ 			p || (p=1);
+ 	 		var wd=$("#wd").val();
+ 			$("#couponajax").load("/coupon/admin/getCoupon.html?from=$!{from}&wd="+wd + "&p=" + p);
+ 	 	}
+ </script>
+
+ <div><input type="text" value="" name="wd" id="wd"/><input type="submit" value="搜索" onclick="searchCoupon();"/></div>
+
+ <table cellspacing="1" cellpadding="3" border="0" align="center" class="table_b">
+    <tbody><tr>
+    <td width="8%" class="title_bg">选择</td>
+      <td width="27%" class="title_bg">优惠劵名</td>
+    <td width="26%" class="title_bg">使用地址</td>  
+	<!--<td class="title_bg" width="15%">添加时间</td>-->
+	  <td width="15%" class="title_bg">最新更新时间</td>
+	 <td width="8%" class="title_bg">状态</td>
+      <td width="6%" class="title_bg">操作</td>
+    </tr>
+   
+    #foreach($coupon in $couponList.list) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="idList" onclick="unselectall()" value="$!{coupon.id}" type="checkbox"></td>	
+		<td><a href="#" id="sname">$!{coupon.name}</a></td>
+		<td align="center">$!{coupon.user_addr}</td>
+		<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!coupon.modify_time)</td>
+		<td align="center">#if($coupon.isverified==0)审核中#elseif($coupon.isverified==1)审核通过#else审核未通过#end</td>	
+		<td align="center">
+			<a onclick="javascript:selectCoupon('$!{coupon.id}',this)" couponname="$!{coupon.name}">选择</a> 
+		</td>
+	</tr>
+	#end
+		
+
+        <tr>
+		<td align="center" class="tdbg" colspan="6">
+	 	
+         #if($couponList.list.size()>0 )
+	<div class="pages">
+
+	#set($pageNo=${couponList.pager.pageNumber}) ##当前页码   
+	#set($pageSum=${couponList.pager.pageCount}) ##总页数   
+	#set($liststep = 4)      ##显示分页页数
+	#set($listpage = $pageNo - 1) 
+	#set($nextpage = $pageNo + 1)                               
+	#if($pageNo < 1)  
+	$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+	#end  
+                    
+		#set($bar = $liststep/2)  
+                    
+                    #if(($pageNo - $bar) < 1)  
+                    #set($listbegin = 1)  
+                    #else  
+                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+                    #end  
+                      
+                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+                      
+                    #if($listend > $pageSum)  
+                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+                    #end  
+                     
+                    ##<strong>$pageNo</strong>                          ##显示当前页  
+                      
+                    #if($pageNo > 1)                 ##显示上一页处理  
+                    <a href="javascript:void(0)" onclick="searchCoupon($listpage)" class="no_bg">上一页</a>  
+                    #end  
+                    #if($listbegin > 1)                  ##第一页控制  
+                    <A href="javascript:void(0)" onclick="searchCoupon(1)" rel=start>1</A><SPAN class=gap>…</SPAN>  
+                    #end  
+                      
+                      
+                    #foreach($i in [$listbegin..$listend])  
+                    ##if($i <= $pageSum)             ##分页码的显示  
+                        #if($i != $pageNo&&$i!=0)  
+                        <a href="javascript:void(0)" onclick="searchCoupon($i)">$i</a>  
+                        #else  
+                      	<strong>$i</strong>   
+                        #end  
+                    ##end  
+                      
+                    #end  
+                      
+                    #if($listend < $pageSum)         ##最后一页的处理  
+                    <SPAN class=gap>…</SPAN><A href="javascript:void(0)" onclick="searchCoupon($pageSum)" rel=start>$pageSum</A>  
+                      
+                    #end  
+                    #if($pageNo != $pageSum)            ##显示下一页处理  
+                   <a class="no_bg" href="javascript:void(0)" onclick="searchCoupon($nextpage)">下一页</a>  
+                    #end
+                    
+			 #else
+			 
+			 没有搜索到你要的结果  
+			 #end 
+			 </div>
+						
+		</td>
+    </tr>
+      </tbody></table>

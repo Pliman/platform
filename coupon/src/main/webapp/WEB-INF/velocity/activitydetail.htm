@@ -1,0 +1,53 @@
+#set($nav=4)
+
+#parse("header_front.htm")
+
+    <div class="detail">
+
+      
+      <div class="content">
+		<!--hot-->
+	
+		
+		<!--left-->
+		<div class="act_left">
+			<div class="mianbao">
+		<a href="/coupon/index.htm">首页</a>  &nbsp;<span style="font-size:12px;">>></span> <a href="/coupon/activity.html">活动列表</a> <span style="font-size:12px;">>></span> $!{activity.title} 
+	</div>
+		<div class="a_con">
+     
+   
+        <div class="a_t">
+          <h1>$!{activity.title}</h1>
+          <p><span> 发布商家：$!{activity.proman}</span><!--<span>来源：<a target="_blank" href="#">xxxx</a></span>--><span>$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.create_time)</span></p>
+        </div>
+        <div class="zhekou_info"><p>关键字：$!{activity.keyword}</p><ul>
+<li>品&nbsp;&nbsp;&nbsp;&nbsp;牌：<span>各大品牌</span></li>
+<li>活动时间：<span>$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.begin_time) 至 $!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.end_time)</span></li>
+<li>活动地点：<span>$!{activity.act_address}</span></li>
+<!--<li>活动地址：<span>上海市天山路900号</span></li>-->
+<li>免责声明：<span>此信息内容仅供参考，详情请咨询相关商户。</span></li>
+</ul>
+</div>
+        <div class="a_c">
+        
+        
+        $!{activity.act_article}
+
+
+			</div>
+	
+      </div>
+			
+		</div>
+		<!--left end-->
+	
+		<!--right start-->
+	<div class="act_right">
+		#include("/template/product/bk10.htm")
+		#include("/template/product/bk8.htm")
+		#include("/template/product/bk9.htm")
+	</div>
+    <!--right end-->
+    
+    #parse("footer_front.htm")

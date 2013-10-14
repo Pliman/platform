@@ -1,0 +1,80 @@
+#parse("header_front.htm")
+
+<link href="/coupon/res/css/urlogin.css" rel="stylesheet"
+	type="text/css" />
+<script type="text/javascript">
+	$('#uc_index').addClass('nav_contenton');
+	
+	$(function(){
+		// 用户名框事件
+		$('#em_username').focus(function(){
+			$(this).val() == '请输入用户名' && $(this).val('');
+		});
+		$('#em_username').blur(function(){
+			!$(this).val() && $(this).val('请输入用户名');
+		});
+	});
+</script>
+
+
+<div class="login_container"> 
+  <!--login header start-->
+  <div>
+    <div class="title_icon"></div>
+    <div class="title_txt">请先"登录"后再进行下一步操作</div>
+  </div>
+  <div>
+    <hr class="title_seperator"/>
+  </div>
+  <!--login header end-->
+  
+  <!--login body start-->
+  <div class="login_body">
+    <div class="box_container">
+      <div class="login_box_c">
+      <!--login login_box start-->
+        <div class="login_box">
+        <form id="urloginForm" action="userlogin" method="post">
+          <div class="box-title">会员请登录</div>
+          <div class="box-body">
+              <div style="height:33px"></div>
+              <div class="login_input">账&nbsp;&nbsp;&nbsp户：<input id="em_username" name="em_username" type="text" value="请输入用户名"/></div>
+              <div class="login_input">密&nbsp;&nbsp;&nbsp码：<input type="text" value=""/></div>
+              <div class="r_pass"><input type="checkbox" id="rPass" name="rPass"/>自动登录</div>
+              <div id="loginMsg" style="height:23px"></div>
+              <div style="height:50px"><a href="#" onclick="$('#urloginForm')[0].submit();" class="login-btn"></a></div>
+          </div>
+          </form>
+        </div>
+        <!--login login_box end-->
+      </div>
+      <div class="box_bottom">注意：本站属于天翼手机用户尊享网站，如想申请成为本站会员请拨打10000号或咨询当地营业厅办理！</div>
+    </div>
+    <div class="body_seperatorC">
+      <div class="body_seperator"></div>
+    </div>
+    <!--login site_desc start-->
+    <div class="body_site_desc">
+    	<div class="site-desc-box">
+            <div class="site-desc-title">
+            	<p>成为中国电信优惠劵平台会员</p>
+            	<p>你将可以：</p>
+            </div>
+            <div class="site-desc-content">
+            	<ul>
+                	<li class="desc-icon1">第一时间了解商家最新的促销活动</li>
+                    <li class="desc-icon2">享受特约优惠的价格</li>
+                    <li class="desc-icon3">方便快捷的购物方式</li>
+                    <li class="desc-icon4">时尚贴心的消费体验</li>
+                </ul>
+            </div>
+            <div class="site-desc-bottom">想使用全部功能？立即拨打10000咨询吧！</div>
+        </div>
+    </div>
+    <!--login site_desc end-->
+  </div>
+  <!--login body end--> 
+</div>
+
+
+#parse("footer_front.htm")

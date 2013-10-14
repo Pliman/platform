@@ -1,0 +1,300 @@
+#parse("header_front.htm")
+<link rel="stylesheet" type="text/css" href="/coupon/res/css/ud-mover.css" />
+<script type="text/javascript">
+					$('#shop').addClass('nav_contenton');
+					
+					$(function(){
+						// 初始化图片
+						if($('.sel_pic').length == 0){
+							$('#scrollC1>li:first').addClass('sel_pic pic current');
+							var path=$(".sel_pic").find("img").attr("src");
+							var defaultPath = '/coupon/res/images/default_shop_pic.jpg';
+							$(".bigPic").find("img").attr("src",path?path:defaultPath);
+						}
+						
+						// 图片竖向滚动 start
+						var pre = function(){
+							if($('#scrollC2>li:last').length > 0){
+								$('#scrollC1').css({'marginTop':-70});
+								if($('#scrollC1>li:first').length > 0){
+									$('#scrollC2>li:last').insertBefore($('#scrollC1>li:first'));
+								}else{
+									$('#scrollC1').append($('#scrollC2>li:last'));
+								}
+								
+								$('#scrollC1').animate({'marginTop':0},300);
+							}else{
+								$('#scrollC2').append($('#scrollC1>li:last'));
+								pre();
+							}
+						};
+						
+						var next = function(){
+							//如果第一个div中有图片
+							if($('#scrollC1>li:first').length > 0){
+								//将图片向上滚动
+								$('#scrollC1').animate({'marginTop':-70},200,null,function(){
+									//将图片放到下面的div中
+									$('#scrollC2').append($('#scrollC1>li:first'));
+									//恢复顶部间隙
+									$('#scrollC1').css({'marginTop':0});
+								});
+							}else{
+								$('#scrollC1').append($('#scrollC2>li:first'));
+								next();
+							}
+						};
+						
+						var getPrev = function(e){
+							if(e.prev().length > 0){
+								return e.prev();
+							}else if($('#scrollC1>li:last').length > 0){
+								return $('#scrollC1>li:last');
+							}else if($('#scrollC2>li:last').length > 0){
+								return $('#scrollC2>li:last');
+							}else{
+								return $('#scrollC1>li:last');
+							}
+						}
+						
+						var getNext = function(e){
+							if(e.next().length > 0){
+								return e.next();
+							}else if($('#scrollC2>li:first').length > 0){
+								return $('#scrollC2>li:first');
+							}else{
+								return $('#scrollC1>li:last');
+							}
+						}
+						
+						$('#scrollPre').click(function(){
+							getPrev($('.sel_pic')).addClass("sel_pic");
+							$(".current").removeClass("sel_pic");
+							var path=$(".sel_pic").find("img").attr("src"); 			
+							$(".bigPic").find("img").attr("src",path);
+							$(".pic").removeClass("current");
+							$(".sel_pic").addClass("current");
+							pre();
+						
+						});
+						$('#scrollNext').click(function(){
+							getNext($('.sel_pic')).addClass("sel_pic");
+							$(".current").removeClass("sel_pic");
+							var path=$(".sel_pic").find("img").attr("src");
+							$(".bigPic").find("img").attr("src",path); 
+							$(".pic").removeClass("current");
+							$(".sel_pic").addClass("current");
+							next();
+						
+						});
+						// 图片竖向滚动 end
+						
+						// 指示条样式
+						$('#mover_ud_up').hover(function(){
+							$(this).removeClass('mover_ud_up_org');
+							$(this).addClass('mover_ud_up_over');
+						},function(){
+							$(this).removeClass('mover_ud_up_over');
+							$(this).addClass('mover_ud_up_org');
+						})
+						
+						$('#mover_ud_down').hover(function(){
+							$(this).removeClass('mover_ud_down_org');
+							$(this).addClass('mover_ud_down_over');
+						},function(){
+							$(this).removeClass('mover_ud_down_over');
+							$(this).addClass('mover_ud_down_org');
+						})
+					});
+				</script>
+<div class="detail">
+	<div class="cate">
+		<ul>
+			<li class="cate_L">
+				分类：
+			</li>
+			<li class="cate_R">
+				<a class="color" href="shop">全部</a> #foreach($obj
+				in $shopCategoryList)
+				<a href="shopSearch.html?bc=0&cat=${obj.category_id}">${obj.category_name}</a>
+				#end
+		</ul>
+		<ul class="cate_I2">
+			<li class="cate_L">
+				商圈：
+			</li>
+			<li class="cate_R">
+				<a class="color" href="shop">全部</a> #foreach($obj
+				in $bussinessCircleList)
+				<a href="shopSearch.html?bc=${obj.id}&cat=0">${obj.bc_name}</a>
+				#end
+			</li>
+		</ul>
+	</div>
+	<!--end for areatop-->
+
+
+	<div class="sh_det">
+
+
+		<div id="infoD">
+			<!-- shopsNav;E -->
+			<div class="mainBox">
+				<!--xsPicScorll-->
+
+				<div class="xsPicScorll">
+					<b class="xtop"> <b class="xb1"></b> <b class="xb2"></b> <b
+						class="xb3"></b> <b class="xb4"></b> </b>
+					<div class="xboxcontentScorll">
+						<div class="scrollCont">
+							<!-- 左侧图片 -->
+							<div class="scrollcontL">
+								<div id="scrollPre" class="scrollBtn">
+									<div class="mover_ud_left">
+									</div>
+									<div id="mover_ud_up" class="mover_ud_up_org">
+									</div>
+									<div class="mover_ud_right">
+									</div>
+								</div>
+								<div id="scrollPicC" class="scrollPicC">
+								<ul id="scrollC1">
+								#foreach($obj in $shop.shopPicList)
+									 #if($velocityCount==2)
+										<li class="sel_pic pic current">
+											<a  href="javascript:void(0)"><img
+													src="/coupon/goods0/img/$!{obj.url}">
+											</a>
+										</li>
+									#else
+									<li  class="pic">
+											<a  href="javascript:void(0)"><img
+													src="/coupon/goods0/img/$!{obj.url}">
+											</a>
+										</li>
+									#end
+								#end
+								</ul>
+								<ul id="scrollC2"></ul>
+								</div>
+								<div id="scrollNext" class="scrollBtn">
+									<div class="mover_ud_left">
+									</div>
+									<div id="mover_ud_down" class="mover_ud_down_org">
+									</div>
+									<div class="mover_ud_right">
+									</div>
+								</div>
+							</div>
+							<!-- 右侧大图 -->
+							<div class="scrollcontR">
+
+								<div class="bigPic">
+									<a target="_blank" href="#"><img
+									#foreach($obj in $shop.shopPicList)
+									 #if($velocityCount==2)
+												src="/coupon/goods0/img/$!{obj.url}"
+									#end
+									#end
+									 width="475" height="290">
+										</a>
+									
+								</div>
+								<!--<div class="greyBg"></div>
+								<dl class="clearfix bigpicTitle">
+									<dt>
+										探店
+									</dt>
+									<dd>
+										<h3 class="f16">
+											<a target="_blank" href="#">成都人称“老对胃口”的本帮菜出炉</a>
+										</h3>
+										<p style="color: #fff; line-height: 16px;">
+											许多食客逛完城隍庙，都会顺便就近来此吃饭；也有很多食客专程从大老远的虹口赶过来，就是为了尝到那最“对胃口”的本帮菜……
+										</p>
+									</dd>
+								</dl>
+								</div>-->
+						</div>
+					</div>
+				</div>
+				<!--xsPicScorll end-->
+
+			</div>
+
+
+			<div class="sideBox">
+				<!-- businessIntro start -->
+				<div class="businessIntro">
+					<h2>
+						$!{shop.name}
+					</h2>
+					<div class="sh_info">
+						<p>
+							地址：$!{shop.address}
+						</p>
+						<p>
+							电话：$!{shop.telephone}
+						</p>
+
+						<p>
+							标签： 火锅&nbsp;&nbsp;&nbsp;其他火锅&nbsp;
+						</p>
+						<p>
+							商户介绍：$!{shop.description}
+						</p>
+					</div>
+				</div>
+				<!-- businessIntro end -->
+
+
+
+
+
+
+
+			</div>
+
+			<div class="clear"></div>
+
+			<!-- food;S-->
+			<div class="food">
+				<div class="hot_T">
+					<h2>
+						优惠券
+					</h2>
+					<a href="#">更多&gt;&gt;</a>
+				</div>
+				<ul class="foodShow clearfix">
+					#foreach($obj in $shop.couponList)
+					<li>
+						<dl>
+							<dt>
+								<a target="_blank" href="couponDetail.html?id=$!{obj.id}"> <img
+										width="197" height="142" alt=""
+										src="/coupon/goods0/img/$!{obj.default_pic}"> </a>
+							</dt>
+							<dd>
+								<a target="_blank" href="couponDetail.html?id=$!{obj.id}" title="$!{obj.name}"> <strong>#set($str=$!{obj.name}) 
+				   #if($str.length()>16)
+				      #set($str=$str.substring(0,16)+"...")
+				     #end $str</strong>
+								</a>
+							</dd>
+							
+							<dd>
+								优惠期：$!date.format('yyyy-MM-dd',$!obj.begin_time) -
+								$!date.format('yyyy-MM-dd',$!obj.end_time)
+							</dd>
+						</dl>
+					</li>
+					#end
+				</ul>
+			</div>
+			<!-- food;E-->
+
+		</div>
+	</div>
+	<!--end for detail-->
+
+	#parse("footer_front.htm")

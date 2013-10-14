@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/fileuploader.css" />
+<script type="text/javascript" src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/swfobject.js"></script>
+<script type="text/javascript" src="/coupon/res/js/jquery.uploadify.v2.1.4.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/kindeditor-min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/zh_CN.js"></script>
+<script language="javascript" type="text/javascript" src="/coupon/res/js/WdatePicker.js"></script>
+
+</head>
+
+<script type="text/javascript">
+function onComplete(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+      	$("#upImg"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name=\"default_pic\" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+
+function deleteMyHtml(obj){
+	$(obj).parent().parent().remove();
+	imgnum--;
+}
+var imgnum=0;
+function addImage(obj){
+		var html="";
+	    html= "<tr bgcolor=\"#ffffff\">";
+		html+="<td  colspan=\"2\">";
+		html+="<input type=\"file\"";
+		html+=" name=\"UpImgId";
+		//html+=imgnum;
+		html+="\"/><a onclick='deleteMyHtml(this)'>删除</a>";
+		html+="<td></td></tr>";
+
+	$(obj).parent().parent().after(html);
+	imgnum++
+}
+
+
+$(document).ready(function() {
+
+  $('#default_pic').uploadify({
+
+    'uploader'  : '/coupon/res/js/uploadify.swf',
+
+    'script'    : '/coupon/admin/goods/upload',
+
+    'cancelImg' : '/coupon/res/js/cancel.png',
+    'scriptData'  : {'upImg':'1','age':30},
+    'folder'    : '/uploads',
+	'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+    'auto'      : true
+
+  });
+  
+  });
+  </script>
+<body>
+ #if( $a ==3 ) 
+
+<form action="shopAction?a=2" method="post">
+<input type="hidden" value="$!{shop.id}" name="id"/>
+<input type="hidden" value="$!{shop.isverified}" name="isverified"/>
+ <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="4%">字段描述</td>
+      <td class="title_bg" width="22%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>商户名：</td>
+       <td><input type="text" value="$!{shop.name}" name="name" class="gtext"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户描述：</td>
+       <td><textarea   name="description" style="width:50%;height:100px;font-size:12px;">$!{shop.description}</textarea></td>
+       </tr>
+       
+       
+       
+        <tr bgcolor="#ffffff">
+      <td>商户地址：</td>
+       <td><input type="text" value="$!{shop.address}" name="address" class="gtext"/></td>
+       </tr>
+   
+        <tr bgcolor="#ffffff">
+      <td>商户电话：</td>
+       <td><input type="text" value="$!{shop.telephone}" name="telephone" class="gtext"/></td>
+       </tr>
+        <tr bgcolor="#ffffff">
+      <td>所属商圈与类别：</td>
+       <td> <select style="width:120px;"  name="belong_bc">
+				            <option value="0">所有商圈</option>
+				             #foreach($obj in $bussinessCircleList)
+							<option style="color:RED;" value="${obj.id}"  #if(${shop.belong_bc}==${obj.id}) selected="selected" #end>${obj.bc_name}</option>
+							 #end
+				        </select>
+				<select style="width:80px;" id="ddlType" name="belong_shopcat">
+				            <option value="0" >所有分类</option>
+				            #foreach($obj in $shopCategoryList) 
+				            <option style="color:RED;" value="${obj.category_id}" #if(${shop.belong_shopcat}==${obj.category_id}) selected="selected" #end>${obj.category_name}</option>
+				            #end
+				        </select> 
+				        
+			</td>
+       </tr>
+       
+       
+      <!--<tr bgcolor="#ffffff">
+      <td>是否是热门商户：</td>
+       <td>是 <input type="radio" value="1" name="is_hot" #if($!{shop.is_hot}==1)checked="true" #end/>  否<input type="radio" value="0" name="is_hot" #if($!{shop.is_hot}==0)checked="true" #end/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>是否是推荐商户：</td>
+       <td>是 <input type="radio" value="1" name="isremmend" #if($!{shop.isremmend}==1)checked="true" #end/>  否<input type="radio" value="0" name="isremmend" #if($!{shop.isremmend}==0)checked="true" #end/></td>
+       </tr>-->
+       
+		  <tr bgcolor="#ffffff">
+		      <td>商户默认图片：</td>
+		       <td>	#if(${shop.default_pic})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{shop.default_pic}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{shop.default_pic}" name="default_pic"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg1">
+      		<input id="default_pic" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg1"><input type="file" value="" name="file" id="default_pic"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			
+   			#end
+   			
+   			</td>
+		  </tr>
+		  
+
+		  
+		    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="保存"/> <input type="button" value="返回" onclick="history.go(-1)"/></td>
+		  </tr>
+		  
+		  
+		 
+      </tbody>
+      </table>
+      </form>
+      
+   <form action='/coupon/admin/shopupload' method='post' enctype="multipart/form-data">
+   		<input type="hidden" value="3" name="a"/>
+		<input type="hidden" value="$!{shop.id}" name="id"/>
+       <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+      <tr bgcolor="#ffffff">
+	    	  <td  colspan="3">商家图片展示<a onclick="javascript:addImage(this);" style="float:right;margin-right:20px;">添加一张</a></td>
+      		</tr>
+      		
+      	#if($shop.shopPicList.size()>0 )	
+	        #foreach($img in $shop.shopPicList) 
+		       <tr bgcolor="#ffffff">
+		    	  <td width="20%">更多图片：</td>
+		      	  <td width="60%"><img src="/coupon/goods0/img/$!{img.url}"  width="100" height="100"/></td>
+		       	  <td width="20%"><a href="/coupon/admin/deleteShopPic.html?id=$!{img.id}&a=3&shopId=$!{shop.id}">删除图片</a></td>
+		       </tr>
+		       
+	       #end
+		  #else
+		  
+		  	  <tr bgcolor="#ffffff">
+	    	  <td  colspan="3" style="color:#ff3366">你还没有上传图片&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      		</tr>
+		  #end
+		  <tr bgcolor="#ffffff">
+	      <td>图片操作：</td>
+	       <td><input type="submit" value="上传"/></td>
+	        <td width="20%"></td>
+	       </tr>
+		  </form>
+		  
+		  
+		    </tbody>
+      </table>
+
+#end 
+
+ #if( $a ==4 ) 
+    <form action='/coupon/admin/shopaddupload' method='post' enctype="multipart/form-data">
+ 	<input type="hidden" value="1" name="a"/>
+   <input type="hidden" value="$!{shop.id}" name="id"/>
+ <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody>
+    <tr>
+      <td class="title_bg" width="4%">字段描述</td>
+      <td class="title_bg" width="22%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>商户名：</td>
+       <td><input type="text" value="$!{shop.name}" name="name" class="gtext"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户描述：</td>
+      <td><textarea   name="description" style="width:50%;height:100px;font-size:12px;">$!{shop.description}</textarea></td>
+       </tr>
+       
+       
+       
+        <tr bgcolor="#ffffff">
+      <td>商户地址：</td>
+       <td><input type="text" value="$!{shop.address}" name="address" class="gtext"/></td>
+       </tr>
+         <tr bgcolor="#ffffff">
+      <td>商户电话：</td>
+       <td><input type="text" value="$!{shop.telphone}" name="telphone" class="gtext"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>所属商圈与类别：</td>
+       <td> <select style="width:120px;"  name="belong_bc">
+				            <option value="0">所有商圈</option>
+				             #foreach($obj in $bussinessCircleList)
+							<option style="color:RED;" value="${obj.id}"  #if(${shop.belong_bc}==${obj.id}) selected="selected" #end>${obj.bc_name}</option>
+							 #end
+				        </select>
+				<select style="width:80px;" id="ddlType" name="belong_shopcat">
+				            <option value="0" >所有分类</option>
+				            #foreach($obj in $shopCategoryList) 
+				            <option style="color:RED;" value="${obj.category_id}" #if(${shop.belong_shopcat}==${obj.category_id}) selected="selected" #end>${obj.category_name}</option>
+				            #end
+				        </select> 
+				        
+			</td>
+       </tr>
+       
+ 
+       
+       	  <tr bgcolor="#ffffff">
+		      <td>商户默认图片：</td>
+		       <td>	#if(${shop.default_pic})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{shop.default_pic}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{shop.default_pic}" name="default_pic"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg1">
+      		<input id="default_pic" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg1"><input type="file" value="" name="file" id="default_pic"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			
+   			#end
+   			
+   			</td>
+		  </tr>
+		  
+
+		  
+	 <tr bgcolor="#ffffff">
+      <td>是否通过审核：</td>
+       <td>是 <input type="radio" value="1" name="isverified" #if($!{shop.isverified}==1)checked="true" #end/>  否<input type="radio" value="0" name="isverified" #if($!{shop.isverified}==0)checked="true" #end/></td>
+       </tr>
+		  
+		 
+      </tbody>
+      </table>
+     
+      
+
+   	
+       <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+      <tbody>
+      <tr bgcolor="#ffffff">
+	    	  <td  colspan="3">商家图片展示<a onclick="javascript:addImage(this);" style="float:right;margin-right:20px;">添加一张</a></td>
+      		</tr>
+      		
+      	#if($shop.shopPicList.size()>0 )	
+	        #foreach($img in $shop.shopPicList) 
+		       <tr bgcolor="#ffffff">
+		    	  <td width="20%">更多图片：</td>
+		      	  <td width="60%"><img src="/coupon/goods0/img/$!{img.url}"  width="100" height="100"/></td>
+		       	  <td width="20%"><a href="/coupon/admin/deleteShopPic.html?id=$!{img.id}&a=3&shopId=$!{shop.id}">删除图片</a></td>
+		       </tr>
+		       
+	       #end
+		  #else
+		  
+		  	  <tr bgcolor="#ffffff">
+	    	  <td  colspan="3" style="color:#ff3366">你还没有上传图片&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      		</tr>
+		  #end
+		  <!--<tr bgcolor="#ffffff">
+	      <td>图片操作：</td>
+	       <td><input type="submit" value="上传"/></td>
+	        <td width="20%"></td>
+	       </tr>-->
+	       
+	       	    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="保存"/> <input type="button" value="返回" onclick="history.go(-1)"/></td>
+		   <td></td>
+		  </tr>
+		  
+	
+		  
+		  
+		    </tbody>
+      </table>
+      </form>
+ #end 
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- July 14, 2005 -->
+<wsdl:definitions
+   name="ctcc_mm_notification_service"
+   targetNamespace="http://www.chinatelecom.com.cn/wsdl/ctcc/multimedia_messaging/notification/v2_2/service"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:tns="http://www.chinatelecom.com.cn/wsdl/ctcc/multimedia_messaging/notification/v2_2/service"
+   xmlns:interface="http://www.chinatelecom.com.cn/wsdl/ctcc/multimedia_messaging/notification/v2_2/interface">
+
+   <wsdl:import namespace="http://www.chinatelecom.com.cn/wsdl/ctcc/multimedia_messaging/notification/v2_2/interface" location="ctcc_mm_notification_interface_2_2.wsdl"/>
+
+   <wsdl:binding name="MessageNotificationBinding" type="interface:MessageNotification">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="notifyMessageReception">
+         <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+               <soap:body use="literal"/>
+               <!--增加SOAPHeader声明-->
+              <soap:header message="interface:SendMessageNotifySOAPHeader" part="NotifySOAPHeader" use="literal" />
+              <!--增加SOAPHeader声明-->
+            </wsdl:input>
+            <wsdl:output>
+               <soap:body use="literal"/>
+            </wsdl:output>
+      </wsdl:operation>
+      
+      <wsdl:operation name="notifyMessageDeliveryReceipt">
+         <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+               <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+               <soap:body use="literal"/>
+            </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="MessageNotificationService">
+      <wsdl:port name="MessageNotification" binding="tns:MessageNotificationBinding">
+         <soap:address location="http://localhost:9080/MessageNotificationService/services/MessageNotification"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

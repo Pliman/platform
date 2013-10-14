@@ -1,0 +1,10 @@
+
+           #foreach($goods in $goodsList)
+           #**$date.format('yyyy-MM-dd HH:mm:ss',1330066413662)**#
+           
+				<li><a href="/coupon/couponDetail.html?id=$!{goods.id}">#set($str=$!{goods.name}) 
+											   #if($str.length()>14)
+											      #set($str=$str.substring(0,14)+"...")
+											     #end $str</a> <span>[03-05]</span></li>
+   			#end
+       

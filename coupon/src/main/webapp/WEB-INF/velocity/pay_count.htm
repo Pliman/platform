@@ -1,0 +1,107 @@
+#parse("header_front.htm")
+<script type="text/javascript">
+		$('#uc_index').addClass('nav_contenton');
+	</script>
+<style type="text/css">
+	.pay-count-title {
+		font-size: 14px; 
+		font-weight: bold;
+		margin-bottom:10px;
+	}
+</style>
+
+<div class="pay_count">
+	<div class="pay_count_nav"></div>
+    
+    <div class="pay_count_order">
+    	<h2>商品清单</h2>
+        	<table width="100%" cellspacing="0" cellpadding="0" class="pay-count-table">
+						<tbody>
+							<tr>
+								<td width="7%">
+									商品编号
+								</td>
+								<td>
+									商品名称
+								</td>
+								<td width="10%">
+									原价
+								</td>
+								<td width="8%">
+									优惠
+								</td>
+								<td width="9%">
+									状态
+								</td>
+								<td width="9%">
+									商品数量
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									${goods.code}
+								</td>
+								<td>
+									${goods.name}
+								</td>
+								<td>
+									￥${goods.price}
+								</td>
+								<td>
+									￥${goods.discount}
+								</td>
+								<td>
+									#if(${goods.isvalid} == 1)
+									 可用
+									#else
+									 不可用
+									#end
+								</td>
+								<td>
+									${goods.number}
+								</td>
+							</tr>
+						</tbody>
+        </table>
+    </div>
+    
+    <div class="pay_count_count">
+    	<h2>结算信息</h2>
+        <div class="pay_count_counter">
+            <div class="pay_count_cal">
+                商品金额：${goods.price} - 优惠${goods.discount}元
+            </div>
+            <div class="pay_count_total f14bb">
+           	#set($pay=${goods.price}-${goods.discount}) 
+            应付总额：<label>${pay}</label>元</div>
+        </div>
+        <div class="pay_count_confirm">
+        <form method="post" action="$!{appContext}/paybank" id="payCountForm">
+        	<input type="hidden" value="$!{goods.id}" name="id" />
+			<input type="hidden" value="$!{isCustomAmount}" name="isCustomAmount" />
+			<input type="hidden" value="$!{goods.price}" name="price" />
+			<input type="hidden" value="$!{goods.discount}" name="discount" />
+			<input type="hidden" value="$!{goods.number}" name="number" />
+			<input type="hidden" value="$!{attach}" name="attach" />
+        	<a href="javascript:void(0)" onclick="$('#payCountForm').submit();" class="normal_btn">提交订单</a>
+        </form>
+        </div>
+    </div>
+    
+    <div class="coupon_ad">
+    	<ul>
+    		#foreach($goods in $goodsList)
+    			<li><a href="#">【精彩优惠劵】
+    			#if($goods.is_recommend == 1)
+    				<label class="coupon_ad_hot">$goods.name</label>
+    			#else
+    				$goods.name
+    			</a></li>
+    			#end
+            #end
+        </ul>
+        <div class="clr"></div>
+    </div>
+</div>
+
+#parse("footer_front.htm")

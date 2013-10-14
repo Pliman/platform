@@ -1,0 +1,87 @@
+<!--uc_left start-->
+<script type="text/javascript">
+	function ucLogout(){
+		doLogout();
+		window.location.href = "$!{appContext}/uc/uc_index";
+	}
+</script>
+<div class="left">
+		<div class="top_info">
+			<div class="listtop_login">
+				<div class="floats">
+					<img src="$!{appPic}/avatar.png" />
+				</div>
+				<div class="listtop_grzx">
+					<ul>
+						<li class="listtop_grzx_ul">
+							$!{currUser.name}
+						</li>
+						<li  class="listtop_grzx_ur">
+							<a href="$!{appContext}/uc/uc_index">个人中心</a>
+						</li>
+					</ul>
+					<ul>
+						<li class=listtop_grzx_ll>
+							$!{currUser.email}
+						</li>
+						<li class="listtop_grzx_lr">
+							<a href="javascript:void(0)" onclick="ucLogout()">退出</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="left_dh2">
+				<div class="left_logints">
+					<ul>
+						<li>
+							尊敬的$!{currUser.name}
+							<span style="color: #FF6666; margin-left: 5px;">欢迎回来</span>
+						</li>
+						<li>
+							<span style="color: #000000">最近登录时间：</span>$!date.format('yyyy-MM-dd',$currUser.lastVisit)
+						</li>
+					</ul>
+				</div>
+				<div class="vip_bj2"></div>
+				<!-- uc_function start -->
+				<ul class="uc_f">
+					<li class="uc_f_7 uc_f_title">
+						会员中心
+					</li>
+					<li class="uc_f_8 uc_f_content">
+						<a href="$!{appContext}/uc/uc_index">会员首页</a>
+					</li>
+				</ul>
+				<div class="vip_bj2"></div>
+				<ul class="uc_f">
+					<li class="uc_f_1 uc_f_title">
+						账户中心
+					</li>
+					<li class="uc_f_2 uc_f_content">
+						<a href="$!{appContext}/uc/uc_charge">账户充值</a>
+					</li>
+				</ul>
+				<div class="vip_bj2"></div>
+				<ul class="uc_f">
+					<li class="uc_f_4 uc_f_title">
+						查询中心
+					</li>
+					<li class="uc_f_11 uc_f_content">
+						<a href="$!{appContext}/uc/uc_order_list">订单查询</a>
+					</li>
+					<li class="uc_f_5 uc_f_content">
+						<a href="$!{appContext}/uc/uc_coupon_list">优惠劵查询</a>
+					</li>
+					<li class="uc_f_6 uc_f_content">
+						<a href="$!{appContext}/uc/uc_activity_list">活动查询</a>
+					</li>
+				</ul>
+				<!-- uc_function end -->
+			</div>
+			<div class="uc_f_btm"></div>
+		</div>
+
+	</div>
+
+<!--uc_left end-->

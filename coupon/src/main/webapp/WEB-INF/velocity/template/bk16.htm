@@ -1,0 +1,9 @@
+
+
+
+ #foreach($homePage in $homePageList)
+	<li>
+		<h4>$!{homePage.description}</h4>
+		<p><a href="$!{homePage.link}"><img src="/coupon/goods0/img/$!{homePage.imgurl}" width="159" height="50"/></a></p>
+	</li>
+#end

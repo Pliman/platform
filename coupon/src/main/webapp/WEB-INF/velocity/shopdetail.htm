@@ -1,0 +1,531 @@
+#set($nav=1)
+
+#parse("header_front.htm")
+<link rel="stylesheet" type="text/css" href="/coupon/res/css/ud-mover.css" />
+<script type="text/javascript">
+					$('#shop').addClass('nav_contenton');
+					
+					function viewPic(pic){
+						pic = $(pic);
+						var path=pic.find("img").attr("src");
+						$(".bigPic").find("img").attr("src",path); 
+						$(".pic").removeClass("sel_pic");
+						$(".pic").removeClass("current");
+						pic.parent().addClass("sel_pic");
+						pic.parent().addClass("current");
+					}
+					
+					$(function(){
+						// 初始化图片
+						if($('.sel_pic').length == 0){
+							$('#scrollC1>li:first').addClass('sel_pic pic current');
+							var path=$(".sel_pic").find("img").attr("src");
+							var defaultPath = '/coupon/res/images/default_shop_pic.jpg';
+							$(".bigPic").find("img").attr("src",path?path:defaultPath);
+						}
+						
+						// 图片竖向滚动 start
+						var pre = function(){
+							if($('#scrollC2>li:last').length > 0){
+								$('#scrollC1').css({'marginTop':-70});
+								if($('#scrollC1>li:first').length > 0){
+									$('#scrollC2>li:last').insertBefore($('#scrollC1>li:first'));
+								}else{
+									$('#scrollC1').append($('#scrollC2>li:last'));
+								}
+								
+								$('#scrollC1').animate({'marginTop':0},300);
+							}else{
+								$('#scrollC2').append($('#scrollC1>li:last'));
+								pre();
+							}
+						};
+						
+						var next = function(){
+							//如果第一个div中有图片
+							if($('#scrollC1>li:first').length > 0){
+								//将图片向上滚动
+								$('#scrollC1').animate({'marginTop':-70},200,null,function(){
+									//将图片放到下面的div中
+									$('#scrollC2').append($('#scrollC1>li:first'));
+									//恢复顶部间隙
+									$('#scrollC1').css({'marginTop':0});
+								});
+							}else{
+								$('#scrollC1').append($('#scrollC2>li:first'));
+								next();
+							}
+						};
+						
+						var getPrev = function(e){
+							if(e.prev().length > 0){
+								return e.prev();
+							}else if($('#scrollC1>li:last').length > 0){
+								return $('#scrollC1>li:last');
+							}else if($('#scrollC2>li:last').length > 0){
+								return $('#scrollC2>li:last');
+							}else{
+								return $('#scrollC1>li:last');
+							}
+						}
+						
+						var getNext = function(e){
+							if(e.next().length > 0){
+								return e.next();
+							}else if($('#scrollC2>li:first').length > 0){
+								return $('#scrollC2>li:first');
+							}else{
+								return $('#scrollC1>li:last');
+							}
+						}
+						
+						$('#scrollPre').click(function(){
+							getPrev($('.sel_pic')).addClass("sel_pic");
+							$(".current").removeClass("sel_pic");
+							var path=$(".sel_pic").find("img").attr("src"); 			
+							$(".bigPic").find("img").attr("src",path);
+							$(".pic").removeClass("current");
+							$(".sel_pic").addClass("current");
+							pre();
+						
+						});
+						$('#scrollNext').click(function(){
+							getNext($('.sel_pic')).addClass("sel_pic");
+							$(".current").removeClass("sel_pic");
+							var path=$(".sel_pic").find("img").attr("src");
+							$(".bigPic").find("img").attr("src",path); 
+							$(".pic").removeClass("current");
+							$(".sel_pic").addClass("current");
+							next();
+						
+						});
+						// 图片竖向滚动 end
+						
+						// 指示条样式
+						$('#mover_ud_up').hover(function(){
+							$(this).removeClass('mover_ud_up_org');
+							$(this).addClass('mover_ud_up_over');
+						},function(){
+							$(this).removeClass('mover_ud_up_over');
+							$(this).addClass('mover_ud_up_org');
+						})
+						
+						$('#mover_ud_down').hover(function(){
+							$(this).removeClass('mover_ud_down_org');
+							$(this).addClass('mover_ud_down_over');
+						},function(){
+							$(this).removeClass('mover_ud_down_over');
+							$(this).addClass('mover_ud_down_org');
+						})
+					});
+
+
+
+					function loadSubCat(id,obj){
+						if(id==0){
+							$(".subcat").hide();
+							$(".subcat_arrow").css("left",-100000);
+							return ;
+						}
+						var offset = $(obj).offset();
+						$(".subcat_arrow").css("left",offset.left-142)
+						$(".subcat").hide();
+						$("#childCate"+id).show();
+					
+					}
+				
+					
+					function selectIconHover(obj){
+						$("#selectDefault").css({height: "auto", overflow: "visible" });
+						$(".select_option_li").each(function(){
+							$(this).click(function(){
+								var value=$(this).attr("value");
+								$(".default").html($(this).html());
+								$(".default").attr("value",value);
+								$("#selectDefault").css({height: "22px", overflow: "hidden" });
+								$("#default").val(value);
+							})
+						})
+					}
+				</script>
+<div class="detail">
+	<div class="cate">
+						<div class="subcat_arrow"></div>
+					<ul>
+						<li class="cate_L fenlei">
+							分类：
+						</li>
+				 #foreach($obj in $shopCategoryList)
+            
+		           #foreach($objs in $obj.shopCategoryList)
+		           	   #if($cat==${objs.category_id})
+		           		#set($objSub=$objs)
+			           #end
+			       #end
+		         #end
+				 <li class="cate_R">
+			
+				 <a #if($cat==0)class="color"#end href="/coupon/shop.html?bc=$bc&cat=0" onmouseover="javascript:loadSubCat(0,this);">全部</a> 
+          		  #foreach($obj in $shopCategoryList) 
+					<a href="/coupon/shop.html?bc=$bc&cat=${obj.category_id}" #if($cat==${obj.category_id}) 
+						class="color"  style=""#end 
+						onmouseover="javascript:loadSubCat($!{obj.category_id},this);" 
+						#if(${objSub.p_category_id}==${obj.category_id}) class="color" #end>
+						${obj.category_name}
+					</a>	
+				  #end  	
+						</li>
+					</ul>
+	
+		 #foreach($obj in $shopCategoryList) 
+			<div id="childCate${obj.category_id}" class="subcat"  
+				#foreach($objSub in $obj.shopCategoryList)
+					#if($cat==${objSub.category_id}) style="display:block"#end 
+				#end 
+				#if($cat==${obj.category_id})style="display:block"#end
+			>
+			 #foreach($objSub in $obj.shopCategoryList) 
+			 	<a href="/coupon/shop.html?bc=$bc&cat=${objSub.category_id}"  #if($cat==${objSub.category_id}) class="color"  style=""#end>${objSub.category_name}</a></li>
+			 	#end
+			</div >
+			 #end
+					<ul class="cate_I2">
+						<li class="cate_L sq_bc">
+							商圈：
+						</li>
+						<li class="cate_R">
+							<a #if($bc==0)class="color"#end href="/coupon/shop.html?bc=0&cat=$cat">全部</a> 
+				          	#foreach($obj in $bussinessCircleList) 
+								<a href="/coupon/shop.html?bc=${obj.id}&cat=$cat"  #if($bc==${obj.id}) class="color"  style=""#end>${obj.bc_name}</a>
+							#end
+
+						</li>
+					</ul>
+					<div id="circleDiv">
+
+					</div>
+				</div>
+				<div class="dot_line btdot">
+				</div>
+				<!--end for dot_line-->
+	
+	
+	
+	       
+            <div class="shop_detail">
+				<div  class="detail_flash">
+				
+						<div class="xsPicScorll">
+					
+					<div class="xboxcontentScorll">
+						<div class="scrollCont">
+							<!-- 左侧图片 -->
+							<div class="scrollcontL">
+								<div class="scrollBtn" id="scrollPre">
+									<a href="javascript:;"></a>
+								</div>
+								<div class="scrollPicC" id="scrollPicC">
+								<ul id="scrollC1">
+										#foreach($obj in $shop.shopPicList)
+									 #if($velocityCount==2)
+										<li class="sel_pic pic current">
+											<a  href="javascript:void(0)" onclick="viewPic(this)"><img
+													src="/coupon/goods0/img/$!{obj.url}">
+											</a>
+										</li>
+									#else
+									<li  class="pic">
+											<a  href="javascript:void(0)" onclick="viewPic(this)"><img
+													src="/coupon/goods0/img/$!{obj.url}">
+											</a>
+										</li>
+									#end
+								#end
+																									</ul>
+								<ul id="scrollC2"></ul>
+								</div>
+								<div class="scrollBtn" id="scrollNext">
+								
+								</div>
+							</div>
+							<!-- 右侧大图 -->
+							<div class="scrollcontR">
+
+								<div class="bigPic">
+									<a target="_blank" href="#"><img
+									#foreach($obj in $shop.shopPicList)
+									 #if($velocityCount==2)
+												src="/coupon/goods0/img/$!{obj.url}"
+									#end
+									#end
+									 width="471" height="310">
+										</a>
+									<a href="#" target="_blank"><img height="310" width="471" src="/coupon/res/images/header_rm.png">
+										</a>
+									
+								</div>
+					
+						</div>
+					</div>
+					
+				</div>
+				<!--xsPicScorll end-->
+				
+				
+				
+			
+					
+				</div><!--end for detail_flash-->
+				
+				
+				
+					<div class="sideBox">
+				<!-- businessIntro start -->
+				<div class="businessIntro">
+					<h2 class="det_shopname">
+						$!{shop.name}
+					</h2>
+					<div class="sh_info">
+						 <p>
+							商户类型：#if($!{shop.shop_type} ==1)
+								翼支付商户
+							#end
+							#if($!{shop.shop_type} == 2)
+								优惠券商户
+							#end
+							#if($!{shop.shop_type} == 3)
+								积分商户
+							#end</p>
+						<p>
+							所属行业：	#foreach($subobj in $shopCategoryList) 
+						            	#if($!{shop.belong_shopcat}==$!{subobj.category_id}) 
+						            		$!{subobj.category_name}
+						            	 #end
+						             #end					            							            		餐饮
+						            	 						             						            							             						            							             						            							             						            							             						            							             						            							             						            							             						            							             						</p>
+						<p>
+							所属商圈： #foreach($obj in $bussinessCircleList)
+								#if($!{shop.belong_bc}==$!{obj.id})
+									 $!{obj.bc_name} 
+								#end 
+							 #end
+							 															 																	 春熙路 
+															 															 															 															 						</p>
+						<p>
+							提供服务：$!{shop.service}
+						</p>
+						<p>
+							优惠信息：<span class="yhinfo">#set($str=$!{shop.promoteInfo})
+								#if($str.length()>20)
+									#set($str = $str.substring(0,20)+"...")
+							#end $str</span>
+						</p>
+						<p>
+							地址：：$!{shop.address}
+						</p>
+						<p>
+							电话：<span class="det_tel">$!{shop.telephone}</span>
+						</p>
+
+						<!--<p>
+							标签： 火锅&nbsp;&nbsp;&nbsp;其他火锅&nbsp;
+						</p>-->
+						<p>
+							商户介绍：
+							#set($str=$!{shop.description}) 
+				  	 #if($str.length()>83)
+				      		#set($str=$str.substring(0,83)+"...")
+				     #end $str#*<a href="#" style="margin-left:10px;"><img src="/coupon/res/images/header_cjhd.png"  class="cjhd" style="vertical-align:middle;"/></a>*#
+						</p>
+
+					</div>
+					
+				</div>
+				<!-- businessIntro end -->
+				
+			</div>
+			
+			
+			
+			
+			</div>
+			
+			<div class="clear"></div>
+			<div class="shop_left">
+			
+			<div class="shop_xxintro">
+				<div class="shop_introtop">
+					<h2>商户优惠券</h2>
+				</div>
+				<div class="shop_intromid">
+					<div class="shop_coupon">
+					
+					#set($hasValidCoupon = 0)
+					#if($shop.couponList.size()>0) 
+						#foreach($shopList in $shop.couponList)
+						#if($shopList.goods_status == 1)
+						#set($hasValidCoupon=1)
+					<div class="det_list">
+						
+								<ul>
+									<li>
+										<a target="_blank" href="/coupon/couponDetail.html?id=132">
+
+											<img height="114" width="114" src="/coupon/goods0/img/$!{shopList.default_pic}" onmouseout="javascript:hideAllYQ();" onmouseover="javascript:loadSubYq(132);">
+										</a>
+									</li>
+
+
+								<li class="det_R">
+										<p>优惠内容：</p>
+										<p class="det_C"><a href="/coupon/couponDetail.html?id=132">$!{shopList.description}</a></p>
+										<p>优惠期：$!date.format('yyyy-MM-dd HH:mm:ss',$!shopList.begin_time)  - $!date.format('yyyy-MM-dd HH:mm:ss',$!shopList.end_time)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用对象： #if($!{shop.shop_type} ==1)
+																																																							翼支付商户
+																																																						#end
+																																																						#if($!{shop.shop_type} == 2)
+																																																							优惠券商户
+																																																						#end
+																																																						#if($!{shop.shop_type} == 3)
+																																																							积分商户
+																																																						#end</p>
+										<p class="det_D">地址：$!{shopList.use_addr}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种类：#if( $!{shopList.coupon_type}==1)折扣券#end
+																														 #if($!{shopList.coupon_type}==2)代金卷#end</p>
+									</li>
+								</ul>
+								 <div style="display: none;position:absolute;z-index:100000;" class="selectYq" id="selectImg132">
+					</div>
+					</div><!-- end for det_list -->
+						#end
+						#end
+					#end
+					#if($hasValidCoupon==0)
+						<span style="color: #666666">该商户没有相关优惠劵</span>
+					#end
+					
+					
+					</div><!-- end for shop_coupon -->
+					</div>
+					<div class="shop_introbtm">
+					</div>
+				</div><!-- end for shop_xxintro -->
+			<div class="shop_xxintro">
+				<div class="shop_introtop">
+					<h2>商户详细介绍</h2>
+				</div>
+				<div class="shop_intromid">
+					<div class="shop_detcon">
+						#if($shop.shopDetail)
+						<p>$!{shop.shopDetail}</p>
+						#end
+						#if(!$shop.shopDetail)
+						<p style="color: #666666">该商户暂无详细介绍...</p>
+						#end
+					</div><!-- end for shop_detcon -->
+					</div>
+					
+				   <div class="shop_introbtm">
+					</div>
+				</div><!-- end for shop_xxintro -->
+				<div class="shop_map">
+				<script
+	src="http://ditu.google.cn/maps?file=api&v=2&key=ABQIAAAA6vpS801yIrtuIMuUfP_1LRSxsn5a65eZaAi_5C9z2RjNFFY5KBSBb4uXgDPOoqPTKZ5RfZHQ1HTweA&sensor=true"
+	type="text/javascript"></script>
+
+<script type="text/javascript">
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("sh_map"));
+        map.setCenter(new GLatLng(${shop.y}, ${shop.x}), 13);
+         
+		//手动创建一个标注
+		var point = new GLatLng(${shop.y}, ${shop.x});    //创建一个坐标
+		var marker=new GMarker(point,{clickable: true});  //在此坐标创建一个标注
+		map.addOverlay(marker);    //将此标注加入到当前地图中
+
+		GEvent.addListener(marker, "click", function(){marker.openInfoWindowHtml("${shop.name}");});
+		}
+	}
+    
+ 	jQuery(document).ready(function(){
+ 		initialize();
+ 	});
+ 
+
+	</script>
+						<div class="sh_map" id="sh_map">
+				</div>
+				</div>	<!-- end for shop_map -->
+			</div><!-- end for shop_left-->
+			
+			<div class="shop_right">
+				<div class="related_shop">
+				#if($randomList.size()>0)
+				#foreach($random in $randomList)
+					<div class="related_bk">
+					<div class="related_left">
+						<a href="/coupon/shopdetail.html?id=$!{random.id}"><img src="/coupon/goods0/img/$!{random.default_pic}" alt="" width="89" height="69"/></a>
+					</div>
+					<div class="related_right">
+						<p><a class="sp_tt" href="/coupon/shopdetail.html?id=$!{random.id}">
+						#set($str=$!{random.name})
+							#if($str.length()>10)
+								#set($str=$str.substring(0,10)+"...")
+						#end $str
+						
+					
+						
+						</a></p>
+						<p>
+						#set($str=$!{random.description}) 
+											   #if($str.length()>25)
+											      #set($str=$str.substring(0,25)+"...")
+											     #end $str
+						</p>
+						<p>tel:$!{random.telephone}</p>
+					</div>
+					</div><!-- end for related_bk -->
+					
+				#end
+				#end
+				
+				#if($randomList.size()==0)
+				
+					<span>没有相关的商户</span>
+				#end
+				</div>
+			</div><!-- end for shop_right -->
+			#**<div class="middle_admin"><!--精选优惠劵 开始-->
+				<ul>
+					<li>商家优惠劵</li>
+					<li><a href="#">更多>></a></li>
+				</ul>
+				<div class="middle_img">
+					<ul>
+						#foreach($obj in $shop.couponList)
+						<li>
+							<div>
+								<a href="couponDetail.html?id=$!{obj.id}"><img src="/coupon/goods0/img/$!{obj.default_pic}"  width="196" height="140"/></a><p/>
+								<a target="_blank" href="couponDetail.html?id=$!{obj.id}" title="$!{obj.name}"> <strong>#set($str=$!{obj.name}) 
+				   #if($str.length()>16)
+				      #set($str=$str.substring(0,16)+"...")
+				     #end $str</strong>
+								</a>
+								<div class="spans">优惠期:$!date.format('yyyy-MM-dd',$!obj.begin_time) -
+								$!date.format('yyyy-MM-dd',$!obj.end_time)</div>
+								<a href="#" ><img class="a_xq" src="/coupon/res/images/header_xq.png" /></a>
+							</div>
+						</li>
+						#end
+					</ul>
+				</div>
+				
+				
+			</div><!--精选优惠劵 结束-->**#
+			
+			</div><!--end for shop_detail-->
+            
+	
+	
+
+
+	#parse("footer_front.htm")

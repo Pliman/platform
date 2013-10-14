@@ -1,0 +1,120 @@
+
+#parse("/header_front.htm")
+<script language="javascript" type="text/javascript"
+	src="/coupon/res/js/WdatePicker.js"></script>
+	
+	<link href="/coupon/res/css/decoindex.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+		$('#uc_index').addClass('nav_contenton');
+	</script>
+<style type="text/css">
+
+</style>
+
+<div class="user_center">
+	#parse("/uc/uc_menu.htm")
+
+	<!-- right start -->
+	<div class="uc_right_side">
+		<!--右边内容模块 开始-->
+		<div class="right_top">
+			<!--右边导航 开始-->
+			<label>
+				现在位置：
+			</label>
+			&nbsp;&nbsp;
+			<a href="$!{appContext}/index.htm">首页</a>
+			<label></label>
+			>
+			<label>
+				<a href="$!{appContext}/uc/uc_order_list">订单列表</a>
+			</label>
+			>
+			<label>
+				订单详情
+			</label>
+		</div>
+		<!--右边导航 结束-->
+		
+		<!-- 订单信息开始 -->
+		<div class="pay-count-title">	
+			<div class="uc_order_status">
+		          <div class="uc_order_status_info">订单号：$!{order.orderNo} <span>&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+		          		状态：<label>
+		          			#if($order.orderStatus == 0)等待付款<a href="#"></a> #end
+		          			#if($order.orderStatus == 1)已付款     #end
+		          			#if($order.orderStatus == 2)已锁定     #end
+		          		</label> 
+		          		
+		          		
+		          </div>
+		          <div class="seperator"></div>
+		          <div class="uc_order_fontsize">
+		            #if($order.orderStatus == 0)<p>尊敬的客户，我们还未收到该订单的款项，请您尽快付款。</p>#end
+		            <p>	如果您已经付款，但订单状态未改变，请联系10000号客户。</p>
+		            <p>该订单会为您保留24小时（从下单之日算起），24小时之后如果还未付款，系统将自动取消该订单。 </p>
+		          </div>
+        	</div>
+			</div>
+		<!-- 订单信息结束 -->
+		
+		
+		
+		
+			<div class="cart_table">
+
+				<!--Cart信息开始-->			
+					<div class="pay_count_order">
+			          <h2>商品清单</h2>
+			          <table width="100%" cellspacing="0" cellpadding="0" class="pay-count-table">
+			            <tbody>
+			              <tr>
+			                <td width="7%"> 商品编号 </td>
+			                <td> 商品名称 </td>
+			                <td width="10%"> 原价 </td>
+			                <td width="8%"> 优惠 </td>
+			                <td width="9%"> 状态 </td>
+			                <td width="9%"> 商品数量 </td>
+			              </tr>
+			              <tr>
+			                <td>$!{goods.code} </td>
+			                <td>$!{goods.name}</td>
+			                <td> ￥$!{order.productAmount} </td>
+			                <td> ￥$!{order.attachAmount} </td>
+			                <td> #if($!{goods.isvalid} == 1) 可用 #else 不可用 #end</td>
+			                <td> $!{goods.number} </td>
+			              </tr>
+			            </tbody>
+			          </table>
+			        </div>
+			<!--Cart信息结束-->
+		
+		<div class="pay_count_count">
+		          <h2>结算信息</h2>
+		          <div class="pay_count_counter">
+		            <div class="pay_count_cal"> 商品金额：￥$!{order.productAmount} - 优惠￥$!{order.attachAmount}元 </div>
+		            <div class="pay_count_total f14bb">应付总额：
+		              <label>$!{order.orderAmount}</label>
+		              元</div>
+		          </div>
+        </div>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="activity_ad">
+          <ul>
+          #foreach($cat in $actList)
+            <li><a href="/coupon/activityDetail.html?id=$!{cat.id}">【精彩活动】$!{cat.title}</a></li>
+          #end
+          </ul>
+          <div class="clr"></div>
+        </div>
+	
+
+</div>
+</div>
+#parse("/footer_front.htm")

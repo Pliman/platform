@@ -1,0 +1,16 @@
+ <!--同商户的其他优惠劵 start-->
+		<div class="rightcontainer">
+			<div class="moretvbanner">
+				该商家的其他优惠券
+			</div>
+			#foreach($obj in $shop.couponList)
+              #if($velocityCount<=6)
+            <ul class="week_A">
+              <li><a href="couponDetail.html?id=${obj.id}" target="_blank">$obj.name</a></li>
+              ##<li class="week_A3"><span class="week_shop">聚香楼</span><span class="week_A4">年夜套餐8.5折</span></li>
+			  <li class="week_A5">有效期至$!date.format('yyyy-MM-dd ',$!obj.end_time)<span></span></li>
+            </ul>
+            #end
+             #end
+		</div>
+        <!--同商户的其他优惠劵 end-->

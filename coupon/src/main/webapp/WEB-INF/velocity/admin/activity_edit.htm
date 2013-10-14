@@ -1,0 +1,794 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>活动编辑</title>
+		<link rel="stylesheet" type="text/css"
+			href="/coupon/common/css/style.css" />
+		<link rel="stylesheet" type="text/css"
+			href="/coupon/res/js/uploadify.css" />
+		<link rel="stylesheet" type="text/css"
+			href="/coupon/res/js/fileuploader.css" />
+		<script type="text/javascript"
+			src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="/coupon/res/js/swfobject.js"></script>
+		<script type="text/javascript"
+			src="/coupon/res/js/jquery.uploadify.v2.1.4.min.js"></script>
+		<script type="text/javascript" src="/coupon/res/js/kindeditor-min.js"></script>
+		<script type="text/javascript" src="/coupon/res/js/zh_CN.js"></script>
+		<script language="javascript" type="text/javascript"
+			src="/coupon/res/js/WdatePicker.js"></script>
+		<script language="javascript" type="text/javascript"
+			src="/coupon/res/js/jquery.validate.min.js"></script>
+		<script src="/coupon/res/js/fckeditor/fckeditor.js"
+			type="text/javascript"></script>
+		<script language="javascript" type="text/javascript" 
+				src="/coupon/res/js/jvalidate.js"></script>
+	<body>
+	<script type="text/javascript">
+	
+	jQuery.validator.addMethod("isMobile", function(value, element) {
+		var length = value.length;
+		return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));
+		}, "<span class='warn'>手机号格式不正确</span>");
+
+	 String.prototype.trim=function(){
+		return this.replace(/(^\s*)|(\s*$)/g, "");
+	 };
+	 $().ready(function() {
+	 $('#submitform').validate({
+		     rules: {
+		 		title:{
+		         	 required: true,
+		             maxlength:40	
+		         },
+		         content:{
+		        	 required: true
+			     },
+			     act_address:{
+			    	 required: true
+				 }
+
+		 },
+		 messages: {
+			 title:{
+		     	 required: '不能为空',
+		         maxlength:'不能超过40个字符'	
+		     },
+		     content:{
+	        	 required: '不能为空'
+		     },
+		     act_address:{
+		    	 required: '不能为空'
+			 }
+		 }
+		});
+	 });
+	</script>
+		<script type="text/javascript">
+function onComplete(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+      	$("#upImg"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name=\"pic_url\" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+
+function onCompleteErwei(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+      	$("#erwei"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name=\"ercode\" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+$(document).ready(function() {
+
+  $('#file_upload1').uploadify({
+
+    'uploader'  : '/coupon/res/js/uploadify.swf',
+
+    'script'    : '/coupon/admin/goods/upload',
+
+    'cancelImg' : '/coupon/res/js/cancel.png',
+    'scriptData'  : {'upImg':'1','age':30},
+    'buttonImg':'/coupon/common/img/nav_file.gif',
+    'folder'    : '/uploads',
+	'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+    'auto'      : true
+
+  });
+
+ 
+  $('#erwei').uploadify({
+
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+
+	    'script'    : '/coupon/admin/goods/upload',
+
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+
+	    'folder'    : '/uploads',
+	    'scriptData'  : {'upImg':'1','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onCompleteErwei(event, ID, fileObj, response, data);},
+	    'auto'      : true
+
+	  });
+
+
+  $('#file_upload3').uploadify({
+
+	    'uploader'  : '/gfsns/goods/js/uploadify.swf',
+
+	    'script'    : '/gfsns/goodsjson/goods_save',
+
+	    'cancelImg' : '/gfsns/goods/js/cancel.png',
+
+	    'folder'    : '/uploads',
+	    'scriptData'  : {'upImg':'3','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+
+	  });
+
+
+
+  $('#file_upload4').uploadify({
+
+	    'uploader'  : '/gfsns/goods/js/uploadify.swf',
+
+	    'script'    : '/gfsns/goodsjson/goods_save',
+
+	    'cancelImg' : '/gfsns/goods/js/cancel.png',
+
+	    'folder'    : '/uploads',
+	    'scriptData'  : {'upImg':'4','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+
+	  });
+
+
+  $('#file_upload5').uploadify({
+
+	    'uploader'  : '/gfsns/goods/js/uploadify.swf',
+
+	    'script'    : '/gfsns/goodsjson/goods_save',
+
+	    'cancelImg' : '/gfsns/goods/js/cancel.png',
+
+	    'folder'    : '/uploads',
+	    'scriptData'  : {'upImg':'5','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+
+	  });
+  
+
+});
+
+</script>
+ <script type="text/javascript">
+	function chooseShop(){
+			$(".pop_win_bg").show();
+			$(".pop_win").show();
+			$("#loading").show();
+			$("#shopajax").html("<div class='load_div'></div>");
+			$("#shopajax").load("/coupon/admin/getShop.html?from=2");//2代表多选商户
+		}
+	function close(){
+			$(".pop_win_bg").hide();
+			$(".pop_win").hide();
+		}
+
+	function chooseCity(){
+		$(".pop_win_bgct").show();
+		$(".pop_winct").show();
+		$("#loading").show();
+		$("#cityajax").html("<div class='load_divct'></div>");
+		$("#cityajax").load("/coupon/admin/getCitys.html?from=2");
+		}
+	function closeCity(){
+		$(".pop_win_bgct").hide();
+		$(".pop_winct").hide();
+		}
+	function chooseUseBranch(){
+		var belong_shop=$("#belong_shop").val();
+		if(belong_shop==0){
+			alert("请先选择所属商户！");
+			return;
+			}
+		$(".pop_win_bg").show();
+		$(".pop_win").show();
+		$("#loading").show();
+		$("#shopajax").html("<div class='load_div'></div>");
+		$("#shopajax").load("/coupon/admin/getShop.html?from=2&pid="+belong_shop);
+		}
+
+
+	function belongShopCat(){
+		$(".pop_win_bg_l").show();
+		$(".pop_win_l").show();
+		$("#loading").show();
+		$("#catajax").html("<div class='load_div_l'></div>");
+		$("#catajax").load("/coupon/admin/belongShop.html?cat_type=3");//3代表活动分类
+
+
+	}
+	function belongShop(){
+		$(".pop_win_bg").show();
+		$(".pop_win").show();
+		$("#loading").show();
+		$("#catajax").html("<div class='load_div'></div>");
+		$("#catajax").load("/coupon/admin/getShop.html");
+
+
+	}
+	function close(){
+			$(".pop_win_bg").hide();
+			$(".pop_win").hide();
+		}
+	function closel(){
+		$(".pop_win_bg_l").hide();
+		$(".pop_win_l").hide();
+	}
+	
+	function deleteBelongShop(id,obj){
+		$("#shopnameWrap"+id).remove();
+			
+	}
+	function deleteBelongCity(id,obj){
+			$("#citynameWrap"+id).remove();
+		}
+</script>
+	</head>
+	<body>
+<div class="" style="padding-top:50px;"></div>
+		#if( $a ==3 )
+		<div id="goodsadd" class="goodsadd"
+			style=" padding: 10px;">
+			<form action="activityAction?a=2" method="post" id="submitform">
+				<input type="hidden" value="$!{activity.id}" name="id" />
+				<input type="hidden" value="$!{p}" name="p" />
+				<input type="hidden" value="$!{activity.isverified}"
+					name="isverified" />
+
+				<table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa"
+					align="center" width="98%" style="margin-top: 8px;">
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动标题
+						</td>
+						<td>
+							<input type="text" class="text_cls" value="$!{activity.title}"
+								name="title" id="title"/>
+						</td>
+					</tr>
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动内容
+						</td>
+						<td>
+							<input type="text" class="text_cls" value="$!{activity.content}"
+								name="content" id="content"/>
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动开始时间
+						</td>
+						<td>
+							<input type="text"
+								value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.begin_time)"
+								name="begin_time1"
+								onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动结束时间
+						</td>
+						<td>
+							<input type="text"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+								value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.end_time)"
+								name="end_time1">
+						</td>
+					</tr>
+
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动地点
+						</td>
+						<td>
+							<input type="text" class="text_cls"
+								value="$!{activity.act_address}" name="act_address" id="act_address"/>
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							关键词
+						</td>
+						<td>
+							<input type="text" class="text_cls" value="$!{activity.keyword}"
+								name="keyword" id="keyword"/>
+						</td>
+					</tr>
+
+
+					#*<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属商圈
+						</td>
+						<td>
+							<select style="width: 120px;" name="belong_bc">
+								<option value="0" selected="selected">
+									所有商圈
+								</option>
+								#foreach($obj in $bussinessCircleList)
+								<option value="${obj.id}" #if(${obj.id}==${activity.belong_bc})
+									selected="true" #end>
+									${obj.bc_name}
+								</option>
+								#end
+							</select>
+						</td>
+					</tr>*#
+					
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属城市
+						</td>
+						<td>
+						<div id="avtivtyBelongCity">
+						#foreach($obj in $belongCityList)
+							<p id="citynameWrap$!{obj.id}"> 
+							 <input type="hidden" value="$!{obj.id}" name="idCityList" class="idCityList" id="idCityList$!{obj.id}"/>
+							 <span>$!{obj.city}</span>
+							 <a onclick="javascript:deleteBelongCity($!{obj.id},this)">删除</a>
+							 </p>
+						 #end
+				
+				        </div>
+							<a href="javascript:chooseCity();">选择所属城市</a>
+						
+						
+						</td>
+					</tr><!--
+
+					
+				
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属分类
+						</td>
+						<td>
+				
+											 
+							
+							
+						<input type="text"  value="#foreach($obj in $shopCategoryList)#if(${activity.belong_cat}==${obj.category_id})$!{obj.category_name} #end#end" id="belong_shopcat"/>
+				        <input type="hidden" value="$!{activity.belong_cat}" name="belong_cat" id="belong_shopcatvalue"/>
+				        <a href="javascript:belongShopCat();">所属分类</a>
+				        
+						</td>
+					</tr>
+					--><tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属商户
+						</td>
+						<td>
+						
+						 
+						<div id="avtivtyBelongShop">
+						#foreach($obj in $belongShopList)
+							<p id="shopnameWrap$!{obj.id}"> 
+							 <input type="hidden" value="$!{obj.id}" name="idShopList" class="idShopList" id="idShopList$!{obj.id}"/>
+							 <span>$!{obj.name}</span>
+							 <a onclick="javascript:deleteBelongShop($!{obj.id},this)">删除</a>
+							 </p>
+						 #end
+				
+				        </div>
+							 <a href="javascript:chooseShop();">选择所属商户</a>
+						
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属用户群
+						</td>
+						<td>
+						
+						<input type="checkbox" name="target_group" value ="1"
+							#if($activity.target_group.indexOf("1")>-1)
+       							checked="checked"
+      						#end
+						>翼支付会员
+						<input type="checkbox" name="target_group" value ="2"
+							#if($activity.target_group.indexOf("2")>-1)
+       							checked="checked"
+      						#end
+						>爱优惠会员
+						<input type="checkbox" name="target_group" value ="3"
+							#if($activity.target_group.indexOf("3")>-1)
+       							checked="checked"
+      						#end
+						>普通会员
+						<input type="checkbox" name="target_group" value ="3"
+							#if($activity.target_group.indexOf("4")>-1)
+       							checked="checked"
+      						#end
+						>异网会员
+					</tr>
+					<tr height="22" bgcolor="#fafaf1" align="center">
+						<td>
+							默认图片1<br/>
+							(图片将显示在促销活动页面<br/> 分辨率：216*145)
+						</td>
+						<td>
+							#if(${activity.pic_url})
+							<p class="prew_img">
+								<img src="/coupon/goods0/img/$!{activity.pic_url}" alt=""
+									width="200" height="200" />
+								<input type="hidden" value="$!{activity.pic_url}" name="pic_url" />
+							</p>
+							<p class="inputForm">
+								<span id="upImg1"> <input id="file_upload1" name="file"
+										type="file" /> <!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+									<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+								</span>
+							</p>
+							#else
+
+							<p class="wait_img">
+								等待上传图片
+							</p>
+							<p class="inputForm">
+								<span id="upImg1"><input type="file" value="" name="file"
+										id="file_upload1" /> <!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+								</span>
+							</p>
+							#end
+						</td>
+					</tr>
+					<tr bgcolor="#fafaf1" align="center">
+						<td colspan="2">
+							<div>
+								活动展现排版：
+							</div>
+							<script type="text/javascript">
+						    	var editor = new FCKeditor('act_article');
+						    	editor.BasePath = '/coupon/res/js/fckeditor/';
+						    	editor.Width = 680;
+						    	editor.Height = 400;
+						    	editor.ToolbarSet = 'myset';
+						    	editor.Value = '$!{activity.act_article}';
+						    	editor.Create();
+						    </script>
+						</td>
+					</tr>
+					<tr height="22" bgcolor="#fafaf1" align="center">
+						<td></td>
+						<td>
+							<input type="submit" value="" class="save gbtn" />
+							<input type="button" value="" onclick="history.go(-1)" class="cancel gbtn" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		#end
+		
+		#if( $a ==4 )
+		<div id="goodsadd" class="goodsadd"
+			style=" padding: 10px;">
+			<form action="activityAction?a=1" method="post" id="submitform">
+				<input type="hidden" value="$!{activity.id}" name="id" />
+				<input type="hidden" value="$!{p}" name="p" />
+
+				<table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa"
+					align="center" width="98%" style="margin-top: 8px;">
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动标题
+						</td>
+						<td>
+							<input type="text" class="text_cls" value="$!{activity.title}"
+								name="title" id="title"/>
+						</td>
+					</tr>
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动内容
+						</td>
+						<td>
+							<input type="text" class="text_cls" value="$!{activity.content}"
+								name="content" name="content"/>
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动开始时间
+						</td>
+						<td>
+							<input type="text"
+								value=""
+								name="begin_time1"
+								onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动结束时间
+						</td>
+						<td>
+							<input type="text"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+								value=""
+								name="end_time1">
+						</td>
+					</tr>
+
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							活动地点
+						</td>
+						<td>
+							<input type="text" class="text_cls"
+								value="$!{activity.act_address}" name="act_address" id="act_address"/>
+						</td>
+					</tr>
+
+
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							关键词
+						</td>
+						<td>
+							<input type="text" class="text_cls" value="$!{activity.keyword}"
+								name="keyword" id="keyword"/>
+						</td>
+					</tr>
+
+
+					#*<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属商圈
+						</td>
+						<td>
+							<select style="width: 120px;" name="belong_bc" id="belong_bc">
+								<option value="0" selected="selected">
+									所有商圈
+								</option>
+								#foreach($obj in $bussinessCircleList)
+								<option style="color: RED;" value="${obj.id}"
+									#if(${obj.id}==${activity.belong_bc}) selected="true" #end>
+									${obj.bc_name}
+								</option>
+								#end
+							</select>
+						</td>
+					</tr>*#
+				<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属城市
+						</td>
+						<td>
+						<div id="avtivtyBelongCity">
+						#foreach($obj in $belongCityList)
+							<p id="citynameWrap$!{obj.id}"> 
+							 <input type="hidden" value="$!{obj.id}" name="idCityList" class="idCityList" id="idCityList$!{obj.id}"/>
+							 <span>$!{obj.city}</span>
+							 <a onclick="javascript:deleteBelongCity($!{obj.id},this)">删除</a>
+							 </p>
+						 #end
+				
+				        </div>
+							<a href="javascript:chooseCity();">选择所属城市</a>
+						
+						
+						</td>
+					</tr>
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属分类
+						</td>
+						<td>
+							<!--<select style="width: 80px;" name="belong_cat">
+								<option value="0" selected="selected">
+									所有分类
+								</option>
+								#foreach($obj in $shopCategoryList)
+								<option style="color: RED;" value="${obj.category_id}"
+									#if(${obj.category_id}==${activity.belong_cat}) selected="true"
+									#end>
+									${obj.category_name}
+								</option>
+								#end
+							</select>-->
+							
+							<input type="text"  value="#foreach($obj in $shopCategoryList)#if(${activity.belong_cat}==${obj.category_id})$!{obj.category_name} #end#end" id="belong_shopcat"/>
+				        <input type="hidden" value="$!{activity.belong_cat}" name="belong_cat" id="belong_shopcatvalue"/>
+				        <a href="javascript:belongShopCat();">所属分类</a>
+						</td>
+					</tr>
+					<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属商户
+						</td>
+						<td>
+						
+						 
+						<div id="avtivtyBelongShop">
+						#foreach($obj in $belongShopList)<p id="shopnameWrap$!{obj.id}">  <input type="hidden" value="$!{obj.id}" name="idShopList" class="idShopList" id="idShopList$!{obj.id}"/><span>$!{obj.name}</span><a onclick="javascript:deleteBelongShop($!{obj.id},this)">删除</a></p>#end
+				
+				        </div>
+							 <a href="javascript:chooseShop();">选择所属商户</a>
+						
+						</td>
+					</tr>
+
+
+
+
+
+
+					<tr height="22" bgcolor="#fafaf1" align="center">
+						<td>
+							默认图片1
+							(图片将显示在促销活动页面<br/> 分辨率：216*145)
+						</td>
+						<td>
+							#if(${activity.pic_url})
+							<p class="prew_img">
+								<img src="/coupon/goods0/img/$!{activity.pic_url}" alt=""
+									width="200" height="200" />
+								<input type="hidden" value="$!{activity.pic_url}" name="pic_url" />
+							</p>
+							<p class="inputForm">
+								<span id="upImg1"> <input id="file_upload1" name="file"
+										type="file" /> <!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+									<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+								</span>
+							</p>
+							#else
+
+							<p class="wait_img">
+								等待上传图片
+							</p>
+							<p class="inputForm">
+								<span id="upImg1"><input type="file" value="" name="file"
+										id="file_upload1" /> <!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+								</span>
+							</p>
+							#end
+						</td>
+					</tr>
+					<tr bgcolor="#fafaf1" align="center">
+						<td colspan="2">
+							<div>
+								活动展现排版：
+							</div>
+							<script type="text/javascript">
+						    	var editor = new FCKeditor('act_article');
+						    	editor.BasePath = '/coupon/res/js/fckeditor/';
+						    	editor.Width = 680;
+						    	editor.Height = 400;
+						    	editor.ToolbarSet = 'myset';
+						    	editor.Value = '$!{activity.act_article}';
+						    	editor.Create();
+						    </script>
+						</td>
+					</tr>
+					<tr height="22" bgcolor="#fafaf1" align="center">
+						<td></td>
+						<td>
+							<input type="submit" value=""  class="save gbtn"/>
+							<input type="button" value="" onclick="history.go(-1)" class="cancel gbtn" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		#end
+
+
+  <div class="pop_win_bg_l" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win_l" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:closel();" >X</a>
+
+
+	
+	
+	<h3>请选择类别</h3>
+	
+	<div class="" id="pop_win_login">
+	 
+	 	<div id="catajax">
+	 		
+	 	</div>
+	
+	</div>
+	
+	</div>
+	
+	
+	
+	
+ 	<div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+     <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+
+
+
+			
+			<h3>请选择商户</h3>
+			
+			<div class="" id="pop_win_login">
+			 
+			 	<div id="shopajax">
+			 		
+			 	</div>
+			
+			</div>
+			
+			</div>
+			
+	<div class="pop_win_bgct" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+     <div class="pop_winct" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;">
+     		<a class="pop_win_close" href="javascript:closeCity();" >X</a>
+
+
+
+			
+			<h3>请选择城市</h3>
+			
+			<div class="" id="pop_win_login">
+			 
+			 	<div id="cityajax">
+			 		
+			 	</div>
+			
+			</div>
+			
+			</div>
+	</body>
+</html>

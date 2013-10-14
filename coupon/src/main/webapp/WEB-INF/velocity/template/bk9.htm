@@ -1,0 +1,32 @@
+
+        
+        <div class="week">
+						<div class="week_I">
+							<h2>
+								精选优惠券
+							</h2>
+							<div>
+							 #foreach($homePage in $homePageList)
+								<ul class="week_A">
+									<li>
+										<a target="_blank" href="$!{homePage.link}">
+											<img width="225" height="90" src="/coupon/goods0/img/$!{homePage.imgurl}">
+										</a>
+									</li>
+									<li class="week_A3">
+										#**<span class="week_shop">漫步云端</span>**#<span>#set($str=$!{homePage.description})  #if($str.length()>16)
+											      #set($str=$str.substring(0,16)+"...")
+											     #end $str</span>
+									</li>
+									<li class="week_A5">
+										有效期至
+										<span>2012.1.31</span>
+									</li>
+								</ul>
+							#end
+							<div class="week_I_btm" style="border:0;width:238px;"></div>	
+							</div>
+						</div>
+					</div>
+
+					<!--end for week-->

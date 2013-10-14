@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<script type="text/javascript">
+	function batchDel(){
+		if(confirm("确定删除选中的记录？")){
+			$('#batchOpType').val('mdel');
+			$('#batchForm').submit();
+		}
+	}
+</script>
+</head>
+<body>
+ 
+	
+	
+	  <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="4%">选择</td>
+      <td class="title_bg" width="12%">模版编码</td>
+    <td class="title_bg" width="24%">模版内容</td>  
+	 <td class="title_bg" width="10%">模版描述</td>
+	  <td class="title_bg" width="10%">修改时间</td>
+      <td class="title_bg" width="10%">操作</td>
+    </tr>
+   #if($msgTemplateList.size()>0)
+       #foreach($msg in $msgTemplateList) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="id_24" onclick="unselectall()" value="24" type="checkbox"></td>		
+		<td><a href="/coupon/admin/tommsEdit.html?id=${msg.id}">$!{msg.templateCode}</a></td>
+			<td><a href="/coupon/admin/tommsEdit.html?id=${msg.id}">$!{msg.templateContent}</a></td>
+		<td align="center">#set($str=$!{msg.description}) 
+				   #if($str.length()>23)
+				      #set($str=$str.substring(0,23)+"...")
+				     #end $str</td>
+		<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!msg.modifyTime)</td>
+		<td align="center">
+			<a href="/coupon/admin/tommsEdit.html?id=${msg.id}">编辑</a> 
+			<a href="/coupon/admin/mmsDel.html?id=${msg.id}"  onclick="return confirm('确定要删除？');">删除</a>
+		</td>
+	</tr>
+	#end
+	#else
+	<tr>
+	<td colspan="6">无模版记录</td>
+	</tr>
+	#end
+		<tr>
+		<td colspan="6" class="tdbg">
+			<input name="chkAll" id="chkAll" onclick="CheckAll(this.form)" value="checkbox" type="checkbox"> 全选 
+			<input type="hidden" name="act" id="batchOpType" />
+			<input class="bnt01" value="批量删除" type="button" onclick="batchDel()"/>
+			<a href="/coupon/admin/tommsAdd.html" class="tjbtn">添加</a>
+		</td>
+    </tr>
+
+      </tbody></table>
+</body>
+</html>

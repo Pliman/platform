@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<result code="0" message="" />
+	<config>
+		<url><!--心跳url-->
+			<heartbeat>coupon/cmd/heartbeat.do?method=mth</heartbeat>
+			<!--用户认证url-->
+			<auth>coupon/cmd/auth.do?method=mth</auth>
+			<!--请求商家/收藏/团购url-->
+			<coupon>coupon/cmd/coupon.do?method=mth</coupon>
+			<!--打印结果url-->
+			<printlog>
+				coupon/cmd/printlog.do?method=afterPrint
+			</printlog>
+			<!--文件上报url-->
+			<upload>coupon/cmd/upload.do?method=mth</upload>
+			<!--告警上报url-->
+			<alarm>coupon/cmd/alarm.do?method=mth</alarm>
+			<!--default.xml文件url-->
+			<default>coupon/cmd/default.do?method=mth</default>
+			<!-- 透光彩更换确认url -->
+			<logoconfirm>
+				coupon/cmd/logoconfirm.do?method=mth
+			</logoconfirm>
+			<!--打印确认url-->
+			<printconfirm>
+				coupon/cmd/printconfirm.do?method=mth
+			</printconfirm>
+		</url>
+	</config>
+</root>

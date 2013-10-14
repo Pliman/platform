@@ -1,0 +1,643 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="" />
+<title>中国电信优惠劵平台</title>
+<link href="css/globle.css" rel="stylesheet"
+			type="text/css" />
+<link href="css/decoindex.css" rel="stylesheet"
+			type="text/css" />
+<link href="css/login.css" rel="stylesheet"
+			type="text/css" />
+<script type="text/javascript"
+			src="/coupon/res/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/login.js"></script>
+
+	<script>
+			$(function(){
+				$(".left_side ul >li").hover(
+				function(){
+					var id=$(this).attr("id");
+					$("#div_li_"+id).show();
+					$(this).removeClass("li_on");
+					$(this).addClass("li_on");
+				},function(){
+					$(".index_leftnav_po_fj").hide();
+					var id=$(this).attr("id");
+					$(this).removeClass("li_on");
+				})
+				
+				$(".index_leftnav_po_fj").hover(
+				function(){
+					var id=$(this).attr("id");
+					var r=id.substring(7,8);
+			
+					$("#"+r).addClass("li_on");
+					$(this).show();
+				},function(){
+					var r=id.substring(7,8); 
+					$("#"+r).addClass("li_on");
+					$(this).hide();
+				})
+				$(".shbk2_con >.shList ").hover(
+				function(){
+					$(this).addClass("shListhover");
+				},function(){
+					$(this).removeClass("shListhover");
+				})
+				
+				// 页首导航条
+				var hadNavContenton = false;
+				$('.nav_content li').hover(function(){
+					hadNavContenton = $(this).hasClass("nav_contenton");
+					$(this).addClass("nav_contenton");
+				},function(){
+					!hadNavContenton && $(this).removeClass("nav_contenton");
+				});
+				
+				// 加载公告，实现走马灯效果
+				jQuery.get('bulletins',{},
+				function(data){
+					var width = data.length*12.5;
+					var _this = $('#bulletins');
+					_this.text(data);
+					_this.css({
+						'width': width,
+						'height': 22,
+						'marginLeft' : -width/2
+					});
+				});
+				
+				// 搜索条事件
+				$('#keyword').focus(function(){
+					$(this).val() == '您可以搜索优惠券/打折活动/店铺信息等' && $(this).val('');
+				});
+				$('#keyword').blur(function(){
+					!$(this).val() && $(this).val('您可以搜索优惠券/打折活动/店铺信息等');
+				});
+				
+		
+				$('#searchType').change(function(){
+					var value = $(this).val();
+					
+					if(value == 'shop'){
+						action = 'shop';
+					}else if(value == 'coupon'){
+						action = 'coupon';
+					}else{
+						action = 'activity';
+					}
+					
+					$('#adSearchForm')[0].action = action;
+				});
+			})
+			
+			function popLogin(){
+				//centering with css
+				centerPopup();
+				//load popup
+				loadPopup();
+			}
+			
+			function doLogin(){
+				jQuery.post('/coupon/validate_wings_user',{
+					'userName':$('#username').val(),
+					'password':$('#password').val()
+				},
+				function(data){
+					if(data.rtnCode == 0){
+						loginCallBack(data);
+						emShowLoginInfo(data);
+					}else{
+						$('#loginMsg').text(data.rtnMsg);
+					}
+				},'json');
+			}
+			
+			function loginCallBack(data){
+				var logedIn = '，欢迎光临中国电信！[<a onclick="doLogout()" href="javascript:void(0)" class="log_color">退出</a>]';
+				
+				$('#loginNote').html(data.userName + logedIn);
+				disablePopup();
+			}
+			
+			function doLogout(){
+				clearPopup();
+				
+				jQuery.post('/coupon/wings_user_logout',{},
+				logoutCallBack,'json');
+			}
+			
+			function logoutCallBack(data){
+				var logedOut = '早上好，欢迎光临中国电信！请[<a id="loginButton" onclick="popLogin()" href="javascript:void(0)" class="log_color">登录</a>]';
+				
+				if(data.rtnCode == 0){
+					$('#loginNote').html(logedOut);
+					
+					emLogout && emLogout();
+					
+					alert(data.rtnMsg);
+				}else{
+				}
+			}
+		</script>
+</head>
+	<body>
+	<div id="wrap">
+		<div class="header">
+					  <div class="k100" id="edit_frame_head" style="height:147px;height:auto;min-height:147px;">
+    <style type="text/css">
+    .nav_content{ z-index:8; position:absolute; width:613px; height:38px; left:267px; top:-33px; background:url(images/nav_txtbg.gif) left top no-repeat; overflow:hidden; zoom:1;}
+</style>
+
+    <div class="main_div index_topbg" id="topdiv">
+      <div class="fl index_top" id="topdiv_1" style="width:100%;">
+        <ul class="logo fl">
+          <a href="/"><img id="logoimg" src="images/logo.gif" /></a>
+        </ul>
+
+        <ul class="login fl" style="width:285px;float:right;margin-top:-0px;">
+          <li> <span style="width:185px;">早上好，欢迎光临中国电信！请[<a href="#" class="log_color">登录</a>]&nbsp;&nbsp;[<a href="#"  class="log_color">注册</a>]</span> </li>
+        </ul>
+      </div>
+      <div class="clear"></div>
+      <div class="top_nav">
+        <div class="nav_content">
+          <ul>
+            <li class='nav_contenton'> <span > <a href="/" target="_self">首页</a>
+              <div class="nav_sale" style="background:url() left top no-repeat; "></div>
+              </span> </li>
+            <li > <span > <a href="/mall/" target="_self">翼支付商户</a>
+              <div class="nav_sale" style="background:url(images/3729.gif) left top no-repeat; "></div>
+              </span> </li>
+            <li > <span > <a href="/business/" target="_self">优惠券</a> </span> </li>
+            <li > <span > <a href="/service/" target="_self">会员中心</a> </span> </li>
+            <li > <span > <a href="/vip/" target="_self">促销活动</a> </span> </li>
+            <li > <span class='nav_contentspan'> <a href="/support/" target="_self">帮助与支持</a> </span> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="nav fl" id="edit_mod_13148">
+      <div class="nav_quick fl">
+        <ul class="nav_search fl">
+          <li>
+            <form id="udsearchform" name="udsearchform" action="/10000zhidao/search.jsp" method="post" target="_blank">
+              <input type="text" id="qs" name="qs" class="nav_search_inp" value="您可以搜索优惠券/打折活动/信息等" onfocus="searchfocus()" onblur="searchblur()" />
+              <link href="/10000zhidao/common/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
+              <script language="javascript" src="/10000zhidao/common/js/jquery.autocomplete.js"></script> 
+              <script language="javascript" src="/10000zhidao/common/js/tianyiSearch.js"></script>
+              <input type="submit" class="nav_search_btn" value="" />
+            </form>
+          </li>
+        </ul>
+   
+    <ul class="nav_hot fl">
+                        <span>热门搜索：</span>
+                                                      <a title="翼支付" target="_blank" href="http://sc.189.cn/cms/udw/0128/business/brand/esurfing/special/4711.php">电影票</a>
+                                                          <a title="e169" target="_blank" href="/10000zhidao/search.jsp?&amp;qs=e169">美食</a>
+														    <a title="e169" target="_blank" href="/10000zhidao/search.jsp?&amp;qs=e169">免费派送</a>
+															
+ </ul>
+ 
+	 <ul class="hot_phone">
+		<li><img src="images/hot_phone.png" alt=""/></li>
+	 </ul>
+      </div>
+      <div class="clear"></div>
+    </div>
+		</div><!--end for header-->
+		
+		<div class="content">
+        <div class="coupon">
+      <h2 style="color:#578307;font-size:16px;font-weight:700">热门活动</h2>
+      <ul>
+        		
+        			<li>
+			          			<div class="hot_recom">
+						<p><a href="#"><img src="images/hot_couponimg.png" alt=""/></a></p>
+						<div class="hot_recom_info">
+							<p><span class="recm_sm">221元</span><a href="#" class="canjbtn"><img src="images/canjbtn.png"  alt=""/></a></p>
+						</div><!--end for hot_recom_info-->
+				</div>
+				<!--end for hot_recom-->
+
+			        </li>
+        		
+        			<li>
+			       			<div class="hot_recom">
+						<p><a href="#"><img src="images/hot_couponimg.png" alt=""/></a></p>
+						<div class="hot_recom_info">
+							<p><span class="recm_sm">221元</span><a href="#" class="canjbtn"><img src="images/canjbtn.png"  alt=""/></a></p>
+						</div><!--end for hot_recom_info-->
+				</div>
+				<!--end for hot_recom-->
+			        </li>
+        		
+        			<li>
+			       			<div class="hot_recom">
+						<p><a href="#"><img src="images/hot_couponimg.png" alt=""/></a></p>
+						<div class="hot_recom_info">
+							<p><span class="recm_sm">221元</span><a href="#" class="canjbtn"><img src="images/canjbtn.png"  alt=""/></a></p>
+						</div><!--end for hot_recom_info-->
+				</div>
+				<!--end for hot_recom-->
+	
+			        </li>
+        		
+        			<li>
+			      			<div class="hot_recom">
+						<p><a href="#"><img src="images/hot_couponimg.png" alt=""/></a></p>
+						<div class="hot_recom_info">
+							<p><span class="recm_sm">221元</span><a href="#" class="canjbtn"><img src="images/canjbtn.png"  alt=""/></a></p>
+						</div><!--end for hot_recom_info-->
+				</div>
+				<!--end for hot_recom-->
+
+			        </li>
+        
+
+      </ul>
+    </div>
+        
+        <div class="dot_line">
+        </div><!--end for dot_line-->
+        	<div class="cate">
+			<p class="cate_I"><a href="http://coupon.ddmap.com" target="_blank">全部优惠券</a><a href="#">丽人优惠券</a></p>
+			<ul>
+			<li class="cate_L fenlei">分类：</li>
+			<li class="cate_R">
+				<a href="3.优惠劵yhqlist.html" class="color">全部</a>
+				
+					<a href="3.优惠劵yhqlist.html">美发</a>	
+				
+					<a href="#">美甲</a>	
+				
+					<a href="#">美睫</a>	
+				
+					<a href="3.优惠劵yhqlist.html">美容</a>	
+				
+					<a href="3.优惠劵yhqlist.html">SPA</a>	
+				
+					<a href="3.优惠劵yhqlist.html">瘦身</a>	
+				
+					<a href="3.优惠劵yhqlist.html">纤体</a>	
+				
+					<a href="3.优惠劵yhqlist.htmlm">瑜伽</a>	
+				
+					<a href="3.优惠劵yhqlist.html">舞蹈</a>	
+				
+					<a href="3.优惠劵yhqlist.html">丰胸</a>	
+				
+					<a href="3.优惠劵yhqlist.html">脱毛</a>	
+				
+					<a href="3.优惠劵yhqlist.html">整形</a>	
+				
+					<a href="3.优惠劵yhqlist.html">纹绣</a>	
+				
+			</li>
+		</ul>
+		<ul class="cate_I2">
+			<li class="cate_L sq_bc">商圈：</li>
+			<li class="cate_R">
+				<a href="3.优惠劵yhqlist.html" class="color">全部</a>
+				
+					<a href="3.优惠劵yhqlist.html">成华区</a>
+				
+					<a href="3.优惠劵yhqlist.html">金牛区</a>
+				
+					<a href="3.优惠劵yhqlist.html">锦江区</a>
+				
+					<a href="3.优惠劵yhqlist.html">青羊区</a>
+				
+					<a href="3.优惠劵yhqlist.html">武侯区</a>
+				
+					<a href="3.优惠劵yhqlist.html">龙泉驿区</a>
+				
+					<a href="3.优惠劵yhqlist.html">青白江区</a>
+				
+					<a href="3.优惠劵yhqlist.html">新都区</a>
+				
+					<a href="3.优惠劵yhqlist.html">温江区</a>
+				
+					<a href="3.优惠劵yhqlist.html">都江堰市</a>
+				
+					<a href="3.优惠劵yhqlist.html">彭州市</a>
+				
+					<a href="3.优惠劵yhqlist.html">邛崃市</a>
+				
+					<a href="3.优惠劵yhqlist.html">崇州市</a>
+				
+					<a href="3.优惠劵yhqlist.html">双流县</a>
+				
+					<a href="3.优惠劵yhqlist.html">金堂县</a>
+				
+					<a href="3.优惠劵yhqlist.html">大邑县</a>
+				
+					<a href="3.优惠劵yhqlist.html">蒲江县</a>
+				
+					<a href="3.优惠劵yhqlist.html">新津县</a>
+				
+					<a href="3.优惠劵yhqlist.html">郫县</a>
+				
+			</li>
+		</ul>
+			<div id="circleDiv">
+
+
+
+
+
+</div>
+		</div>
+         <div class="dot_line" style="margin-bottom:20px;">
+        </div><!--end for dot_line-->
+			<div class="leftList">
+				<div class="search_bk">
+                			            <select onchange="jumptocoupon(this)" id="ddlMark" name="ddlMark">
+              <option value="商家">商户</option>
+              <option selected="selected" value="积分商户">商户</option>
+              <option value="优惠券">优惠券</option>
+              <option value="活动">精彩活动</option>
+              <option value="专题">热门专题</option>
+            </select>
+            <select style="width:120px;" id="ddlMarkType" name="ddlMarkType">
+              <option value="" selected="selected">所有商圈</option>
+              <option style="color:RED;" value="徐汇区|0a706c9bdd2a429bb8cded6a01e72e76">徐汇区</option>
+
+            </select>
+            <select style="width:80px;" id="ddlType" name="ddlType">
+              <option value="" selected="selected">所有分类</option>
+              <option style="color:RED;" value="餐饮美食|1">餐饮美食</option>
+              <option value="面馆|1">-面馆</option>
+  
+            </select>
+            <input type="text" style="line-height:18px;" class="h20 w160" id="ctl00_ContentPlaceHolder1_CommercialSearch1_txtkey" name="ctl00$ContentPlaceHolder1$CommercialSearch1$txtkey">
+            <input type="checkbox" name="ctl00$ContentPlaceHolder1$CommercialSearch1$cbCoupon" id="ctl00_ContentPlaceHolder1_CommercialSearch1_cbCoupon">
+            <label for="ctl00_ContentPlaceHolder1_CommercialSearch1_cbCoupon">有优惠券</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" class="r-button" title="搜　索" id="ctl00_ContentPlaceHolder1_CommercialSearch1_Button1" onclick="BCRedirect();return false;" value="搜　索" name="ctl00$ContentPlaceHolder1$CommercialSearch1$Button1">
+                            
+                            
+                            
+                </div><!--end for search_bk-->
+                
+                <div class="activity_content">
+          			<div class="shop_list">
+						<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+						
+							<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+						
+						
+							<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+						
+						
+							<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+							<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+							<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+						
+							<div class="shop_bklist">
+								<div class="shop_bk_left">
+										<div class="list_img"><a href="#"><img src="images/shop_listimg.png" alt=""/></a></div>
+										<div class="list_text">
+											<p>哈根达斯</p>
+											<p>地址：斜土路2310-2312号</p>
+											<p>电话：<span class="uline">021-34010553</span></p>
+										</div>
+								</div><!--end for shop_bk_left-->
+								<div class="shop_bk_right">
+								
+									<p>  上海京世造型美容连锁机构是一家国内一流形象设计连锁企业。
+&#12288;&#12288;自2004年公司成立以来，“京世”一直秉承...</p>
+								</div>
+						</div><!--end for shopbklist-->
+						
+						
+					
+					
+                    </div><!--end for shop_list-->
+                
+                
+                  
+                
+
+                
+                
+              <div class="pages">
+               <strong>1</strong><a href="#">2</a><a href="#">3</a><a href="#">4</a> <a href="#" class="no_bg">下一页</a>
+          </div>
+                </div>
+        <div class="act_btmbk">
+        
+        
+        </div><!--end for act_btmbk-->
+        
+               <div class="jxsh_bk">
+            	<h2>精选商户</h2>
+                <div class="jxsh_bk_con">
+                		<ul>
+                        	<li><a href="#"><img src="images/sh_jximg.png" alt=""/></a></li>
+                            <li><a href="#"><img src="images/sh_jximg.png" alt=""/></a></li>
+                            <li><a href="#"><img src="images/sh_jximg.png" alt=""/></a></li>
+                            <li><a href="#"><img src="images/sh_jximg.png" alt=""/></a></li>
+                        </ul>
+                </div>
+            </div><!--end for jxsh_bk-->
+            
+            
+			</div><!--end for leftList-->
+         
+            
+
+            
+            
+     
+			<div class="rightList">
+			
+					<div class="week">
+          <div class="week_I">
+            <h2>精选活动</h2>
+         
+			  <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="90" height="90" src="images/shpic1.gif"> </a> </li>
+              <li class="week_A2">发布优惠券3张，活动10次
+                洗剪吹只要100元，免费办会员卡<a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1">立即查看&gt;&gt;</a></li>
+            </ul>
+			
+			
+
+			  <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="90" height="90" src="images/shpic4.gif"> </a> </li>
+              <li class="week_A2">发布优惠券3张，活动10次
+                洗剪吹只要100元，免费办会员卡<a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1">立即查看&gt;&gt;</a></li>
+            </ul>
+			  <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="90" height="90" src="images/shpic5.gif"> </a> </li>
+              <li class="week_A2">发布优惠券3张，活动10次
+                洗剪吹只要100元，免费办会员卡<a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1">立即查看&gt;&gt;</a></li>
+            </ul>
+			
+				  <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="90" height="90" src="images/shpic4.gif"> </a> </li>
+              <li class="week_A2">发布优惠券3张，活动10次
+                洗剪吹只要100元，免费办会员卡
+                <a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1">立即查看&gt;&gt;</a></li>
+            </ul>
+			  <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="90" height="90" src="images/shpic5.gif"> </a> </li>
+              <li class="week_A2">发布优惠券3张，活动10次
+                洗剪吹只要100元，免费办会员卡<a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1">立即查看&gt;&gt;</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        
+                    <div class="week">
+          <div class="week_I">
+            <h2>精选优惠券</h2>
+            <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="225" height="90" src="images/yhj1.jpg"> </a> </li>
+              <li class="week_A3"><span class="week_shop">聚香楼</span><span class="week_A4">年夜套餐8.5折</span></li>
+			  <li class="week_A5">有效期至2012.1.23<span></span></li>
+            </ul>
+           <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="225" height="90" src="images/yhj2.jpg"> </a> </li>
+              <li class="week_A3"><span class="week_shop">漫步云端</span><span class="week_A4">浴足5折酬宾</span></li>
+			  <li class="week_A5">有效期至2012.1.31<span></span></li>
+            </ul>
+            <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="225" height="90" src="images/yhj3.jpg"> </a> </li>
+              <li class="week_A3"><span class="week_shop">城市沙滩</span><span class="week_A4">所有设施通票</span></li>
+			  <li class="week_A5">有效期至2012.2.3<span></span></li>
+            </ul>
+            <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="225" height="90" src="images/yhj4.jpg"> </a> </li>
+              <li class="week_A3"><span class="week_shop">京世沙龙</span><span class="week_A4">开业5折酬宾</span></li>
+			  <li class="week_A5">有效期至2012.1.21<span></span></li>
+            </ul>
+            <ul class="week_A">
+              <li><a target="_blank" href="/96317_115324.htm?g_f=coupidx_Bd_1"> <img width="225" height="90" src="images/yhj5.jpg"> </a> </li>
+              <li class="week_A3"><span class="week_shop">童年摄影</span><span class="week_A4">儿童艺术摄影7折</span></li>
+			  <li class="week_A5">有效期至2012.3.15<span></span></li>
+            </ul>
+          </div>
+        </div><!--end for week-->
+        
+        
+        
+        
+			</div><!--end for rightList-->
+            
+            
+
+            
+            
+            
+            
+		</div><!--end for content-->
+		
+		
+		<div class="footer">
+		</div><!--end for footer-->
+	</div><!--end for wrap-->
+	</body>
+</html>
+		

@@ -1,0 +1,28 @@
+
+      <div class="shop_rec">
+						<div class="title">
+							<div style="float: left;" class="hot_rec">
+								推荐商户
+							</div>
+							<div class="more">
+								#*<a style="color: #578307;" href="#">+更多</a>*#
+							</div>
+						</div>
+						<ul>
+						 #foreach($homePage in $homePageList)
+							<li>
+								<div class="hot_recom_shop">
+									<p class="tui_hongse"></p>
+									<p>
+										<a href="$!{homePage.link}"><img width="180" height="170"
+												src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" />
+										</a>
+									</p>
+								</div>
+								<!--end for hot_recom-->
+							</li>
+
+			       		 #end
+
+						</ul>
+					</div>

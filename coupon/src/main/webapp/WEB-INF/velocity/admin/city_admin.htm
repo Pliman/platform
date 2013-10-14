@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<script language="javascript" src="/coupon/common/js/main.js"></script>
+
+<style type="text/css"></style>
+<script type="text/javascript">
+	function batchDel(){
+		if(confirm("确定删除选中的记录？")){
+			$('#batchOpType').val('mdel');
+			$('#batchForm').submit();
+		}
+	}
+</script>
+</head>
+<body>
+	<form method="post" action="ctAction.html?a=8" id="batchForm">
+	  <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="8%">选择</td>
+      <td class="title_bg" width="22%">城市名</td> 
+	   <td class="title_bg" width="10%">是否可见</td> 
+      <td class="title_bg" width="20%">操作</td>
+    </tr>
+   
+      #foreach($city in $cityList) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="id_city" onclick="unselectall()" value="$!{city.id}" type="checkbox"></td>		
+		<td><a href="/coupon/admin/bcadmin.html?cityId=$!{city.id}">$!{city.city}（点击查看商圈）</a></td>
+	
+	
+		<td>#if(${city.isvisible}==0)是 #end#if(${city.isvisible}==-1)否 #end</td>
+		<td align="center">
+			<a href="/coupon/admin/ctAction.html?a=3&id=$!{city.id}&p=$p">编辑</a> 
+			<a href="/coupon/admin/ctAction.html?a=5&id=$!{city.id}&p=$p"  onclick="return confirm('确定要删除？');">删除</a>
+		</td>
+	</tr>
+	#end
+
+		<tr>
+		<td colspan="4" class="tdbg">
+			<input name="chkAll" id="chkAll" onclick="CheckAll(this.form)" value="checkbox" type="checkbox"> 全选 
+			<input type="hidden" name="act" id="batchOpType" />
+			<input class="bnt01" value="批量删除" type="button" onclick="batchDel()"/>
+			<a href="/coupon/admin/ctAction.html?a=4&cityId=$!{cityId}" class="tjbtn">添加</a>
+		</td>
+    </tr>
+        <tr>
+		<!--<td colspan="13" class="tdbg" align="center">
+													<a>1</a>
+														<a href="/appphone/index.php?c=main&amp;a=news&amp;page=2&amp;keyword=">2</a>
+													<a href="/appphone/index.php?c=main&amp;a=news&amp;page=2&amp;keyword=">下一页</a>
+						页次：1/2页 &nbsp;每页:12条&nbsp;总数：22条
+						
+		</td>  -->
+    </tr>
+      </tbody></table>
+
+
+</form>
+</body>
+</html>

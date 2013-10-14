@@ -1,0 +1,59 @@
+#parse("header_front.htm")
+	<script type="text/javascript">
+					$('#activity').addClass('nav_contenton');
+				</script>
+	
+    <div class="detail">
+
+      
+      <div class="content">
+		<!--hot-->
+		
+			
+	
+	
+		
+    
+    
+		<!--left-->
+		<div class="left">
+			<div class="a_con">
+     
+   
+        <div class="a_t">
+          <h1>$!{activity.title}</h1>
+          <p><span> 发布商家：$!{activity.proman}</span><span>来源：<a target="_blank" href="#">xxxx</a></span><span>$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.create_time)</span></p>
+        </div>
+        <div class="zhekou_info"><p>关键字：$!{activity.keyword}</p><ul>
+<li>品&nbsp;&nbsp;&nbsp;&nbsp;牌：<span>各大品牌</span></li>
+<li>活动时间：<span>$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.begin_time) 至 $!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.end_time)</span></li>
+<li>活动地点：<span>$!{activity.act_address}</span></li>
+<!--<li>活动地址：<span>上海市天山路900号</span></li>-->
+<li>免责声明：<span>此信息内容仅供参考，详情请咨询相关商户。</span></li>
+</ul>
+</div>
+        <div class="a_c"><p>活动时间：$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.begin_time)-$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.end_time)</p>
+<p>活动商家：$!{activity.proman}</p>
+<p>活动地址：$!{activity.act_address}</p>
+<p>活动商场：汇金百货虹桥店</p>
+<!--<p>活动时间：2011年12月29日-2012年1月3日</p>-->
+<!--<p>活动地点：上海市天山路900号汇金百货虹桥店</p>-->
+<p>活动内容：$!{activity.content}</p>
+<p style="text-align: center">&nbsp;</p>
+<p style="text-align: center">&nbsp;</p>
+<p style="text-align: center"><a href="activity.html" target="_self">点击图片进入频道首页</a></p>
+<p style="text-align: center"><a href="/"><img src="/coupon/goods0/img/$!{activity.pic_url}"  alt=""></a></p></div>
+	
+      </div>
+		</div>
+		<!--left end-->
+	
+		<!--right start-->
+	<div class="right">
+		#parse("picked_act.htm")
+		#parse("picked_shop.htm")
+		#parse("picked_coupon.htm")
+	</div>
+    <!--right end-->
+    
+    #parse("footer_front.htm")

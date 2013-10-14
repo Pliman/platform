@@ -1,0 +1,387 @@
+#parse("/common/common.htm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<meta name="keywords" content="" />
+		<title>中国电信优惠劵平台</title>
+		<link href="$!{appCss}/globle.css" rel="stylesheet" type="text/css" />
+		<link href="$!{appCss}/decoindex.css" rel="stylesheet" type="text/css" />
+		<link href="$!{appCss}/login.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="$!{appJs}/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="$!{appJs}/login.js"></script>
+		<script>
+			$(function(){
+				var cityErrorMsg = '$!{cityErrorMsg}';
+				
+				if(cityErrorMsg != ''){
+					alert(cityErrorMsg);
+				}
+				
+				$(".left_side ul >li").hover(
+				function(){
+					var id=$(this).attr("id");
+					$("#div_li_"+id).show();
+					$(this).removeClass("li_on");
+					$(this).addClass("li_on");
+				},function(){
+					$(".index_leftnav_po_fj").hide();
+					var id=$(this).attr("id");
+					$(this).removeClass("li_on");
+				})
+				
+				$(".index_leftnav_po_fj").hover(
+				function(){
+					var id=$(this).attr("id");
+					var r=id.substring(7,8);
+			
+					$("#"+r).addClass("li_on");
+					$(this).show();
+				},function(){
+					var r=id.substring(7,8); 
+					$("#"+r).addClass("li_on");
+					$(this).hide();
+				})
+				$(".shbk2_con >.shList ").hover(
+				function(){
+					$(this).addClass("shListhover");
+				},function(){
+					$(this).removeClass("shListhover");
+				})
+				
+				// 页首导航条
+				var hadNavContenton = false;
+				$('.nav_content li').hover(function(){
+					hadNavContenton = $(this).hasClass("nav_contenton");
+					$(this).addClass("nav_contenton");
+				},function(){
+					!hadNavContenton && $(this).removeClass("nav_contenton");
+				});
+				
+				// 加载公告，实现走马灯效果
+				jQuery.get('$!{appContext}/bulletins',{},
+				function(data){
+					var width = data.length*12.5;
+					var _this = $('#bulletins');
+					_this.text(data);
+					_this.css({
+						'width': width,
+						'height': 22,
+						'marginLeft' : -width/2
+					});
+				});
+				
+				// 搜索条事件
+				$('#keyword').focus(function(){
+						if($(this).val() == '您可以搜索优惠券/打折活动/店铺信息等' || $(this).val() == ' '){
+							$(this).val('');
+						}
+				});
+				$('#keyword').blur(function(){
+					!$(this).val() && $(this).val('您可以搜索优惠券/打折活动/店铺信息等');
+				});
+				
+		
+				$('#searchType').change(function(){
+					var value = $(this).val();
+					
+					if(value == 'shop'){
+						action = 'shop';
+					}else if(value == 'coupon'){
+						action = 'coupon';
+					}else{
+						action = 'activity';
+					}
+					
+					$('#adSearchForm')[0].action = action;
+				});
+			})
+			
+			function popLogin(){
+				//centering with css
+				centerPopup();
+				//load popup
+				loadPopup();
+			}
+			function popcity(){
+				cityOpen();
+				cityLoad();
+			}
+			function doLogin(){
+				jQuery.post('$!{appContext}/validate_wings_user',{
+					'userName':$('#username').val(),
+					'password':$('#password').val()
+				},
+				function(data){
+					if(data.rtnCode == 0){
+						loginCallBack(data);
+						emShowLoginInfo(data);
+					}else{
+						$('#loginMsg').text(data.rtnMsg);
+					}
+				},'json');
+			}
+			
+			function loginCallBack(data){
+				var logedIn = '，欢迎光临中国电信！[<a onclick="doLogout()" href="javascript:void(0)" class="log_color">退出</a>]';
+				
+				$('#loginNote').html(data.userName + logedIn);
+				disablePopup();
+			}
+			
+			function doLogout(){
+				clearPopup();
+				
+				jQuery.post('$!{appContext}/wings_user_logout',{},
+				logoutCallBack,'json');
+			}
+			
+			function logoutCallBack(data){
+				var logedOut = '早上好，欢迎光临中国电信！请[<a id="loginButton" onclick="popLogin()" href="javascript:void(0)" class="log_color">登录</a>]';
+				if(data.rtnCode == 0){
+					$('#loginNote').html(logedOut);
+					
+					window.location.reload();
+				}else{
+				}
+			}
+			
+		function chooseCity(){
+			$(".pop_city").show();
+			$("#loading").show();
+			$("#cityajax").html("<div class='load_div'></div>");
+			$("#cityajax").load("/coupon/getCity.html");
+		}
+		
+		function close(){
+			$(".pop_city").hide();
+		}
+		
+		</script>
+
+	</head>
+	<body>
+		<!-- 弹出登陆框 start -->
+		<div id="popupContact">
+			<a id="popupContactClose">x</a>
+			<h1>
+				请登录
+			</h1>
+			<p id="loginMsg"></p>
+			<p id="contactArea">
+				<label>
+					账号名 例如:18910087135@189.cn
+				</label>
+				<input type="text" id="username" value="请输入账号名" name="usename" />
+				<label>
+					登录密码
+				</label>
+				<input type="text" id="password" value="请输入密码" name="password" />
+			</p>
+			<p id="submitLogin">
+				<input type="button" value="登录" class="normal_btn"
+					onclick="doLogin()" />
+			</p>
+		</div>
+		<div id="backgroundPopup"></div>
+		<!-- 弹出登陆框 end -->
+
+		<div id="wrap">
+			<div class="k100"
+				style="height: 147px; height: auto; min-height: 97px;">
+				<input type="hidden" id="CITYCODE" name="CITYCODE" value="0590">
+				<input type="hidden" id="CMS_ISLOGIN" name="CMS_ISLOGIN" value="">
+				<div class="main_div index_topbg" id="topdiv">
+					<div class="fl index_top" id="topdiv_1" style="width: 100%;">
+						<ul class="logo fl">
+							<a href="$!{appContext}/index.htm"><img id="logoimg"
+									src="/coupon/res/images/logo.gif" width="175" height="85" /> </a>
+						</ul>
+						<ul class="login fl"
+							style="width: 720px; float: left; margin-top: -0px;">
+							<li>
+								<span style="width: 300px; display: block; float: left"
+									id="loginNote"> #if($currUser)
+									${currUser.name}，欢迎光临中国电信！[<a onclick="doLogout()"
+									href="javascript:void(0)" class="log_color">退出</a>] #else
+									早上好，欢迎光临中国电信！请[<a id="loginButton" href="javascript:void(0)"
+									class="log_color" onclick="popLogin()">登录</a>] #end </span>
+
+								<span
+									style="width: 60px; display: block; float: left; overflow-x: hidden;">最新公告：</span>
+								<span
+									style="width: 340px; display: block; float: left; overflow-x: hidden;"><marquee
+										id="bulletins" direction="left" onMouseOver="this.stop()"
+										onMouseOut="this.start()"> </marquee> </span>
+							</li>
+
+							<li style="width: 400px;">
+								<span id="cityName">$!{city.city}</span>[
+								<a href="javascript:void(0)" onclick="chooseCity()" 
+									class="log_color">切换城市</a>]
+									
+								<!-- 城市选择框 -->
+								<div class="pop_city">
+									<div style="width:330px;">
+										<div id="cityajax"></div>
+									</div>
+								</div>
+								<!-- 城市选择框 -->
+
+							</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+					<div class="navbk">
+
+						<div class="nav_content">
+							<ul>
+								<li id="index" #if($nav==0)class="nav_contenton"#end>
+									<span> <a href="$!{appContext}/index.htm" target="_self">首页</a>
+									</span>
+								</li>
+								<li id="shop" #if($nav==1)class="nav_contenton"#end>
+									<span> <a href="$!{appContext}/shop" target="_self">翼支付商户</a>
+									</span>
+								</li>
+								<li id="coupon" #if($nav==2)class="nav_contenton"#end>
+									<span> <a href="$!{appContext}/coupon" target="_self">优惠券</a>
+									</span>
+								</li>
+								<li id="uc_index" #if($nav==3)class="nav_contenton"#end>
+									<span> <a href="$!{appContext}/uc/uc_index"
+										target="_self">会员中心</a> </span>
+								</li>
+								<li id="activity" #if($nav==4)class="nav_contenton"#end>
+									<span> <a href="$!{appContext}/activity" target="_self">促销活动</a>
+									</span>
+								</li>
+							
+							</ul>
+						</div>
+						<div class="clear"></div>
+						<div class="nav fl">
+							<div class="nav_quick fl">
+								<ul class="nav_search fl">
+									<li>
+							
+
+										<form id="allSearchForm" name="allSearchForm"
+											action="/coupon/allSearch.html">
+											<input type="text" id="keyword" name="wd"
+												class="nav_search_inp" value="#if($wd && $wd != "")$wd#else您可以搜索优惠券/打折活动/店铺信息等#end" />
+											<input type="submit" class="nav_search_btn" value="" />
+											<style>
+						.drop_default {
+							float: left;
+							font-size: 12px;
+							line-height: 28px;
+							color: #666;
+							padding-left: 3px;
+						}
+						
+						.drop_triger {
+							float: left;
+							text-decoration: none;
+							display: block;
+							width: 48px;
+							line-height: 28px;
+							padding-left: 10px;
+							height: 28px;
+							background: url(/coupon/res/images/sch_xiala.png) no-repeat -0px center;
+						}
+						
+						.drop_triger:hover {
+							text-decoration: none;
+						}
+						
+						.select_search {
+							width: 50px;
+							position: absolute;
+							right: 70px;
+							top: 1px;
+						}
+						
+						.search_droplist {
+							position: absolute;
+							right: -6px;
+							top: 26px;
+							border: 1px solid #8ABC1F;
+							display: none;
+						}
+						
+						.search_droplist li {
+							position: static;
+							width: 50px;
+							background: #fff;
+							padding-left: 5px;
+						}
+						</style>
+											<script>
+								                function showList(obj){
+								                	$(".search_droplist").show();
+								                }
+								                function subItemClick(obj){
+								                	$(".drop_triger").html($(obj).html());
+								                	$(".search_droplist").hide();
+								                	var value=$(obj).attr("value");
+								                	if(value==1){
+								                		$("#allSearchForm")[0].action="coupon.html";
+								                	}else if(value==2){
+								                		$("#allSearchForm")[0].action="activity.html";
+								                	}else{
+								                		$("#allSearchForm")[0].action="shop.html";	
+								                	}
+								                	
+								                }
+								              </script>
+
+											<div class="select_search">
+												<a href="javascript:;" class="drop_triger"
+													onclick="showList(this)">优惠券</a>
+												<div class="clear"></div>
+												<div class="search_droplist">
+													<ul>
+														<li>
+															<a href="javascript:;" value="1"
+																onclick="subItemClick(this)">优惠券</a>
+														</li>
+														<li>
+															<a href="javascript:;" value="2"
+																onclick="subItemClick(this)">活动</a>
+														</li>
+														<li>
+															<a href="javascript:;" value="3"
+																onclick="subItemClick(this)">商户</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</form>
+									</li>
+								</ul>
+
+								<ul class="nav_hot fl">
+									<span>热门搜索：</span>
+									<a href="http://localhost:8080/coupon/coupon.html?wd=电影票" target="_blank" title="电影票">电影票</a>
+									<a href="#" target="_blank" title="美食">美食</a>
+									<a href="#" target="_blank" title="免费派送">免费派送</a>
+
+								</ul>
+								<ul class="hot_phone">
+									<li>
+										<img alt="" src="/coupon/res/images/hot_phone.png">
+									</li>
+								</ul>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<!--end for navbk-->
+				</div>
+				<div class="clear"></div>
+
+				<!--header end-->
+			</div>

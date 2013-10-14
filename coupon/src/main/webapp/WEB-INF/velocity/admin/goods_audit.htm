@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/fileuploader.css" />
+<script type="text/javascript" src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/swfobject.js"></script>
+<script type="text/javascript" src="/coupon/res/js/jquery.uploadify.v2.1.4.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/kindeditor-min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/zh_CN.js"></script>
+<script language="javascript" type="text/javascript" src="/coupon/res/js/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript" src="/coupon/res/js/jvalidate.js"></script>
+<style type="text/css">
+#box{position: absolute;top:800px;left:100px;
+
+	background: none repeat scroll 0 0 #ebf5eb;
+    border-radius: 6px 6px 6px 6px;
+    padding: 17px 14px 16px 12px;
+    
+	color: #888; font-size: 12px 
+}
+
+</style>
+
+<script type="text/javascript">
+function openAudit_reason(oSourceObj,oTargetObj){
+var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+
+if(targetObj.style.display!="none"){
+
+  targetObj.style.display="none";
+  if(openTip && shutTip){
+  sourceObj.innerHTML = shutTip;  
+  }
+} else {
+  targetObj.style.display="block";
+  if(openTip && shutTip){
+  sourceObj.innerHTML = openTip;  
+  }
+}
+}
+
+</script> 
+</head>
+<body>
+<div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   <form action="goodsAction?a=2" method="post" id="submitform">
+   		<input type="hidden" value="$!{goods.isverified}" name="isverified"/>
+   		<input type="hidden" value="$!{goods.id}" name="id"/>
+   		<input type="hidden" value="$!{goods.create_time}" name="create_time"/>
+		<input type="hidden" value="1" name="cat_type"/>
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠券名称</td>
+   			<td><input type="text" readonly="readonly" class="text_cls" value="$!{goods.name}" name="name" id="name"/></td>
+   		</tr>
+   		
+   		<tr height="22" bgcolor="#fafaf1" align="left" >
+   			<td>优惠券描述</td>
+   			<td>
+   			<textarea name="description" readonly="readonly" class="textArea" id="description">$!{goods.description}</textarea>
+   			</td>
+   		</tr>
+   
+   		 
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠券使用规则</td>
+   			<td><textarea name="use_intro" readonly="readonly" class="textArea" id="user_intro">$!{goods.use_intro}</textarea></td>
+   		</tr>
+   		 <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td> 优惠券种类</td>
+   			<td>
+   			<select style="width:120px;" disabled="disabled"  name="coupon_type">
+   				<option #if(${goods.coupon_type}==1)selected="true"#end value="1">优惠券</option>
+   				<option #if(${goods.coupon_type}==2)selected="true"#end value="2">代金券</option>
+   			</select></td>
+   		</tr>
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠券 目标用户群</td>
+   			<td>
+   			<input disabled="disabled" type="checkbox" value="1" name="use_obj" 
+   				#if($goods.use_obj.indexOf("1")>-1)
+   					checked="checked"
+   				#end
+   			/>翼支付用户
+   			<input disabled="disabled" type="checkbox" value="2" name="use_obj"
+   				#if($goods.use_obj.indexOf("2")>-1)
+   					checked="checked"
+   				#end
+   			/>爱优惠用户
+   			<input disabled="disabled" type="checkbox" value="3" name="use_obj"
+   				#if($goods.use_obj.indexOf("3")>-1)
+   					checked="checked"
+   				#end
+   			/>普通用户
+   			<input disabled="disabled" type="checkbox" value="4" name="use_obj"
+   				#if($goods.use_obj.indexOf("4")>-1)
+   					checked="checked"
+   				#end
+   			/>异网用户
+   			
+   			</td>
+   		</tr>
+   		
+  
+   		
+   		  
+   		
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠券数量</td>
+   			<td><input readonly="readonly" type="text" class="text_cls" value="$!{goods.number}" name="number" id="number"/></td>
+   		</tr>
+   		  
+   		  
+   		  
+   		<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠券经度</td>
+   			<td><input readonly="readonly" type="text" class="text_cls" value="$!{goods.x}" name="x" id="x"/>（经纬度查询地址：http://www.gpsspg.com/maps.htm）</td>
+   		</tr>
+   		
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠券纬度</td>
+   			<td><input readonly="readonly" type="text" class="text_cls" value="$!{goods.y}" name="y" id="y"/>（经纬度查询地址：http://www.gpsspg.com/maps.htm）</td>
+   		</tr>
+   	<tr bgcolor="#ffffff">
+      <td>所属城市、商圈与类别：</td>
+       <td><select style="width:120px;"  name="belong_city" id="belongCity">
+				            <option value="0">所有城市</option>
+				             #foreach($obj in $cityList)
+							<option style="color:RED;" value="${obj.id}"  #if(${goods.belong_city}==${obj.id}) selected="selected" #end>${obj.city}</option>
+							 #end
+				        </select> 
+       <select style="width:120px;"  name="belong_bc" id="belong_bc">
+				            <option value="0">所有商圈</option>
+				             #foreach($obj in $bussinessCircleList)
+							<option style="color:RED;" value="${obj.id}"  #if(${goods.belong_bc}==${obj.id}) selected="selected" #end>${obj.bc_name}</option>
+							 #end
+				        </select>
+				        <input type="text"  value="#foreach($obj in $shopCategoryList)#if(${goods.belong_cat}==${obj.category_id})$!{obj.category_name} #end#end" id="belong_shopcat"/>
+				        <input type="hidden" value="$!{goods.belong_cat}" name="belong_cat" id="belong_shopcatvalue"/>
+				        <a href="javascript:belongShopCat();">所属分类</a>
+				        
+				<!--<select style="width:80px;" id="ddlType" name="belong_shopcat">
+				            <option value="0" >所有分类</option>
+				            #foreach($obj in $shopCategoryList) 
+				            <option style="color:RED;" value="${obj.category_id}" #if(${shop.belong_shopcat}==${obj.category_id}) selected="selected" #end>${obj.category_name}</option>
+				            
+						           #if(${obj.shopCategoryList}&&$obj.shopCategoryList.size()>0)
+						            	#foreach($subobj in $obj.shopCategoryList) 
+						            	  <option style="color:#333;" value="${subobj.category_id}" #if(${shop.belong_shopcat}==${subobj.category_id}) selected="selected" #end>--${subobj.category_name}</option>
+						            	      
+						            	        #if(${subobj.shopCategoryList}&&$subobj.shopCategoryList.size()>0)
+						            	       		 #foreach($subobj2 in $subobj.shopCategoryList)
+						            	        	  sss<option style="color:#333;" value="${subobj2.category_id}" #if(${shop.belong_shopcat}==${subobj2.category_id}) selected="selected" #end>----${subobj2.category_name}</option>
+						            	        #end
+						            	         #end
+						            	  #end
+						            #end
+				            #end
+				        </select> 
+				        
+			--></td>
+       </tr>
+   		  	<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>所属商户</td>
+   			<td>
+				    #if($goods.belong_shop==0)<input readonly="readonly" type="text" value="所有商户" id="shopName"/> #else<input readonly="readonly" type="text" value="$!{goods.belongShopObj.name}" id="shopName"/> #end <input type="hidden" value="${goods.belong_shop}" name="belong_shop" id="belong_shop"/>
+			 </td>
+   		</tr>
+   		
+   	<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>使用门店</td>
+   			<td>  
+   			<div id="useBranch">
+   			   #foreach($obj in $branchShopList) 
+   					<p><span>$!{obj.name}</span><input type="hidden" value="$!{obj.id}" name="idList"/></p>
+   				#end
+   			</div>
+   			</td>
+   		</tr>
+   		
+   		  
+   		  
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠开始时间</td>
+   			<td><input type="text" readonly="readonly" class="text_cls" value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!goods.begin_time)" name="begin_time1" id="begin_time1" /></td>
+   		</tr>
+   		
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠结束时间</td>
+   			<td><input type="text" readonly="readonly" class="text_cls" value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!goods.end_time)" name="end_time1" id="end_time1" /></td>
+   		</tr>
+   		
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>优惠使用地址</td>
+   			<td><input type="text" readonly="readonly" class="text_cls" value="$!{goods.use_addr}" name="use_addr" id="use_addr"/></td>
+   		</tr>
+   		   <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>是否生成二维码</td>
+   			<td>是 <input type="radio" disabled="disabled" value="1" name="haserwei" #if(${goods.ercode})checked="true" #end/>  否<input disabled="disabled" type="radio" value="0" name="haserwei" #if(!${goods.ercode})checked="true" #end/></td>
+   		</tr>
+       <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>是否生成优惠卷打印图</td>
+
+   			<td>是 <input type="radio" value="1" disabled="disabled" name="yq_imgflag" />  否<input disabled="disabled" type="radio" value="0" name="yq_imgflag"  checked="true"/></td>
+   			<input type="hidden" value="$!{goods.yq_img}" name="yq_img"/>"
+   		</tr>
+   	
+
+   
+
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>默认图片1</td>
+   			<td>
+   			#if(${goods.default_pic})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{goods.default_pic}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{goods.default_pic}" name="default_pic"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg1">
+      		
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg1">
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   		</tr>
+   			
+   			
+   			
+   			
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>详细页面图片</td>
+   			<td>
+   			
+   			#if($goods.goodsImages.size()>0 )	
+	        #foreach($img in $goods.goodsImages) 
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{img.url}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{img.goods_id}" name="goodsImages[0].goods_id"/>
+   			<input type="hidden" value="$!{img.id}" name="goodsImages[0].id"/>
+   			<input type="hidden" value="$!{img.url}" name="goodsImages[0].url"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg2">
+      		
+   			</span>
+   			</p>
+   			#end
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg2"></span>
+   			</p>
+   			#end
+   			</td>
+   		</tr>
+   			
+  
+
+   		
+   			  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><br/>
+   			<a href="/coupon/admin/goodsAction.html?a=6&id=$!{goods.id}&p=$p"  onclick="return confirm('确定要通过审核吗？');">通过</a>
+			<a href="#"  onclick="openAudit_reason(this,'box')">不通过</a>
+			 <a href="/coupon/admin/goodsadmin.html?p=$p">返回</a>
+
+   			</td>
+   		</tr>
+   		#if($goods.goods_status == -2)
+						<tr height="22" bgcolor="#fafaf1" align="center">
+							<td>审核不通过理由</td><td>$!{goods.audit_reason}</td>
+							</tr>
+						#end
+   		  	</table>
+   		</form>
+
+   		<div id="box" style="display:none;" >
+			<h3>请填写不通过的理由:</h3>
+			<div>
+			<form action="goodsAction.html?a=11&id=$!{goods.id}&p=$p" method="post" id="reasonForm">
+				<textarea name="audit_reason" class="textArea" style="margin: 10px;width: 320px"></textarea><p/>
+				 <a style="margin: 10px" href="goodsAction.html?method=post&a=11&id=$!{goods.id}&p=$p" onclick="document.getElementById('reasonForm').submit()">确认</a>
+			 <a href="javascript:void(0)" onclick="openAudit_reason(this,'box')">返回</a>
+		</form>
+		</div>
+	</div>
+   </div>
+   </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Untitled 1</title>
+		<link rel="stylesheet" type="text/css"
+			href="/coupon/common/css/style.css" />
+		<script type="text/javascript"
+			src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+
+		<style type="text/css">
+			.pay-count-title {
+				font-size: 14px;
+				font-weight: bold;
+				margin-bottom: 10px;
+				margin-left:20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="height:20px;"></div>
+		<div class="pay-count-title">
+			订单：$!{order.orderNo}&nbsp;明细
+		</div>
+		<input type="hidden" value="$!{p}" name="p" />
+		<input type="hidden" value="$!{order.id}" name="id" />
+		<table class="table_b" style="width:96%" align="center" border="0" cellpadding="3"
+			cellspacing="1">
+			<tbody>
+				<tr class="align_Center Thead pay-count-tr-title">
+					<td width="7%">
+						商品编号
+					</td>
+					<td>
+						商品名称
+					</td>
+					<td width="10%">
+						原价
+					</td>
+					<td width="8%">
+						优惠
+					</td>
+					<td width="9%">
+						状态
+					</td>
+					<td width="9%">
+						数量
+					</td>
+				</tr>
+				<tr class="align_Center">
+					<td style="padding: 5px 0 5px 0;">
+						${goods.code}
+					</td>
+					<td class="align_Left">
+						${goods.name}
+					</td>
+					<td>
+						<span class="price">￥$!{order.productAmount}</span>
+					</td>
+					<td>
+						￥$!{order.attachAmount}
+					</td>
+					<td>
+						#if(${goods.isvalid} == 1) 可用 #else 不可用 #end
+					</td>
+					<td>
+						${goods.number}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		#if(${goods})
+		<div id="ware_info" style="margin-right:20px;margin-top:10px;">
+			<div class="middle">
+				<!--订单信息-->
+				<ul id="part_info">
+					<li style="width: 100%; overflow: hidden;" class="info2">
+						<table cellspacing="0" cellpadding="0" style="width: 100%">
+							<tbody>
+								<tr>
+									<td style="text-align: right; font-size: 15px;">
+										<b>总金额：<font color="red">$!{order.orderAmount}</font> 元</b>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</li>
+				</ul>
+				<!--订单信息结束-->
+			</div>
+		</div>
+		#end
+	</body>
+</html>

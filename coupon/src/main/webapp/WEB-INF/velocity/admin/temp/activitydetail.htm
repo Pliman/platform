@@ -1,0 +1,156 @@
+
+
+#parse("header_front.htm")
+	<script type="text/javascript">
+					$('#activity').addClass('nav_contenton');
+				</script>
+	
+    <div class="detail">
+
+      
+      <div class="content">
+		<!--hot-->
+		
+		<!--left-->
+		<div class="left">
+		
+		<div class="a_con">
+     
+   
+        <div class="a_t">
+          <h1>$!{activity.title}</h1>
+          <p><span> 发布商家：$!{activity.proman}</span><span>来源：<a target="_blank" href="#">xxxx</a></span><span>$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.create_time)</span></p>
+        </div>
+        <div class="zhekou_info"><p>关键字：$!{activity.keyword}</p><ul>
+<li>品&nbsp;&nbsp;&nbsp;&nbsp;牌：<span>各大品牌</span></li>
+<li>活动时间：<span>$!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.begin_time) 至 $!date.format('yyyy-MM-dd HH:mm:ss ',$!activity.end_time)</span></li>
+<li>活动地点：<span>$!{activity.act_address}</span></li>
+<!--<li>活动地址：<span>上海市天山路900号</span></li>-->
+<li>免责声明：<span>此信息内容仅供参考，详情请咨询相关商户。</span></li>
+</ul>
+</div>
+        <div class="a_c">
+        
+        
+        $!{activity.act_article}
+
+
+			</div>
+	
+      </div>
+			
+		</div>
+		<!--left end-->
+	
+		<!--right start-->
+	<div class="right">
+		#include("/template/product/bk10.htm")
+		#include("/template/product/bk8.htm")
+		#include("/template/product/bk9.htm")
+	</div>
+    <!--right end-->
+    
+    #parse("footer_front.htm")
+    
+    
+    
+ <style type="text/css">
+a.pop_win_close {
+    color: #B4B4B4;
+    font: 11px "Comic Sans MS";
+    margin: 9px 10px 0 0;
+    padding: 0 0.3em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 99;
+}
+.pop_win_bg {
+    background: none repeat scroll 0 0 #000000;
+    border-radius: 6px 6px 6px 6px;
+    opacity: 0.3;
+    position: fixed;
+    display:none;
+     filter:alpha(opacity=30);
+}
+.pop_win {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    padding: 17px 14px 16px 12px;
+    position: fixed;
+    visibility: hidden;
+    display:none;
+}
+a.pop_win_close { top: 5px }
+.pop_win { padding: 0 }
+.pop_win h3 { font-size: 14px; padding: 12px 10px 8px 10px; margin: 0; color: #006600; background: #ebf5eb; *height: auto }
+.dui-dialog .hd h3 { color: #006600 }
+.pop_win h3 span, .dui-dialog .hd h3 span { color: #888; font-size: 12px }
+.pop_win h3 a, .dui-dialog .hd h3 a { font-size: 12px }
+#pop_win_login { width:320px; padding: 10px }
+#pop_win_login form { width: 320px; border: none }
+#pop_win_login fieldset { border: 0 none; padding: 0; margin: 0 } 
+#pop_win_login .item { margin: 15px 0 12px 0; overflow: visible }
+#pop_win_login label { display: inline-block; float:left; margin-right: 15px; text-align: right; width: 80px; font-size: 14px; line-height: 30px; vertical-align: baseline }
+#pop_win_login label.sub { font-size: 12px; display: inline; width: auto; text-align: left; float: none; margin: 0; color: #666 }
+#pop_win_login input { margin-right: 3px; vertical-align: middle }
+#pop_win_login .text { width: 180px; padding: 5px; height: 18px; font-size: 14px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: 1px solid #c9c9c9 }
+#pop_win_login .text:focus { border: 1px solid #a9a9a9 }
+.send{background: url("/coupon/res/images/sen.gif") no-repeat scroll left top transparent;width:73px;height:25px;border:0 none;}
+</style>
+
+<script type="text/javascript">
+function openAudit_reason(oSourceObj,oTargetObj){
+var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+
+if(targetObj.style.display!="none"){
+
+  targetObj.style.display="none";
+  if(openTip && shutTip){
+  sourceObj.innerHTML = shutTip;  
+  }
+} else {
+  targetObj.style.display="block";
+  if(openTip && shutTip){
+  sourceObj.innerHTML = openTip;  
+  }
+}
+}
+
+function gotoUrl(){
+	var myform=document.getElementById("reasonForm");
+	  myform.submit();
+	 }
+</script>
+  <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;display:block;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;display:block;">
+
+
+		
+		
+		<h3>请审核</h3>
+		
+		<div class="" id="pop_win_login">
+		 
+		 	<div class="checkArea">
+			<a href="/coupon/admin/activityAction.html?a=6&id=$!{activity.id}&p=$p"  onclick="return confirm('确定要通过审核吗？');">通过</a>
+			<a href="#"  onclick="openAudit_reason(this,'box')">不通过</a>
+			 <a href="/coupon/admin/activityadmin.html?p=$p">返回</a>
+			</div>
+
+		
+		</div>
+			<div id="box" style="display:none;" >
+  				<h3>请填写不通过的理由:</h3>
+  				<div>
+  				<form action="activityAction.html?a=7&id=$!{activity.id}&p=$p" method="POST" id="reasonForm">
+  					<textarea name="audit_reason" class="textArea" style="margin: 10px;width: 320px"></textarea><p/>
+  					 <a style="margin: 10px" href="activityAction.html?method=post&a=7&id=$!{activity.id}&p=$p" onclick="document.getElementById('reasonForm').submit()">确认</a>
+					 <a href="/coupon/admin/activityadmin.html?p=$p">返回</a>
+				</form>
+				</div>
+			</div>
+			
+			
+		</div>

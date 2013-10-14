@@ -1,0 +1,325 @@
+body {
+	background:url(../images/admin/admin_index_bg.png);
+	font-size:12px;
+}
+
+div.admin_index_box {
+	width:587px;
+	height:382px;
+	margin:130px auto;
+	position:relative;
+}
+
+.username-input{
+	border:0;
+	background:url(../images/admin/admin_index_box_11.png);
+	width: 158px;
+	height: 23px;
+}
+
+.pass-input{
+	border:0;
+	background:url(../images/admin/admin_index_box_14.png);
+	width: 158px;
+	height: 22px;
+}
+
+.vali-input{
+	border:0;
+	background:url(../images/admin/admin_index_box_19.png);
+	width: 59px;
+	height: 23px;
+}
+
+.login-btn{
+	border:0;
+	background:url(../images/admin/admin_index_box_26.png);
+	width: 100px;
+	height: 33px;
+	cursor:pointer;
+}
+
+.find-pass-btn{
+	border:0;
+	background:url(../images/admin/admin_index_box_28.png);
+	width: 100px;
+	height: 33px;
+	cursor:pointer;
+}
+
+.change-vali{
+	background:url(../images/admin/admin_index_box_12-23.png);
+	width: 34px;
+	height: 23px;
+	display:block;
+	line-height:28px;
+	font-size:10px;
+	color:green;
+}
+
+div.admin-index-box-01_ {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:124px;
+	height:109px;
+}
+
+div.admin-index-box-02_ {
+	position:absolute;
+	left:124px;
+	top:0px;
+	width:126px;
+	height:109px;
+}
+
+div.admin-index-box-03_ {
+	position:absolute;
+	left:250px;
+	top:0px;
+	width:116px;
+	height:109px;
+}
+
+div.admin-index-box-04_ {
+	position:absolute;
+	left:366px;
+	top:0px;
+	width:108px;
+	height:109px;
+}
+
+div.admin-index-box-05_ {
+	position:absolute;
+	left:474px;
+	top:0px;
+	width:113px;
+	height:109px;
+}
+
+div.admin-index-box-06_ {
+	position:absolute;
+	left:0px;
+	top:109px;
+	width:124px;
+	height:98px;
+}
+
+div.admin-index-box-07_ {
+	position:absolute;
+	left:124px;
+	top:109px;
+	width:126px;
+	height:98px;
+}
+
+div.admin-index-box-08_ {
+	position:absolute;
+	left:250px;
+	top:109px;
+	width:116px;
+	height:98px;
+}
+
+div.admin-index-box-09_ {
+	position:absolute;
+	left:366px;
+	top:109px;
+	width:221px;
+	height:54px;
+}
+
+div.admin-index-box-10_ {
+	position:absolute;
+	left:366px;
+	top:163px;
+	width:6px;
+	height:136px;
+}
+
+div.admin-index-box-11_ {
+	position:absolute;
+	left:372px;
+	top:163px;
+	width:158px;
+	height:23px;
+}
+
+div.admin-index-box-12_ {
+	position:absolute;
+	left:530px;
+	top:163px;
+	width:57px;
+	height:219px;
+}
+
+div.admin-index-box-13_ {
+	position:absolute;
+	left:372px;
+	top:186px;
+	width:158px;
+	height:12px;
+}
+
+div.admin-index-box-14_ {
+	position:absolute;
+	left:372px;
+	top:198px;
+	width:158px;
+	height:22px;
+}
+
+div.admin-index-box-15_ {
+	position:absolute;
+	left:0px;
+	top:207px;
+	width:124px;
+	height:99px;
+}
+
+div.admin-index-box-16_ {
+	position:absolute;
+	left:124px;
+	top:207px;
+	width:126px;
+	height:99px;
+}
+
+div.admin-index-box-17_ {
+	position:absolute;
+	left:250px;
+	top:207px;
+	width:116px;
+	height:92px;
+}
+
+div.admin-index-box-18_ {
+	position:absolute;
+	left:372px;
+	top:220px;
+	width:158px;
+	height:10px;
+}
+
+div.admin-index-box-19_ {
+	position:absolute;
+	left:372px;
+	top:230px;
+	width:59px;
+	height:23px;
+}
+
+div.admin-index-box-20_ {
+	position:absolute;
+	left:431px;
+	top:230px;
+	width:4px;
+	height:23px;
+}
+
+div.admin-index-box-21_ {
+	position:absolute;
+	left:435px;
+	top:230px;
+	width:57px;
+	height:23px;
+}
+
+div.admin-index-box-22_ {
+	position:absolute;
+	left:492px;
+	top:230px;
+	width:4px;
+	height:23px;
+}
+
+div.admin-index-box-12023_ {
+	position:absolute;
+	left:496px;
+	top:230px;
+	width:34px;
+	height:23px;
+}
+
+div.admin-index-box-msg {
+	position:absolute;
+	left:372px;
+	top:253px;
+	width:158px;
+	height:46px;
+	background:url(../images/admin/admin_index_box_24.png);
+	color:red;
+	padding-top:10px;
+}
+
+div.admin-index-box-25_ {
+	position:absolute;
+	left:250px;
+	top:299px;
+	width:41px;
+	height:83px;
+}
+
+div.admin-index-box-26_ {
+	position:absolute;
+	left:291px;
+	top:299px;
+	width:100px;
+	height:33px;
+}
+
+div.admin-index-box-27_ {
+	position:absolute;
+	left:391px;
+	top:299px;
+	width:36px;
+	height:83px;
+}
+
+div.admin-index-box-28_ {
+	position:absolute;
+	left:427px;
+	top:299px;
+	width:100px;
+	height:33px;
+}
+
+div.admin-index-box-29_ {
+	position:absolute;
+	left:527px;
+	top:299px;
+	width:3px;
+	height:83px;
+}
+
+div.admin-index-box-30_ {
+	position:absolute;
+	left:0px;
+	top:306px;
+	width:124px;
+	height:76px;
+}
+
+div.admin-index-box-31_ {
+	position:absolute;
+	left:124px;
+	top:306px;
+	width:126px;
+	height:76px;
+}
+
+div.admin-index-box-32_ {
+	position:absolute;
+	left:291px;
+	top:332px;
+	width:100px;
+	height:50px;
+}
+
+div.admin-index-box-33_ {
+	position:absolute;
+	left:427px;
+	top:332px;
+	width:100px;
+	height:50px;
+}

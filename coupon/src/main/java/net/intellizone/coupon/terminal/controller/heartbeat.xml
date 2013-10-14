@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<result code="0" message="" />
+	<cmd>
+		<queryParam reporturl="/coupon/cmd/param_query.do?method=mth"
+			code="1003,1004,2004" />
+		<updateParam
+			reporturl="/coupon/cmd/param_update.do?method=mth">
+			<param code="1005" value="20120224131826" />
+		</updateParam>
+		<download>
+			<file filetype="couponall" orderid="3088794"
+				reporturl="/coupon/cmd/file_reporturl.do?OrderID=3088794"
+				url="/coupon/cmd/coupon.do?method=mth&amp;key=all" version="" />
+		</download>
+	</cmd>
+</root>

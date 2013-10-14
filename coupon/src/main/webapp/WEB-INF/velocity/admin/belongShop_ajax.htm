@@ -1,0 +1,76 @@
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+ <script type="text/javascript">
+
+ 	function selectShopCat(id,obj){
+ 		$("#belong_shopcatvalue").val(id);
+ 		$("#belong_shopcat").val($(obj).attr("shopname"));
+ 		$(".pop_win_bg_l").hide();
+ 		$(".pop_win_l").hide();
+ 	}
+
+ 	function subcalssShopCat(id){
+		$(".pop_win_bg_l").show();
+		$(".pop_win_l").show();
+		$("#loading").show();
+		$("#catajax").html("<div class='load_div_l'></div>");
+		$("#catajax").load("/coupon/admin/belongShop.html?pid="+id);
+
+
+	}
+	function closel(){
+		$(".pop_win_bg_l").hide();
+		$(".pop_win_l").hide();
+	}
+ </script>
+
+
+ <table cellspacing="1" cellpadding="3" border="0" align="center" class="table_b">
+    <tbody><tr>
+    <td width="8%" class="title_bg">选择</td>
+      <td width="27%" class="title_bg">类别名</td>
+    <td width="26%" class="title_bg">类别描述</td>  
+	<!--<td class="title_bg" width="15%">添加时间</td>-->
+	  <td width="15%" class="title_bg">是否可见</td>
+      <td width="6%" class="title_bg">操作</td>
+    </tr>
+   
+    #foreach($shop in $shopCategoryList) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="idList" onclick="unselectall()" value="$!{shop.id}" type="checkbox"></td>	
+		<td><a href="javascript:subcalssShopCat($!{shop.category_id});" >$!{shop.category_name}</a></td>
+		<td align="center">#set($str=$!{shop.category_desc}) 
+				   #if($str.length()>23)
+				      #set($str=$str.substring(0,23)+"...")
+				     #end $str</td>
+		<td align="center">#if(${shop.isvisible}==0)是 #end #if(${shop.isvisible}==-1)否 #end</td>
+		<td align="center">
+			<a onclick="javascript:selectShopCat('$!{shop.category_id}',this)" shopname="$!{shop.category_name}">选择</a> 
+		</td>
+		
+	</tr>
+	
+	
+	#end
+		
+
+     
+      </tbody></table>
+      
+      <div class="pop_win_bg_l" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win_l" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:closel();" >X</a>
+
+
+
+
+<h3>请选择类别</h3>
+
+<div class="" id="pop_win_login">
+ 
+ 	<div id="catajax">
+ 		
+ 	</div>
+
+</div>
+
+</div>
+      

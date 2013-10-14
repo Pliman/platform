@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<result code="0" message="收藏商家的优惠劵" />
+	<merchant id="4713" name="维伯教育-雅思(重要测试数据，请勿删除)" displayImg="null"
+		key="1" xy="0,0" currentlyPage="0" service="1">
+		<coupon id="25622" title="凭券6元可享受196元的体验套餐" remark=""
+			displayImg="http://10.4.6.184:8080/coupon/goods0/img/cpnimg-115-4713-20120216-154022960.png"
+			printImg="http://10.4.6.184:8080/coupon/goods0/img/cpnimg-115-4713-20120216-154015648.bmp"
+			enddate="2012-06-19" service="1" fee="10"
+			confirmurl="/coupon/cmd/printconfirm.do?method=mth" isreport="1"
+			iscard="0" browserImg="" vouchertype="4" vbttcode="" phonenum=""
+			psw="" />
+	</merchant>
+</root>

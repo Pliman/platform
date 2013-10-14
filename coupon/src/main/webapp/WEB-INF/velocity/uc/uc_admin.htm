@@ -1,0 +1,138 @@
+#parse("/header_front.htm")
+<script type="text/javascript">
+					$('#uc_index').addClass('nav_contenton');
+				</script>
+<div class="user_center">
+	#parse("/uc/uc_menu.htm")
+
+	<!-- right start -->
+	<div class="uc_right_side">
+		<!--右边内容模块 开始-->
+		<div class="right_top">
+			<!--右边导航 开始-->
+			<label>
+				现在位置：
+			</label>
+			&nbsp;&nbsp;
+			<a href="$!{appContext}/index.htm">首页</a>
+			<label></label>
+			>
+			<label>
+				账户充值
+			</label>
+		</div>
+		<!--右边导航 结束-->
+
+		<form id="userAdminForm" action="$!{appContext}/uc/uc_admin"
+			method="post">
+			<table class="uc_admin_tb" width="100%" border="0">
+				<tbody>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							用户名：
+						</td>
+						<td width="80%">
+							<div class="oneline">
+								<input type="text" value="$!{currUser.name}"
+									class="inputbox" name="username">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							昵称：
+						</td>
+						<td width="80%">
+							<div class="oneline">
+								<input type="text" value="$!{currUser.nick}"
+									class="inputbox" name="nick">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							邮箱：
+						</td>
+						<td width="80%">
+							<div class="oneline">
+								<input type="text" value="$!{currUser.email}"
+									class="inputbox" name="email">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							<dfn>
+								*
+							</dfn>
+							性别：
+						</td>
+						<td width="80%">
+							#if(${currUser.sex} == 0) #set ($mailChecked = "checked") #else
+							#set ($femailChecked = "checked") #end
+							<div class="oneline">
+								<label>
+									<input type="radio" #if($mailChecked==
+										"checked")
+																checked="$mailChecked" #end
+										value="0" name="sex">
+									男
+								</label>
+								<label>
+									<input type="radio" #if($femailChecked==
+										"checked")
+																checked="$femailChecked" #end
+										value="1" name="sex">
+									女
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							手机：
+						</td>
+						<td width="80%">
+							<div class="oneline">
+								<input type="text" value="$!{currUser.mobile}"
+									class="inputbox" name="mobile">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							家庭电话：
+						</td>
+						<td width="80%">
+							<div class="oneline">
+								<input type="text" value="$!{currUser.tel}"
+									class="inputbox" name="tel">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top" class="tar">
+							地址：
+						</td>
+						<td width="80%">
+							<div class="oneline">
+								<input type="text" value="$!{currUser.userAddr}"
+									class="inputbox" name="addr">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%" valign="top"></td>
+						<td width="80%" class="padding">
+							<a href="javascript:void(0);" class="uc_admin_confirm f16wb"
+								onclick="$('#userAdminForm').submit();">确认修改</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<div class="clr"></div>
+</div>
+
+#parse("/footer_front.htm")

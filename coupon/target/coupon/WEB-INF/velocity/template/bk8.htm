@@ -1,0 +1,11 @@
+<div class="week">
+          <div class="week_I">
+            <h2>精选商户</h2>
+        #foreach($homePage in $homePageList)
+           <ul class="week_A">
+              <li><a target="_blank" href="$!{homePage.link}"> <img height="140" width="225" src="/coupon/goods0/img/$!{homePage.imgurl}"> </a> </li>
+            </ul>
+         #end
+                                                                                    
+          </div>
+        </div>

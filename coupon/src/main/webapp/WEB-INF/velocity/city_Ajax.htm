@@ -1,0 +1,24 @@
+<script type="text/javascript">
+ 	function selectCity(id,obj){
+		$(".pop_win").hide();
+ 		
+		jQuery('#cityId').val(id);
+		jQuery('#currentURL').val(window.location.href);
+		jQuery('#cityForm').submit();
+ 	}
+</script>
+<div class="city_changer">
+<a href="javascript:void(0)" onclick="jQuery('.pop_city').hide()">X&nbsp;&nbsp;</a>
+<form id="cityForm" method="get" action="$!{appContext}change_city">
+	<ul class="header_citys_ul">
+		#foreach($city in $cityList)
+		<li>
+			<a onclick="javascript:selectCity('$!{city.id}',this)"
+				cityname="$!{city.city}">$!{city.city}</a>
+		</li>
+		#end
+	</ul>
+	<input type="hidden" id="cityId" name="cityId" />
+	<input type="hidden" id="currentURL" name="currentURL"/>
+</form>
+</div>

@@ -1,0 +1,10 @@
+
+  
+           #foreach($act in $listAct)
+	    	<li><a href="/coupon/activityDetail.html?id=$!{act.id}">   #set($str=$!{act.title}) 
+				  	 #if($str.length()>12)
+				      		#set($str=$str.substring(0,12)+"...")
+				     #end $str</a> 
+				     #* <span> [$!date.format('MM-dd',$!act.modify_time)]</span>**#
+				    <span> [03-04]</span></li>  
+   			#end

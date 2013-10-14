@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<result code="-11" message="返回用户收藏的优惠劵" count="2" pagenum="1"
+		nextpage="2" continue="0" />
+	<merchant id="1" key="2" name="用户收藏" displayImg="null"
+		currentlyPage="0" service="1">
+		<coupon id="25626" title="凭券10元可享受305元的体验套餐" remark=""
+			displayImg="http://10.4.6.184:8080/coupon/goods0/img/cpnimg-115-4713-20120216-155715259.png"
+			printImg="http://10.4.6.184:8080/coupon/goods/print_img.do?orderId=23"
+			enddate="2012-06-19" service="1" fee="10"
+			confirmurl="/coupon/cmd/printconfirm.do?method=mth" isreport="1"
+			iscard="0" browserImg="" vouchertype="1" vbttcode="" phonenum=""
+			psw="" />
+		<coupon id="25627" title="测试普通优惠劵" remark=""
+			displayImg="http://10.4.6.184:8080/coupon/goods0/img/cptt.png"
+			printImg="http://10.4.6.184:8080/coupon/goods/print_img.do?orderId=25"
+			enddate="2012-06-19" service="1" fee="10"
+			confirmurl="/coupon/cmd/printconfirm.do?method=mth" isreport="1"
+			iscard="0" browserImg="" vouchertype="1" vbttcode="" phonenum=""
+			psw="" />
+	</merchant>
+</root>

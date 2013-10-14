@@ -1,0 +1,204 @@
+<div class="checkArea" style="border:2px solid #ff3366">
+			<a href="/coupon/admin/goodsAction.html?a=6&id=$!{goods.id}&p=$p"  onclick="return confirm('确定要通过审核吗？');">通过</a>
+			<a href="/coupon/admin/goodsAction.html?a=7&id=$!{goods.id}&p=$p"  onclick="return confirm('确定不要通过审核吗？');">不通过</a>
+
+</div>
+
+
+#parse("header_front.htm")
+ <script src="http://ditu.google.cn/maps?file=api&v=2&key=ABQIAAAA6vpS801yIrtuIMuUfP_1LRSxsn5a65eZaAi_5C9z2RjNFFY5KBSBb4uXgDPOoqPTKZ5RfZHQ1HTweA&sensor=true"
+    type="text/javascript"></script>
+
+    <script type="text/javascript">
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("det_map"));
+        map.setCenter(new GLatLng(${goods.y}, ${goods.x}), 13);
+         
+		//手动创建一个标注
+		var point = new GLatLng(${goods.y}, ${goods.x});    //创建一个坐标
+		var marker=new GMarker(point,{clickable: true});  //在此坐标创建一个标注
+		map.addOverlay(marker);    //将此标注加入到当前地图中
+
+		GEvent.addListener(marker, "click", function(){marker.openInfoWindowHtml("${goods.name}");});
+	
+
+
+    function showAddress() 
+	  {
+	      marker.openInfoWindowHtml("${goods.name}");
+	  } 
+
+    
+ 	jQuery(document).ready(function(){
+ 		initialize();
+ 	});
+ 
+    function collectCoupon(){
+    	jQuery.get('collectcoupon?id=${goods.id}',{'a':'a'},
+		function(data){
+			if(data.rtnCode == 0){
+				alert('收藏成功！');
+			}else{
+				if(data.errorCode==1){
+					popLogin();
+				}else{
+					alert(data.rtnMsg);
+				}
+			}
+		},'json');
+    }
+
+	$('#coupon').addClass('nav_contenton');
+	</script>
+ 	<div class="detail">
+
+    <div class="coupon_left printimg">
+    <div class="line_box noborder">
+	<h1>$!{goods.name}</h1>
+    </div>
+	#if(${goods.isvalid} ==0 )  
+    <div class="line_box" id="trueinfor"><div class="msg2">本优惠券在有效期内，可以正常使用，欢迎打印！使用时请注意地域限制。</div> </div>
+  	#else
+  	 <div class="line_box" id="trueinfor"><div class="msg2">本优惠券已经被删除。</div> </div>
+  	
+  	#end
+    <div class="line_box noborder">
+    <div class="op_yh"><span>使用有效期：</span><span style="font-family:arial;" class="cf60">$!date.format('yyyy-MM-dd HH:mm:ss ',$!goods.begin_time)至$!date.format('yyyy-MM-dd HH:mm:ss ',$!goods.end_time)</span>
+	  </div>
+      <div class="dayin">  <input type="button" title="点击按钮，即可打印优惠券" class="btn_print" value="收藏优惠券" onclick="collectCoupon()" id="btn1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
+       <input type="button" title="点击按钮，即可发送到优惠券" onmouseout="this.className='btn_print'" onmouseover="this.className='btn_print'" class="btn_print" value="发送到手机" onclick="popSend();" id="btn1">
+    </div>
+    </div>
+
+    <div class="printimg" style="text-align:center; width:700px; display:block ">
+      #foreach($img in ${goods.goodsImages})
+	    <img alt="" src="/coupon/goods0/img/${img.url}">
+	  #end
+	    <div class="line_box">
+	    
+        </div>
+    </div>
+   
+</div><!--end for det_left-->
+    
+    <div class="det_right">
+
+<object id="WebBrowser" width=0 height=0 classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2">
+</object>
+
+
+    		<div class="det_map" id="det_map" style="width:251px;height:200px;margin-left:8px;">
+    		
+            		<!--<p><img src="/coupon/res/images/mappic.jpg"  width="258"/></p>-->
+            </div>
+            
+    
+            
+            <div class="rightcontainer">
+        <div class="moretvbanner">使用说明</div>
+        <div id="Div2" class="morecontent">
+      			$!{goods.use_intro}
+        
+        </div>
+        </div>
+        
+           <div class="rightcontainer">
+        		<div class="moretvbanner">二维码</div>
+      				  <p align="center"><img src="/coupon/goodsImg/erwei/$!{goods.ercode}" width="200" height="200"/></p>
+        			<p class="erwtext">请用手机扫描上方二维码，将优惠券从屏幕上带走</p>
+                    <p align="center"><img src="/coupon/res/images/dl_process.jpg" width="243"/></p>
+       		 </div>
+        </div>
+            
+    </div><!--end for det_right-->
+    </div><!--end for detail-->
+  
+#parse("footer_front.htm")
+
+<script type="text/javascript">
+	function popSend(){
+			$(".pop_win_bg").show();
+			$(".pop_win").show();
+		}
+	function close(){
+			$(".pop_win_bg").hide();
+			$(".pop_win").hide();
+		}
+</script>
+  
+    <div class="pop_win_bg" style="height: 172px; width: 356px; left: 474px; top: 172px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 481.5px; top: 179.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+
+
+<style type="text/css">
+a.pop_win_close {
+    color: #B4B4B4;
+    font: 11px "Comic Sans MS";
+    margin: 9px 10px 0 0;
+    padding: 0 0.3em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 99;
+}
+.pop_win_bg {
+    background: none repeat scroll 0 0 #000000;
+    border-radius: 6px 6px 6px 6px;
+    opacity: 0.3;
+    position: fixed;
+    display:none;
+}
+.pop_win {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    padding: 17px 14px 16px 12px;
+    position: fixed;
+    visibility: hidden;
+    display:none;
+}
+a.pop_win_close { top: 5px }
+.pop_win { padding: 0 }
+.pop_win h3 { font-size: 14px; padding: 12px 10px 8px 10px; margin: 0; color: #006600; background: #ebf5eb; *height: auto }
+.dui-dialog .hd h3 { color: #006600 }
+.pop_win h3 span, .dui-dialog .hd h3 span { color: #888; font-size: 12px }
+.pop_win h3 a, .dui-dialog .hd h3 a { font-size: 12px }
+#pop_win_login { width:320px; padding: 10px }
+#pop_win_login form { width: 320px; border: none }
+#pop_win_login fieldset { border: 0 none; padding: 0; margin: 0 } 
+#pop_win_login .item { margin: 15px 0 12px 0; overflow: visible }
+#pop_win_login label { display: inline-block; float:left; margin-right: 15px; text-align: right; width: 80px; font-size: 14px; line-height: 30px; vertical-align: baseline }
+#pop_win_login label.sub { font-size: 12px; display: inline; width: auto; text-align: left; float: none; margin: 0; color: #666 }
+#pop_win_login input { margin-right: 3px; vertical-align: middle }
+#pop_win_login .text { width: 180px; padding: 5px; height: 18px; font-size: 14px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: 1px solid #c9c9c9 }
+#pop_win_login .text:focus { border: 1px solid #a9a9a9 }
+.send{background: url("/coupon/res/images/sen.gif") no-repeat scroll left top transparent;width:73px;height:25px;border:0 none;}
+</style>
+
+
+<h3>请输入手机号码<span></h3>
+
+<div class="" id="pop_win_login">
+ 
+        <fieldset>
+
+          <input type="hidden" value="simple" name="source">
+            <div class="item">
+                <label for="form_email">手机号码：</label>
+                <input type="email" class="text pop_email" name="form_email">
+            </div>
+            <!--<div class="item">
+                <label for="form_password">验证码：</label>
+                <input type="password" class="text" id="pop_password" name="form_password">
+            </div>-->
+        
+            <div class="item recsubmit">
+                <label>&nbsp;</label>    
+                <div><span class="bn-flat"><input type="submit" value="" class="send"></span></div>
+            </div>
+        </fieldset>
+
+</div>
+
+</div>

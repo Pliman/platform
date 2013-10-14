@@ -1,0 +1,202 @@
+#parse("header_front.htm")
+	<script type="text/javascript">
+					$('#activity').addClass('nav_contenton');
+				</script>
+    <div class="detail">
+      <div class="content">
+		<!--hot-->
+		
+		<!--hot-->
+		
+		<div class="coupon">
+      <h2 style="color:#578307;font-size:16px;font-weight:700">热门活动</h2>
+      <ul>
+       #foreach($obj in $recomActivity)
+            #if($velocityCount<=4)
+             #set($str=$!{obj.content}) 
+				   #if($str.length()>33)
+				      #set($str=$str.substring(0,33)+"...")
+				     #end 
+        		
+        			<li>
+			          <p class="coupon_A">
+			          	<a target="_blank" href="activityDetail.html?id=$!{obj.id}">
+			          	<img width="210" height="210" src="/coupon/goods0/img/${obj.pic_url}"></a>
+			          </p>
+
+			        </li>
+        		
+        #end 
+        #end
+        
+
+      </ul>
+    </div>	
+	
+	
+		<div class="cate">
+	         <ul>
+          <li class="cate_L">分类：</li>
+          <li class="cate_R"> <a #if($cat==0)class="color"#end href="/coupon/activity.html?bc=$bc&cat=0">全部</a> 
+          		  #foreach($obj in $shopCategoryList) 
+					<a href="/coupon/activity.html?bc=$bc&cat=${obj.category_id}" #if($cat==${obj.category_id}) class="color"  style=""#end>${obj.category_name}</a>	
+				  #end 	
+		</ul>
+        <ul class="cate_I2">
+          <li class="cate_L">商圈：</li>
+          <li class="cate_R"> <a #if($bc==0)class="color"#end href="/coupon/activity.html?bc=0&cat=$cat">全部</a> 
+          	#foreach($obj in $bussinessCircleList) 
+				<a href="/coupon/activity.html?bc=${obj.id}&cat=$cat"  #if($bc==${obj.id}) class="color"  style=""#end>${obj.bc_name}</a>
+			#end
+          </li>
+        </ul>
+	</div><!--end for areatop-->
+    
+    
+		<!--left-->
+		<div class="left">
+		
+				<form action="activity.html"  method="post">
+				<div class="b1px mb10">
+				    <div class="velosearch2">
+				        <select  name="goodstype">
+						        <option value="3">活动</option>            
+				        </select>
+				        
+				        <select style="width:120px;"  name="bc">
+				            <option value="0" selected="selected">所有商圈</option>
+				             #foreach($obj in $bussinessCircleList)
+							<option value="${obj.id}">${obj.bc_name}</option>
+							 #end
+				        </select>
+				        <select style="width:80px;" id="ddlType" name="cat">
+				            <option value="0" selected="selected">所有分类</option>
+				            #foreach($obj in $shopCategoryList) 
+				            <option  value="${obj.category_id}">${obj.category_name}</option>
+				            #end
+				        </select>        
+				        <input type="text" style="line-height:18px;" class="h20 w160" id="" value="${wd}" name="wd">
+				        <!--<input type="checkbox" name="" id=""><label for="">有优惠券</label>-->&nbsp;&nbsp;&nbsp;&nbsp;
+				        <input type="submit" class="r-button" title="搜　索" id="" value="搜　索" name=""> 
+				    </div>
+					</div>
+				</form>
+		
+			
+					
+					
+					
+					  #foreach($obj in $pageObj.list) 
+						<div class="liststyle clearfix mb10">
+                        <div class="listtitle clearfix">
+                            <div class="fleft heti ft14">
+                                <a target="_blank" title="
+" href="activityDetail.html?id=$!{obj.id}"><span class="fcred">${obj.title}</span></a></div>
+                           
+                        </div>
+                        <div class="listmain">
+                            <div class="listpic">
+                                <a target="_blank" title="" href="activityDetail.html?id=$!{obj.id}">
+                                    <img width="84" height="84" src="/coupon/goods0/img/$!{obj.pic_url}"></a></div>
+                            <div class="clearfix mb5">
+                                <div class="fleft mr10">
+                                    时 间：$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.begin_time)-$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.end_time)</div>
+                                 <div class="fright ">
+                                    <!-- 已收藏：<span class="fb1 ft10 fcred">10000</span>人</div>-->
+                            </div>
+                            <div class="mb5 ">
+                              地 点：$!{obj.act_address}</div>
+            
+                        
+                            <div class="clearfix">
+                                <div class="fleft">
+                                    活动内容：</div>
+                                <div style="width:495px; height:95px;" class="fleft ">
+                                <div style="text-align:justify; width:495px; overflow:hidden; height:81px" class="fleft">
+                                 <a target="_blank" title="" href="activityDetail.html?id=$!{obj.id}">$!{obj.content}</a>
+                                 </div>
+                                 <div style="text-align:right; width:490px; padding-right:14px" class="fleft"><a class="fcred" title="查看详细" href="activityDetail.html?id=$!{obj.id}">查看详细&gt;&gt;</a></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+					#end
+					
+					
+		
+					
+           #if($pageObj.list.size()>0 )
+	<div class="pages">
+	
+	#set($pageNo=${pageObj.pager.pageNumber}) ##当前页码   
+	#set($pageSum=${pageObj.pager.pageCount}) ##总页数   
+	#set($liststep = 4)      ##显示分页页数
+	#set($listpage = $pageNo - 1) 
+	#set($nextpage = $pageNo + 1)                               
+	#if($pageNo < 1)  
+	$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+	#end  
+                      
+		#set($bar = $liststep/2)  
+                    
+                    #if(($pageNo - $bar) < 1)  
+                    #set($listbegin = 1)  
+                    #else  
+                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+                    #end  
+                      
+                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+                      
+                    #if($listend > $pageSum)  
+                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+                    #end  
+                     
+                    ##<strong>$pageNo</strong>                          ##显示当前页  
+                      
+                    #if($pageNo > 1)                 ##显示上一页处理  
+                    <a href="/coupon/activity.html?p=$listpage&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end" class="no_bg">上一页</a>  
+                    #end  
+                    #if($listbegin > 1)                  ##第一页控制  
+                    <A href="/coupon/activity.html?p=1&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end" rel=start>1</A><SPAN class=gap>…</SPAN>  
+                    #end  
+                      
+                      
+                    #foreach($i in [$listbegin..$listend])  
+                    ##if($i <= $pageSum)             ##分页码的显示  
+                        #if($i != $pageNo&&$i!=0)  
+                        <a href="/coupon/activity.html?p=$i&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end">$i</a>  
+                        #else  
+                      	<strong>$i</strong>   
+                        #end  
+                    ##end  
+                      
+                    #end  
+                      
+                    #if($listend < $pageSum)         ##最后一页的处理  
+                    <SPAN class=gap>…</SPAN><A href="/coupon/activity.html?p=$pageSum&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end" rel=start>$pageSum</A>  
+                      
+                    #end  
+                    #if($pageNo != $pageSum)            ##显示下一页处理  
+                   <a class="no_bg" href="/coupon/activity.html?p=$nextpage&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end">下一页</a>  
+                    #end
+                    
+ #else
+ 
+ 没有搜索到你要的结果  
+ #end 
+ </div>
+		</div>
+		<!--left end-->
+		
+		
+	<!--right start-->
+	<div class="right">
+        #parse("picked_act.htm")
+		#parse("picked_shop.htm")
+		#parse("picked_coupon.htm")
+	</div>
+    <!--right end-->  
+    
+    #parse("footer_front.htm")

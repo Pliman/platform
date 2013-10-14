@@ -1,0 +1,18 @@
+
+<div class="index_yhq_content">	
+		#foreach($homePage in $homePageList)
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>$!{homePage.couponTitle}</h3>
+												<p><span class="stress">$!{homePage.couponPrice}</span>$!{homePage.description}</p>
+												<p><a href="$!{homePage.link}"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<a href="$!{homePage.link}"><img src="/coupon/res/images/ms_see.png" alt=""/></a>
+										</div>
+									</div><!--end for index_tjyh-->
+									
+						#end	
+						<div class="clear"></div>		
+							</div>
+

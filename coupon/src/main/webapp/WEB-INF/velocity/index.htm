@@ -1,0 +1,203 @@
+#set($nav=0)
+
+#parse("header_front.htm")
+
+<link href="/coupon/res/css/embeded-login-box.css" rel="stylesheet"
+	type="text/css" />
+<script type="text/javascript">
+
+	
+	$(function(){
+		// 用户名框事件
+		$('#em_username').focus(function(){
+			$(this).val() == '请输入用户名' && $(this).val('');
+		});
+		$('#em_username').blur(function(){
+			!$(this).val() && $(this).val('请输入用户名');
+		});
+		
+		// 按钮事件
+		$('#loginBtn').click(function(){
+			emLogin();
+		});
+	});
+	
+	function emLogin(){
+		jQuery.post('validate_wings_user',{
+			'userName':$('#em_username').val(),
+			'password':$('#em_password').val()
+		},function(data){
+			if(data.rtnCode == 0){
+				loginCallBack(data);
+				emShowLoginInfo(data);
+			}else{
+				$('#emLoginMsg').text(data.rtnMsg);
+			}
+		},'json');
+	}
+	
+	function emShowLoginInfo(data){
+		$('#infoUsername').text(data.userName);
+		$('#infoLastVisit').text(data.lastVist);
+		
+		$('#beforeLogin').css({
+			'display': 'none'
+		});
+		$('#afterLogin').css({
+			'display': 'block'
+		});
+	}
+	
+	function emLogout(){
+		$('#infoUsername').text('');
+		$('#infoLastVisit').text('');
+		
+		clearEmInput();
+		
+		$('#beforeLogin').css({
+			'display': 'block'
+		});
+		$('#afterLogin').css({
+			'display': 'none'
+		});
+	}
+	
+	function clearEmInput(){
+		$('#em_username').val('请输入用户名');
+		$('#em_password').val('');
+	}
+</script>
+<script type="text/javascript" src="/coupon/res/js/jquery.jcarousel.pack.js"></script>
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+    		scroll:1
+        });
+});
+
+</script>
+<div class="content">
+
+	<div class="flash_top">
+		#include("/template/product/bk2.htm")
+	  
+	  
+	  <div class="today_recom">
+	  		<div class="qiehuan">
+
+						#include("/template/product/bk17.htm")
+				
+			</div><!--end for qiehuan-->
+	  		<img src="/coupon/res/images/today_com.png" alt=""/>
+			
+	  </div>
+			
+			</div><!--end for flash_top-->
+			
+			
+			
+		<div class="jpbk_wrap">	
+			<div class="jpbk">
+				<h2></h2>
+					<div class="new_shop">
+				<div class="newjoin"><img src="/coupon/res/images/newjoin.png" alt=""/></div>
+					#include("/template/product/bk3.htm")
+				</div><!--end for new_shop-->
+				<div class="recom_act">
+					#include("/template/product/bk13.htm")
+				</div><!--end for recom_act-->
+			</div><!--end for jpbk-->
+			
+			<div class="index_side">
+				<div class="side_module">
+				
+					<div class="in_side_top"><h2>精选活动</h2></div><!--end for in_side_top-->
+					<div class="in_side_mid">
+						<ul class="jx_hdlist">
+							
+							#include("/template/product/actList.htm")
+				
+						</ul>
+					</div><!--end for in_side_mid-->
+					<div class="in_side_btm">
+					
+					</div><!--end for in_side_btm-->
+
+			</div><!--end for side_module-->
+			
+					<div class="pas_ad">
+						<ul>
+						<li class="pas_adimg">
+							<a href="#"><img src="/coupon/res/images/mianfeiad1.png"/></a>
+						</li>
+						<li>
+							<a href="#">李锦记辣椒酱派发</a>
+						</li>
+						</ul>
+						<ul>
+						<li class="pas_adimg">
+						<a href="#"><img src="/coupon/res/images/mianfeiad2.png"/></a>
+						</li>
+						<li>
+							<a href="#">力士旅行套装派发</a>
+						</li>
+						</ul>
+					
+					</div><!--end for pas_ad-->
+			</div><!--end for index_side-->
+
+			<div class="clear"></div>
+			
+			
+			
+		</div>	<!--end for jpbk_wrap-->
+			
+			
+		<div class="yhq_wrap">
+				<div class="index_yhq">
+						<div class="index_yhq_top"><h2>推荐优惠券</h2></div><!--end for index_yhq_top-->
+						<div class="index_yhq_mid">
+								#include("/template/product/bk4.htm")
+						</div><!--end for index_yhq_mid-->
+						<div class="index_yhq_btm"></div><!--end for index_yhq_btm-->
+				</div><!--end for index_yhq-->
+				
+				
+				
+				
+				
+				
+			<div class="index_side">
+				<div class="side_module">
+					<div class="in_side_top"><h2>优惠券动态</h2></div><!--end for in_side_top-->
+					<div class="in_side_mid">
+						<ul class="jx_hdlist">
+							#include("/template/product/goodsList.htm")
+						</ul>
+					</div><!--end for in_side_mid-->
+					<div class="in_side_btm">
+					
+					</div><!--end for in_side_btm-->
+
+			</div><!--end for side_module-->
+			
+				<div class="index_rem_shop">
+					<h2>推荐品牌</h2>
+					<ul class="index_rem_shop_ul">
+						#include("template/product/bk16.htm")
+					</ul>
+				</div>
+			</div><!--end for index_side-->
+		</div><!--end for yhq_wrap-->
+
+            
+            
+            
+            
+		</div><!--end for content-->
+		<div class="bottom_ad">
+			#include("template/product/bk18.htm")
+		</div>
+
+#parse("footer_front.htm")

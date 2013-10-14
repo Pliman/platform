@@ -1,0 +1,386 @@
+#parse("header_front.htm")
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var currentImg = jQuery('#imgBOC');
+		
+		jQuery('input').click(function(){
+			if(jQuery(this).val() != '确定'){
+				jQuery('#BANKID').val(jQuery(this).val());
+			}
+			
+			currentImg.css({
+				'border': '1px solid #CCC'
+			});
+			currentImg = jQuery(this).parent().siblings().children();
+			currentImg.css({
+				'border': '2px dotted orange'
+			});
+		});
+	});
+</script>
+
+<div class="pay_count_nav"></div>
+
+<div class="select_bank">
+	<form id="bestPay"
+			action="http://webpay.bestpay.com.cn/payWebDirect.do" method="get">
+            
+	<div class="select_bank_top"></div>
+    
+    <div class="select_bank_body">
+    	<div class="select_bank_content">
+        	<div class="select_bank_order_info">您的订单号：<label>$!{order.orderNo}</label>应付金额：<label>#set($amount = $ORDERAMOUNT/100)
+        	$amount
+        	</label></div>
+            <h2 class="f14bb">支付提示：请您在下单后24小时内付清款项，否则订单将会被自动取消。</h2>
+            <div class="select_bank_banks">
+            	<div class="select_bank_banks_top"></div>
+                <div class="select_bank_banks_body">
+                	<ul>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="BOC"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img style="border: 2px dotted orange;"
+                                    src="$!{appPic}/pay/BOC.jpg" id="imgBOC" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="ICBC"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/ICBC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="CCB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/CCB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="ABC"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/ABC.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="CMB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/CMB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="BCOM"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/BCOM.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="POST"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/POST.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="CEB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/CEB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="CITIC" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/CITIC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="CIB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/CIB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="CMBC"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/CMBC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="BOB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/BOB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="NJCB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/NJCB.jpg" /> </span>
+                
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="NBCB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/NBCB.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="BEA"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/BEA.gif" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="HKBANK" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/HKBANK.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="CBHB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/CBHB.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="SHRCC" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/SHRCC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="BJRCB" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/BJRCB.gif" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="GZCB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/GZCB.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="ABCB2B" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/WZCB.jpg" /> </span>
+                        </li>
+                
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="JCB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/JCB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="ZHRCC" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/ZHRCC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="GZRCC" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/GZRCC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="SDRCC" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/SDRCC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio"
+                                    value="YDRCC" name="BANKID" /> </span>
+                            <span class="bank_img"><img
+                                    src="$!{appPic}/pay/YDRCC.jpg" /> </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="PAB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/PAB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="HSB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/HSB.jpg" />
+                            </span>
+                        </li>
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="SDB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/SDB.jpg" />
+                            </span>
+                        </li>
+                
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="HXB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/HXB.jpg" />
+                            </span>
+                        </li>
+                
+                        <li>
+                            <span class="select_bank_radio"><input type="radio" value="HZB"
+                                    name="BANKID" /> </span>
+                            <span class="bank_img"><img src="$!{appPic}/pay/HZB.jpg" />
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="clr"></div>
+                </div>
+                <div class="select_bank_banks_btm"></div>
+            </div>
+            <div class="select_bank_confirm"><input type="submit" value="确定" class="normal_btn" /></div>
+            <div class="big_amount_notes">
+            	<p>如何进行大额支付：</p>
+                <p>1、如您订单金额较大，可以使用快钱支付中的招行、工行、建行、农行、广发进行一次性大额支付（一万元以下）；</p>
+                <p>2、如果您没有网银，可以使用银联在线支付，银联有支持无需开通网银的快捷支付和储值卡支付；</p>
+                <p>3、如果您有财付通或快钱、手机支付账户，可将款项先充入相应账户内，然后使用账户余额进行一次性大额支付；</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="select_bank_btm"></div>
+    
+			<table width="100%" cellspacing="0" cellpadding="0" style="display:none;">
+				<tbody>
+					<tr>
+						<td>
+							SP身份标识
+						</td>
+						<td>
+							<input type="text" name="MERCHANTID" value="$!{MERCHANTID}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							订单号
+						</td>
+						<td>
+							<input type="text" name="ORDERSEQ" value="$!{order.orderNo}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							订单请求交易流水号
+						</td>
+						<td>
+							<input type="text" name="ORDERREQTRANSEQ"
+								value="$!{order.orderReqTranSeq}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							订单日期
+						</td>
+						<td>
+							<input type="text" name="ORDERDATE"
+								value="$!date.format('yyyyMMdd',$!order.createTime)" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							订单总金额
+						</td>
+						<td>
+							<input type="text" name="ORDERAMOUNT" value="$!{ORDERAMOUNT}" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							产品金额
+						</td>
+						<td>
+							<input type="text" name="PRODUCTAMOUNT" value="$!{PRODUCTAMOUNT}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							附加金额
+						</td>
+						<td>
+							<input type="text" name="ATTACHAMOUNT" value="$!{ATTACHAMOUNT}" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							币种
+						</td>
+						<td>
+							<input type="text" name="CURTYPE" value="$!{order.curType}" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							加密方式
+						</td>
+						<td>
+							<input type="text" name="ENCODETYPE" value="$!{order.encodeType}" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							前台返回地址
+						</td>
+						<td>
+							<input type="text" name="MERCHANTURL" value="$!{MERCHANTURL}" />
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							后台返回地址
+						</td>
+						<td>
+							<input type="text" name="BACKMERCHANTURL"
+								value="$!{BACKMERCHANTURL}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							业务类型代码
+						</td>
+						<td>
+							<input type="text" name="BUSICODE" value="$!{BUSICODE}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							产品标识
+						</td>
+						<td>
+							<input type="text" name="PRODUCTID" value="$!{goods.code}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							产品描述
+						</td>
+						<td>
+							<input type="text" name="PRODUCTDESC" value="$!{goods.description}" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							MAC校验域
+						</td>
+						<td>
+							<input type="text" name="MAC" value="$!{MAC}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<input type="hidden" value="" id="BANKID" name="BANKID" />
+		</form>
+</div>
+
+#parse("footer_front.htm")

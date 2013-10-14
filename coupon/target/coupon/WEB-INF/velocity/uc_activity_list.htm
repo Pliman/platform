@@ -1,0 +1,150 @@
+#parse("header_front.htm")
+	<script type="text/javascript">
+		$('#uc_index').addClass('nav_contenton');
+	</script>
+				<div class="user_center">
+					<div class="w main">
+						<div class="uc_rt">
+						<form action="uc_activity_list" method="get" id="alForm">
+							<div class="sechcon flot" id="dvModi">
+							<label class="picked-title">活动搜索：</label>
+								<div class="ed_sech_top">
+									<p>
+										<span style="margin-left:80px;" class="inp_blk">地点：<input type="text"
+												value="$!{addr}" class="schtext" name="addr" id="txtKeywords">
+											关键词：<input type="text" value="$!{kw}" class="schtext" name="kw">
+										</span>
+									</p>
+									<p>
+										<input type="submit" value="立即搜索" class="normal_btn">
+											<!-- input type="button" value="清空" class="normal_btn" -->
+									</p>
+								</div>
+							</div>
+						</form>
+							<!--end for searchtop-->
+
+							<div class="">
+							<ul class="goods_list clear_in r5">
+							#foreach($activity in $activityList)
+										<li style="margin: 0 15px;" class="fl">
+											<a href="activityDetail.html?id=$!{activity.id}" target="_blank"> <img width="150px" title="$!{activity.title}"
+													height="150px" src="/coupon/goods0/img/$!{activity.pic_url}">
+											</a>
+										</li>
+							#end
+							</ul>
+
+								<!-- paging start -->
+							#if($activityList.size()>0 )
+								<div class="pages">
+								
+								#set($pageNo=${page}) ##当前页码   
+								#set($pageSum=${totalPage}) ##总页数   
+								#set($liststep = 4)      ##显示分页页数
+								#set($listpage = $pageNo - 1) 
+								#set($nextpage = $pageNo + 1)                               
+								#if($pageNo < 1)  
+								$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+								#end  
+							                      
+									#set($bar = $liststep/2)  
+							                     
+							                    #if(($pageNo - $bar) < 1)  
+							                    #set($listbegin = 1)  
+							                    #else  
+							                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+							                    #end  
+							                      
+							                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+							                      
+							                    #if($listend > $pageSum)  
+							                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+							                    #end  
+							                     
+							                     ##<strong>$pageNo</strong>                          ##显示当前页  
+							                      
+							                    #if($pageNo > 1)                 ##显示上一页处理  
+							                    <a href="uc_activity_list.html?p=$listpage&$!{queryString}" class="no_bg">上一页</a>  
+							                    #end  
+							                    #if($listbegin > 1)                  ##第一页控制  
+							                    <A href="#" rel=start>1</A><SPAN class=gap>…</SPAN>  
+							                    #end  
+							                      
+							                      
+							                    #foreach($i in [$listbegin..$listend])  
+							                    ##if($i <= $pageSum)             ##分页码的显示  
+							                        #if($i != $pageNo&&$i!=0)  
+							                        <a href="uc_activity_list.html?p=$i&$!{queryString}">$i</a>  
+							                        #else  
+							                      	<strong>$i</strong>   
+							                        #end  
+							                    ##end  
+							                      
+							                    #end  
+							                      
+							                    #if($listend < $pageSum)         ##最后一页的处理  
+							                    <SPAN class=gap>…</SPAN><A href="#" rel=start>$pageSum</A>  
+							                      
+							                    #end  
+							                    #if($pageNo != $pageSum)            ##显示下一页处理  
+							                   <a class="no_bg" href="uc_activity_list?p=$nextpage&$!{queryString}">下一页</a>  
+							                    #end
+							                    
+							 #else
+							 
+							 没有搜索到你要的结果  
+							 #end 
+							          </div>
+							<!-- paging end -->
+							
+							
+							</div>
+
+						</div>
+						<!--uc_left start-->
+						<div class="uc_left">
+							<div id="my360buy" class="m">
+								<div class="mt">
+									<h2>
+										<a href="uc_index"><strong>会员中心</strong> </a>
+									</h2>
+								</div>
+								<div class="mc">
+									<dl tag="1">
+										<dt tag="1">
+											账户中心
+											<b></b>
+										</dt>
+										<dd>
+											<div class="item">
+												<a href="uc_charge" tag="101">账户充值</a>
+											</div>
+											<div class="item">
+												<a href="uc_admin" tag="101">账户管理</a>
+											</div>
+										</dd>
+									</dl>
+									<dl tag="4">
+										<dt tag="4">
+											查询中心
+											<b></b>
+										</dt>
+										<dd>
+											<div class="item ">
+												<a href="uc_coupon_list" tag="101">优惠券查询</a>
+											</div>
+											<div class="item curr ">
+												<a href="uc_activity_list" tag="101">活动查询</a>
+											</div>
+									</dl>
+								</div>
+							</div>
+							<!--uc_left end-->
+							<div class="m" id="da-home"></div>
+						</div>
+						<div class="clr"></div>
+					</div>
+				</div>
+
+				#parse("footer_front.htm")

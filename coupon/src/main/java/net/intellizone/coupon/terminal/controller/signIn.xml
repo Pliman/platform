@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<result code="0" message="welcome!" />
+	<config>
+		<url>
+			<heartbeat>/coupon/cmd/heartbeat.do?method=mth</heartbeat>
+			<auth>/coupon/cmd/auth.do?method=mth</auth>
+			<coupon>/coupon/cmd/coupon.do?method=mth</coupon>
+			<printlog>
+				/coupon/cmd/printlog.do?method=afterPrint
+			</printlog>
+			<upload>/coupon/cmd/upload.do?method=mth</upload>
+			<alarm>/coupon/cmd/alarm.do?method=mth</alarm>
+			<default>/coupon/cmd/default.do?method=mth</default>
+			<logoconfirm>
+				/coupon/cmd/logoconfirm.do?method=mth
+			</logoconfirm>
+			<printconfirm>
+				/coupon/cmd/printconfirm.do?method=mth
+			</printconfirm>
+		</url>
+	</config>
+</root>

@@ -1,0 +1,19 @@
+##本页用于定义应用系统基本参数
+
+##应用上下文
+#set($appContext = ${request.getContextPath()})
+
+##应用图片地址
+#set($appPic = $appContext + "/res/images")
+
+##应用css地址
+#set($appCss = $appContext + "/res/css")
+
+##应用js地址
+#set($appJs = $appContext + "/res/js")
+
+##请求地址
+#set($requestURL = ${request.getRequestURL().toString()})
+
+##图片上传地址
+#set($appUploadedPic = $appContext + "/goods0/img")

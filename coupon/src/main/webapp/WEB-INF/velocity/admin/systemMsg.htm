@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<script language="javascript" src="/coupon/common/js/main.js"></script>
+
+<style type="text/css"></style>
+<script type="text/javascript">
+	function batchDel(){
+		if(confirm("确定删除选中的记录？")){
+			$('#batchOpType').val('mdel');
+			$('#batchForm').submit();
+		}
+	}
+</script>
+</head>
+<body>
+ 
+	
+	<form onsubmit="return confirm('确定要执行此操作?');" method="post" action="sysDel?a=8">
+	  <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="4%">选择</td>
+      <td class="title_bg" width="12%">编码</td>
+    <td class="title_bg" width="24%">名称</td>  
+	 <td class="title_bg" width="10%">描述</td>
+	  <td class="title_bg" width="10%">地址</td>
+      <td class="title_bg" width="10%">操作</td>
+    </tr>
+   #if($sysList.size()>0)
+       #foreach($sys in $sysList) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="sysId_list" onclick="unselectall()" value="$!{sys.id}" type="checkbox"></td>		
+		<td>$!{sys.code}</td>
+			<td>$!{sys.name}</td>
+		<td align="center">#set($str=$!{sys.description}) 
+				   #if($str.length()>23)
+				      #set($str=$str.substring(0,23)+"...")
+				     #end $str</td>
+		<td align="center">$!{sys.value}</td>
+		<td align="center">
+			<a href="/coupon/admin/sysUpdate.html?id=${sys.id}&a=4">编辑</a> 
+			<a href="/coupon/admin/sysDel.html?id=${sys.id}&a=3"  onclick="return confirm('确定要删除？');">删除</a>
+		</td>
+	</tr>
+	#end
+	#else
+	<tr>
+	<td colspan="6">无模版记录</td>
+	</tr>
+	#end
+		<tr>
+		<td colspan="6" class="tdbg">
+			<input name="chkAll" id="chkAll" onclick="CheckAll(this.form)" value="checkbox" type="checkbox"> 全选 
+			<input type="hidden" name="act" id="batchOpType" />
+			<input class="bnt01" value="批量删除" type="button" onclick="batchDel()"/>
+		</td>
+    </tr>
+
+      </tbody></table></form>
+</body>
+</html>

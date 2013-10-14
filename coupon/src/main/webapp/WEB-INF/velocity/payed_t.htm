@@ -1,0 +1,24 @@
+#parse("header_front.htm")
+
+<div class="List_cart marginb10">
+	<h2>
+		<strong></strong>
+	</h2>
+	<div class="cart_table">
+		<div class="tip_1">
+			<h1 style="font-size:18px;margin:20px;font-weight:700;text-align:center;">订单已提交</h1>
+		</div>
+		<div id="SucceedTipOtherPanel" class="tip_2" style="">
+			<p>
+				您的订单已经在处理中，现在，您可以：
+				<a onclick="this.blur();" href="$!{appContext}/uc/uc_order_list">查看订单状态</a>&nbsp;&nbsp;&nbsp;
+				<a onclick="this.blur();" href="$!{appContext}/index.htm">继续选购</a>
+			</p>
+		</div>
+	</div>
+	<div class="round">
+		<div class="lround"></div>
+		<div class="rround"></div>
+	</div>
+</div>
+#parse("footer_front.htm")

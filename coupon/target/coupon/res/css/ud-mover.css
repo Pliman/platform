@@ -1,0 +1,35 @@
+.mover_ud_left {
+	background: url(../images/ud_mover/mover_bar_bg.gif);
+	width: 74px;
+	height: 100%;
+	float: left;
+}
+
+.mover_ud_right {
+	background: url(../images/ud_mover/mover_bar_bg.gif);
+	width: 68px;
+	height: 100%;
+	float: left;
+}
+
+.mover_ud_up_org, .mover_ud_up_over, .mover_ud_down_org, .mover_ud_down_over {
+	width: 22px;
+	float: left;
+	height: 100%;
+}
+
+.mover_ud_up_org {
+	background: url(../images/ud_mover/up_org.gif);
+}
+
+.mover_ud_up_over {
+	background: url(../images/ud_mover/up_over.gif);
+}
+
+.mover_ud_down_org {
+	background: url(../images/ud_mover/down_org.gif);
+}
+
+.mover_ud_down_over {
+	background: url(../images/ud_mover/down_over.gif);
+}

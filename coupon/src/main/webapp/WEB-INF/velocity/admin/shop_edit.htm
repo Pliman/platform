@@ -1,0 +1,733 @@
+#parse("/common/common.htm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/fileuploader.css" />
+<script type="text/javascript" src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/swfobject.js"></script>
+<script type="text/javascript" src="/coupon/res/js/jquery.uploadify.v2.1.4.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/kindeditor-min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/zh_CN.js"></script>
+<script language="javascript" type="text/javascript" src="/coupon/res/js/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript" src="/coupon/res/js/jvalidate.js"></script>
+</head>
+
+<script type="text/javascript">
+
+jQuery.validator.addMethod("isMobile", function(value, element) {
+	var length = value.length;
+	return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));
+	}, "<span class='warn'>手机号格式不正确</span>");
+
+ String.prototype.trim=function(){
+	return this.replace(/(^\s*)|(\s*$)/g, "");
+ };
+ $().ready(function() {
+ $('#submitform').validate({
+	     rules: {
+			name:{
+	         	 required: true,
+	             maxlength:40	
+	         },
+
+	         address:{
+	         	 required: true,
+	             maxlength:40	
+	         }, 
+	         telephone1:{
+				required:true,
+				number: true ,
+				range:[0,16]
+		     },
+		     legal_person:{
+		    	 maxlength:20
+			     },
+			 corporation:{
+			    	 maxlength:40
+				 },
+			     contact:{
+					 maxlength:20
+				 }
+
+
+	 },
+	 messages: {
+		 name:{
+	     	 required: '不能为空',
+	         maxlength:'不能超过40个字符'	
+	     },
+	
+
+	     address:{
+	     	 required: '不能为空',
+	     	maxlength:'不能超过40个字符'	
+	     },
+	     telephone1:{
+			 required:'不能为空',
+			 number:'请输入数字',
+			 range:'请输入正确的电话格式'
+		 },
+		 legal_person:{
+			 maxlength:'不能超过20个字符'
+		     },
+		 corporation:{
+		    	 maxlength:'不能超过40个字符'
+				 },
+		 contact:{
+					 maxlength:'不能超过20个字符'
+				 }
+
+	 }
+	});
+ });
+</script>
+<script type="text/javascript">
+function onComplete(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+      	$("#upImg"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name=\"default_pic\" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+
+function onCompleteLogo(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+      	$("#upImg"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name=\"shop_logo\" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+
+function deleteMyHtml(obj){
+	$(obj).parent().parent().remove();
+	imgnum--;
+}
+var imgnum=0;
+function addImage(obj){
+		var html="";
+	    html= "<tr bgcolor=\"#ffffff\">";
+		html+="<td  colspan=\"2\">";
+		html+="<input type=\"file\"";
+		html+=" name=\"UpImgId";
+		//html+=imgnum;
+		html+="\"/><a onclick='deleteMyHtml(this)'>删除</a>";
+		html+="<td></td></tr>";
+
+	$(obj).parent().parent().after(html);
+	imgnum++
+}
+
+
+$(document).ready(function() {
+	$('#belong_bc').load("$!{appContext}/admin/city_bc?cityId=" + $('#belongCity').val());
+	
+	$('#belongCity').change(function(evt){
+		$('#belong_bc').load("$!{appContext}/admin/city_bc?cityId=" + $('#belongCity').val());
+	});
+
+  $('#default_pic').uploadify({
+
+    'uploader'  : '/coupon/res/js/uploadify.swf',
+
+    'script'    : '/coupon/admin/goods/upload',
+
+    'cancelImg' : '/coupon/res/js/cancel.png',
+    'scriptData'  : {'upImg':'1','age':30},
+    'buttonImg':'/coupon/common/img/nav_file.gif',
+    'folder'    : '/uploads',
+	'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+    'auto'      : true
+
+  });
+
+
+  $('#shop_logo').uploadify({
+
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+
+	    'script'    : '/coupon/admin/goods/upload',
+
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'2','age':30},
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onCompleteLogo(event, ID, fileObj, response, data);},
+	    'auto'      : true
+
+	  });
+  
+  });
+  </script>
+  
+  
+   <script type="text/javascript">
+	function chooseShop(){
+			$(".pop_win_bg").show();
+			$(".pop_win").show();
+			$("#loading").show();
+			$("#shopajax").html("<div class='load_div'></div>");
+			$("#shopajax").load("/coupon/admin/getShop.html");
+		}
+	
+	function close(){
+			$(".pop_win_bg").hide();
+			$(".pop_win").hide();
+		}
+
+	function belongShopCat(){
+		$(".pop_win_bg_l").show();
+		$(".pop_win_l").show();
+		$("#loading").show();
+		$("#catajax").html("<div class='load_div_l'></div>");
+		$("#catajax").load("/coupon/admin/belongShop.html?cat_type=1");
+
+
+	}
+	function closel(){
+		$(".pop_win_bg_l").hide();
+		$(".pop_win_l").hide();
+	}
+</script>
+<body>
+
+ #if( $a ==3 ) 
+
+<form action="shopAction?a=2" method="post" id="submitform">
+<input type="hidden" value="$!{p}" name="p" />
+<input type="hidden" value="$!{shop.id}" name="id"/>
+<input type="hidden" value="$!{shop.isverified}" name="isverified"/>
+ <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="4%">字段描述</td>
+      <td class="title_bg" width="22%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>商户名称：</td>
+       <td><input type="text" value="$!{shop.name}" name="name" class="gtext" id="name"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户描述：</td>
+       <td><textarea   name="description" style="width:50%;height:100px;font-size:12px;">$!{shop.description}</textarea></td>
+       </tr>
+       <tr bgcolor="#ffffff">
+      <td>商户详细描述：</td>
+       <td><textarea   name="shopDetail" style="width:50%;height:100px;font-size:12px;">$!{shop.shopDetail}</textarea></td>
+       </tr>
+        <tr bgcolor="#ffffff">
+      <td>商户地址：</td>
+       <td><input type="text" value="$!{shop.address}" name="address" class="gtext" id="address"/></td>
+       </tr>
+   
+        <tr bgcolor="#ffffff">
+      <td>商户电话：</td>
+       <td><input type="text" value="$!{shop.telephone}" name="telephone" class="gtext" id="telephone"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+		<td>商户类型：</td>
+       <td>
+	       <select value="$!{shop.shop_type}" name="shop_type" style="width:120px;">
+		       <option value="1">翼支付商户</option>
+		       <option value="2">优惠券商户</option>
+		       <option value="3">积分商户</option>
+	       </select>
+       </td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户性质：</td>
+       <td>
+	       <select value="$!{shop.shopProperties}" name="shopProperties" style="width:120px;">
+		       <option value="1">线上</option>
+		       <option value="2">线下</option>
+	       </select>
+       </td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>法人代表：</td>
+       <td><input type="text" value="$!{shop.legal_person}" name="legal_person" class="gtext" id="legal_person"/></td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>公司名称：</td>
+       <td><input type="text" value="$!{shop.corporation}" name="corporation" class="gtext" id="corporation"/></td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>商户联系人：</td>
+       <td><input type="text" value="$!{shop.contact}" name="contact" class="gtext" id="contact"/></td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>提供服务：</td>
+       <td>
+       <input type="checkbox" value="刷卡" name="service" 
+      	 #if($shop.service.indexOf("刷卡")>-1)
+       		checked="checked"
+      	#end
+      	/>刷卡
+       	<input type="checkbox" value="代泊车" name="service" 
+       	#if($shop.service.indexOf("代泊车")>-1)
+       		checked="checked"
+      	#end
+      />代泊车
+       </td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>优惠信息：</td>
+       <td><textarea style="width:50%;height:100px;font-size:12px;"  name="promoteInfo" id="promoteInfo">$!{shop.promoteInfo}</textarea></td>
+       </tr>
+       <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>商户地址经度</td>
+   			<td><input type="text" class="text_cls" value="$!{shop.x}" name="x" id="x"/>（经纬度查询地址：http://www.gpsspg.com/maps.htm）</td>
+   		</tr>
+   		
+   		  <tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>商户地址纬度</td>
+   			<td><input type="text" class="text_cls" value="$!{shop.y}" name="y" id="y"/>（经纬度查询地址：http://www.gpsspg.com/maps.htm）</td>
+   		</tr>
+        <tr bgcolor="#ffffff">
+      <td>所属总店：</td>
+       <td><input type="text" value="#if($shop.p_id==0)总店 #else ${shop.pshop.name} #end" id="shopName"/><input type="hidden" value="$!{shop.p_id}" name="p_id" id="belong_shop"/><a href="javascript:chooseShop();">选择商户</td>
+       </tr>
+        <tr bgcolor="#ffffff">
+      <td>所属城市、商圈与类别：</td>
+       <td><select style="width:120px;"  name="belongCity" id="belongCity">
+				            <option value="0">所有城市</option>
+				             #foreach($obj in $cityList)
+							<option style="color:RED;" value="${obj.id}"  #if(${shop.belongCity}==${obj.id}) selected="selected" #end>${obj.city}</option>
+							 #end
+				        </select> 
+       <select style="width:120px;"  name="belong_bc" id="belong_bc">
+				            <option value="0">所有商圈</option>
+				             #foreach($obj in $bussinessCircleList)
+							<option style="color:RED;" value="${obj.id}"  #if(${shop.belong_bc}==${obj.id}) selected="selected" #end>${obj.bc_name}</option>
+							 #end
+				        </select>
+				        <input type="text"  value="#foreach($obj in $shopCategoryList)#if(${shop.belong_shopcat}==${obj.category_id})$!{obj.category_name} #end#end" id="belong_shopcat"/>
+				        <input type="hidden" value="$!{shop.belong_shopcat}" name="belong_shopcat" id="belong_shopcatvalue"/>
+				        <a href="javascript:belongShopCat();">所属分类</a>
+				        
+				<!--<select style="width:80px;" id="ddlType" name="belong_shopcat">
+				            <option value="0" >所有分类</option>
+				            #foreach($obj in $shopCategoryList) 
+				            <option style="color:RED;" value="${obj.category_id}" #if(${shop.belong_shopcat}==${obj.category_id}) selected="selected" #end>${obj.category_name}</option>
+				            
+						           #if(${obj.shopCategoryList}&&$obj.shopCategoryList.size()>0)
+						            	#foreach($subobj in $obj.shopCategoryList) 
+						            	  <option style="color:#333;" value="${subobj.category_id}" #if(${shop.belong_shopcat}==${subobj.category_id}) selected="selected" #end>--${subobj.category_name}</option>
+						            	      
+						            	        #if(${subobj.shopCategoryList}&&$subobj.shopCategoryList.size()>0)
+						            	       		 #foreach($subobj2 in $subobj.shopCategoryList)
+						            	        	  sss<option style="color:#333;" value="${subobj2.category_id}" #if(${shop.belong_shopcat}==${subobj2.category_id}) selected="selected" #end>----${subobj2.category_name}</option>
+						            	        #end
+						            	         #end
+						            	  #end
+						            #end
+				            #end
+				        </select> 
+				        
+			--></td>
+       </tr>
+       
+       
+
+         <tr bgcolor="#ffffff">
+		      <td>商户LOGO图片：</br><strong style="color:red">(图片 长宽比例:1.3:1，</br>图片格式;JPG,PNG,GIF)</strong></td>
+		       <td>	#if(${shop.shop_logo})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{shop.shop_logo}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{shop.shop_logo}" name="shop_logo"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg2">
+      		<input id="shop_logo" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg2"><input type="file" value="" name="file" id="shop_logo"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			
+   			#end
+   			
+   			</td>
+		  </tr>
+       
+       
+		  <tr bgcolor="#ffffff">
+		      <td>商户默认图片：</br><strong style="color:red">(图片 长宽比例:1.3:1，</br>图片格式;JPG,PNG,GIF)</td>
+		       <td>	#if(${shop.default_pic})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{shop.default_pic}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{shop.default_pic}" name="default_pic"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg1">
+      		<input id="default_pic" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg1"><input type="file" value="" name="file" id="default_pic"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			
+   			#end
+   			
+   			</td>
+		  </tr>
+		  
+
+		  
+		    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="" class="save gbtn"/> <input type="button" value=""  class="cancel gbtn" onclick="history.go(-1)"/></td>
+		  </tr>
+		  
+		  
+		 
+      </tbody>
+      </table>
+      </form>
+      
+   <form action='/coupon/admin/shopupload' method='post' enctype="multipart/form-data">
+   		<input type="hidden" value="3" name="a"/>
+   		<input type="hidden" value="$!{p}" name="p" />
+		<input type="hidden" value="$!{shop.id}" name="id"/>
+       <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+      <tr bgcolor="#ffffff">
+	    	  <td  colspan="3">商家图片展示<a onclick="javascript:addImage(this);" style="float:right;margin-right:20px;">添加一张</a></td>
+      		</tr>
+      		
+      	#if($shop.shopPicList.size()>0 )	
+	        #foreach($img in $shop.shopPicList) 
+		       <tr bgcolor="#ffffff">
+		    	  <td width="20%">更多图片：</td>
+		      	  <td width="60%"><img src="/coupon/goods0/img/$!{img.url}"  width="100" height="100"/></td>
+		       	  <td width="20%"><a href="/coupon/admin/deleteShopPic.html?id=$!{img.id}&a=3&shopId=$!{shop.id}">删除图片</a></td>
+		       </tr>
+		       
+	       #end
+		  #else
+		  
+		  	  <tr bgcolor="#ffffff">
+	    	  <td  colspan="3" style="color:#ff3366">你还没有上传图片&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      		</tr>
+		  #end
+		  <tr bgcolor="#ffffff">
+	      <td>图片操作：</td>
+	       <td><input type="submit" value="上传"/></td>
+	        <td width="20%"></td>
+	       </tr>
+		  </form>
+		  
+		  
+		    </tbody>
+      </table>
+
+#end 
+
+ #if( $a ==4 ) 
+    <form action='/coupon/admin/shopaddupload' method='post' enctype="multipart/form-data" id="submitform">
+ 	<input type="hidden" value="1" name="a"/>
+   <input type="hidden" value="$!{shop.id}" name="id"/>
+ <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody>
+    <tr>
+      <td class="title_bg" width="4%">字段描述</td>
+      <td class="title_bg" width="22%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>商户名称：</td>
+       <td><input type="text" value="$!{shop.name}" name="name" class="gtext" id="name"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户描述：</td>
+       <td><textarea   name="description" style="width:50%;height:100px;font-size:12px;">$!{shop.description}</textarea></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户地址：</td>
+       <td><input type="text" value="$!{shop.address}" name="address" class="gtext" id="address"/></td>
+       </tr>
+   
+        <tr bgcolor="#ffffff">
+      <td>商户电话：</td>
+       <td><input type="text" value="$!{shop.telephone}" name="telephone" class="gtext" id="telephone"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+		<td>商户类型：</td>
+       <td>
+	       <select value="$!{shop.shop_type}" name="shop_type" style="width:120px;">
+		       <option value="1">翼支付商户</option>
+		       <option value="2">优惠券商户</option>
+		       <option value="3">积分商户</option>
+	       </select>
+       </td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商户性质：</td>
+       <td>
+	       <select value="$!{shop.shopProperties}" name="shopProperties" style="width:120px;">
+		       <option value="1">线上</option>
+		       <option value="2">线下</option>
+	       </select>
+       </td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>法人代表：</td>
+       <td><input type="text" value="$!{shop.legal_person}" name="legal_person" class="gtext" id="legal_person"/></td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>公司名称：</td>
+       <td><input type="text" value="$!{shop.corporation}" name="corporation" class="gtext" id="corporation"/></td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>商户联系人：</td>
+       <td><input type="text" value="$!{shop.contact}" name="contact" class="gtext" id="contact"/></td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>提供服务：</td>
+       <td>
+       <input type="checkbox" value="刷卡" name="service" 
+      	 #if($shop.service.indexOf("刷卡")>-1)
+       		checked="checked"
+      	#end
+      	/>刷卡
+       	<input type="checkbox" value="代泊车" name="service" 
+       	#if($shop.service.indexOf("代泊车")>-1)
+       		checked="checked"
+      	#end
+      />代泊车
+       </td>
+       </tr>
+       
+       <tr bgcolor="#ffffff">
+      <td>优惠信息：</td>
+       <td><textarea style="width:50%;height:100px;font-size:12px;" name="promoteInfo" id="promoteInfo"></textarea></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>所属总店：</td>
+       <td><input type="text" value="#if($shop.p_id==0)总店 #else ${shop.pshop.name} #end" id="shopName"/><input type="hidden" value="$!{shop.p_id}" name="p_id" id="belong_shop"/><a href="javascript:chooseShop();">选择商户</td>
+       </tr>
+        <tr bgcolor="#ffffff">
+      <td>所属城市、商圈与类别：</td>
+       <td><select style="width:120px;"  name="belongCity" id="belongCity">
+				            <option value="0">所有城市</option>
+				             #foreach($obj in $cityList)
+							<option style="color:RED;" value="${obj.id}"  #if(${shop.belongCity}==${obj.id}) selected="selected" #end>${obj.city}</option>
+							 #end
+				        </select> 
+       <select style="width:120px;"  name="belong_bc" id="belong_bc">
+				            <option value="0">所有商圈</option>
+				             #foreach($obj in $bussinessCircleList)
+							<option style="color:RED;" value="${obj.id}"  #if(${shop.belong_bc}==${obj.id}) selected="selected" #end>${obj.bc_name}</option>
+							 #end
+				        </select>
+				       	 <input type="text"  value="" id="belong_shopcat"/>
+				        <input type="hidden" value="$!{shop.belong_shopcat}" name="belong_shopcat" id="belong_shopcatvalue"/>
+				        <a href="javascript:belongShopCat();">所属分类</a>
+				        
+				<!--<select style="width:80px;" id="ddlType" name="belong_shopcat">
+				            <option value="0" >所有分类</option>
+				            #foreach($obj in $shopCategoryList) 
+				            <option style="color:RED;" value="${obj.category_id}" #if(${shop.belong_shopcat}==${obj.category_id}) selected="selected" #end>${obj.category_name}</option>
+				            
+						           #if(${obj.shopCategoryList}&&$obj.shopCategoryList.size()>0)
+						            	#foreach($subobj in $obj.shopCategoryList) 
+						            	  <option style="color:#333;" value="${subobj.category_id}" #if(${shop.belong_shopcat}==${subobj.category_id}) selected="selected" #end>--${subobj.category_name}</option>
+						            	      
+						            	        #if(${subobj.shopCategoryList}&&$subobj.shopCategoryList.size()>0)
+						            	       		 #foreach($subobj2 in $subobj.shopCategoryList)
+						            	        	  sss<option style="color:#333;" value="${subobj2.category_id}" #if(${shop.belong_shopcat}==${subobj2.category_id}) selected="selected" #end>----${subobj2.category_name}</option>
+						            	        #end
+						            	         #end
+						            	  #end
+						            #end
+				            #end
+				        </select> 
+				        
+			--></td>
+       </tr>
+       
+       
+    
+     <tr bgcolor="#ffffff">
+		      <td>商户LOGO图片：</br><strong style="color:red">(图片 长宽比例:1.3:1，</br>图片格式;JPG,PNG,GIF)</td>
+		       <td>	#if(${shop.shop_logo})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{shop.shop_logo}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{shop.shop_logo}" name="shop_logo"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg2">
+      		<input id="shop_logo" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg2"><input type="file" value="" name="file" id="shop_logo"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			
+   			#end
+       
+       	  <tr bgcolor="#ffffff">
+		      <td>商户默认图片：</br><strong style="color:red">(图片 长宽比例:1.3:1，</br>图片格式;JPG,PNG,GIF)</td>
+		       <td>	#if(${shop.default_pic})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{shop.default_pic}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{shop.default_pic}" name="default_pic"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg1">
+      		<input id="default_pic" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg1"><input type="file" value="" name="file" id="default_pic"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			
+   			#end
+   			
+   			</td>
+		  </tr>
+		  
+
+		  
+	
+		  
+		 
+      </tbody>
+      </table>
+     
+      
+
+   	
+       <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+      <tbody>
+      <tr bgcolor="#ffffff">
+	    	  <td  colspan="3">商家图片展示<a onclick="javascript:addImage(this);" style="float:right;margin-right:20px;">添加一张</a></td>
+      		</tr>
+      		
+      	#if($shop.shopPicList.size()>0 )	
+	        #foreach($img in $shop.shopPicList) 
+		       <tr bgcolor="#ffffff">
+		    	  <td width="20%">更多图片：</td>
+		      	  <td width="60%"><img src="/coupon/goods0/img/$!{img.url}"  width="100" height="100"/></td>
+		       	  <td width="20%"><a href="/coupon/admin/deleteShopPic.html?id=$!{img.id}&a=3&shopId=$!{shop.id}">删除图片</a></td>
+		       </tr>
+		       
+	       #end
+		  #else
+		  
+		  	  <tr bgcolor="#ffffff">
+	    	  <td  colspan="3" style="color:#ff3366">你还没有上传图片&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      		</tr>
+		  #end
+		  <!--<tr bgcolor="#ffffff">
+	      <td>图片操作：</td>
+	       <td><input type="submit" value="上传"/></td>
+	        <td width="20%"></td>
+	       </tr>-->
+	       
+	       	    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="" class="save gbtn"/> <input type="button" value="" onclick="history.go(-1)" class="cancel gbtn"/></td>
+		   <td></td>
+		  </tr>
+		  
+	
+		  
+		  
+		    </tbody>
+      </table>
+      </form>
+ #end 
+ 
+ 
+   
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+
+
+
+
+<h3>请选择商户</h3>
+
+<div class="" id="pop_win_login">
+ 
+ 	<div id="shopajax">
+ 		
+ 	</div>
+
+</div>
+
+</div>
+ 
+ 
+ 
+  <div class="pop_win_bg_l" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win_l" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:closel();" >X</a>
+
+
+
+
+<h3>请选择类别</h3>
+
+<div class="" id="pop_win_login">
+ 
+ 	<div id="catajax">
+ 		
+ 	</div>
+
+</div>
+
+</div>
+ 
+ 
+ 
+</body>
+</html>

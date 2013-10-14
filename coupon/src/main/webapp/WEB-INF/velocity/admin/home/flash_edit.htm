@@ -1,0 +1,2058 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>推荐模块编辑</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="/coupon/res/js/fileuploader.css" />
+<script type="text/javascript" src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/swfobject.js"></script>
+<script type="text/javascript" src="/coupon/res/js/jquery.uploadify.v2.1.4.min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/kindeditor-min.js"></script>
+<script type="text/javascript" src="/coupon/res/js/zh_CN.js"></script>
+<script language="javascript" type="text/javascript" src="/coupon/res/js/WdatePicker.js"></script>
+
+<script type="text/javascript">
+function onComplete(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+		var hname="objList["+(upImg-1)+"].imgurl";
+      	$("#upImg"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name="+hname+" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+
+
+
+
+function onCompleteErwei(event, ID, fileObj, response, data){
+	var json= eval("(" + response + ")");
+	var upImg=json.upImg;
+	
+	var imageId=json.imageId;
+	var success=json.success;
+	
+	if(success==true){
+      	$("#erwei"+upImg).parent().prev().html("<span><img src=\"/coupon/goods0/img/"+json.picname +"\"alt=\"\" width=\"200\" height=\"200\"/></span>"+"<input type=\"hidden\" name=\"ercode\" value=\""+json.picname+"\"/>");
+
+    }else{
+  	    alert("上传失败");
+    }
+}
+$(document).ready(function() {
+
+
+
+
+});
+
+</script>
+
+
+
+</head>
+<body>
+
+<div class="navigation">
+	模块管理
+</div>
+#if ($type==2)
+	<script type="text/javascript">
+			function chooseAct(num,obj){
+					
+					$("#actajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#actajax").html("<div class='load_div'></div>");
+					$("#actajax").load("/coupon/admin/getAct.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择活动</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="actajax">
+		 	</div>
+		</div>
+	</div>
+
+
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="2" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseAct($velocityCount,this);">选择活动</a></td>
+ 		</tr>
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>活动$velocityCount（图片长宽为724*270）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+
+
+#if ($type==3)
+	 <script type="text/javascript">
+	   function orderHome(order){
+			if(id!= null){
+			
+			window.location.href="coupon/admin/orderHome.html?orderHome="+order+"&id="+id+"&type="+type; 
+			}
+		
+		}
+			function chooseShop(num,obj){
+					$("#shopajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-200;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#shopajax").html("<div class='load_div'></div>");
+					$("#shopajax").load("/coupon/admin/getShop.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+	<h3>请选择商户</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="shopajax">
+		 	</div>
+		</div>
+	</div>
+		
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	  function moveDown(obj,count,id,type) {
+	  	var tempHtml=$("#table"+count).clone();
+	  	var table=' <table cellspacing="1" id="table'+count+'" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">';
+	  	$("#table"+count).next().after(table+tempHtml.html()+"</table>");
+	  	$("#table"+count).remove();
+	  	$(".orderHome").each(function(i){
+	  		$(this).val(i+1);
+	  	})
+	  	//$("#next").load("/coupon/admin/orderHome.html?orderHome="+count+"&id="+id+"&type="+type);
+	  	//window.location.href="/coupon/admin/orderHome.html?orderHome="+count+"&id="+id+"&type="+type;
+	  }
+	   function moveUp(obj,count,id,type){
+		var tempHtml = $("#table"+count).clone();
+		var table=' <table cellspacing="1" id="table'+count+'" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">';
+	  	$("#table"+count).next().after(table+tempHtml.html()+"</table>");
+	  	$("#table"+count).remove();
+	  	$(".orderHome").each(function(i){
+	  		$(this).val(i+1);
+	  	})
+	  }
+	 
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="3" name="type"/>	
+		
+  
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+	 <table cellspacing="1" id="table$velocityCount" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   	
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		<input type="hidden" value="$!{homePage.orderHome}" name="objList[$count].orderHome" class="orderHome"/>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td>
+ 			<input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseShop($velocityCount,this);">选择商户</a>
+ 			
+ 			#**<select name="orderHome" id="orderHome" onChange="window.location.href='/coupon/admin/orderHome.html?orderHome='+this.value+'&id=$!{homePage.id}&type=$!{homePage.type}'; ">
+ 				<option valie="0" selected = "selected" >排位</option>
+ 				#foreach($order in $homePageList)
+ 				<option value="$velocityCount" >$velocityCount</option>
+ 				#end
+ 			</select>**#
+ 			<!--<a onclick="javascript:moveDown(this,$velocityCount,$!{homePage.id},$!{homePage.type})" id="next">下移</a>
+ 			<a onclick="javascript:moveUp(this,$velocityCount,$!{homePage.id},$!{homePage.type})" id="next">上移</a>
+ 			--></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>首页商户推荐图片$velocityCount（图片长宽为92*70）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   		 	</table>
+		
+   			
+   		#end
+ <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   	
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+  	</table>
+	</form>
+   </div>
+	#end
+	
+	
+	
+	#if ($type==4)
+	<script type="text/javascript">
+			function chooseCoupon(num,obj){
+					$("#couponajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+						var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#couponajax").html("<div class='load_div'></div>");
+					$("#couponajax").load("/coupon/admin/getCoupon.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择优惠劵</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="couponajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="4" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>优惠劵$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseCoupon($velocityCount,this);">请选择优惠劵</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>优惠劵$velocityCount主题</td>
+ 			<td><input type="text" value="$!{homePage.couponTitle}" name="objList[$count].couponTitle" style="width:250px;height:24px;" /></td>
+ 			<td></td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>优惠劵$velocityCount价格</td>
+ 			<td><input type="text" value="$!{homePage.couponPrice}" name="objList[$count].couponPrice" style="width:250px;height:24px;" /></td>
+ 			<td></td>
+ 		</tr>
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为173*100）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+
+
+
+
+
+	#if ($type==5)
+	<script type="text/javascript">
+			function chooseShop(num,obj){
+					$("#shopajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+						var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#shopajax").html("<div class='load_div'></div>");
+					$("#shopajax").load("/coupon/admin/getShop.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+	<h3>请选择商户</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="shopajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="5" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseShop($velocityCount,this);">选择商户</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为180*170）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+
+
+
+
+
+
+
+	#if ($type==6)
+	<script type="text/javascript">
+			function chooseCoupon(num,obj){
+					$("#couponajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#couponajax").html("<div class='load_div'></div>");
+					$("#couponajax").load("/coupon/admin/getCoupon.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择优惠劵</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="couponajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="6" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseCoupon($velocityCount,this);">请选择优惠劵</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为140*227）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+
+
+
+
+
+	#if ($type==7)
+	<script type="text/javascript">
+			function chooseAct(num,obj){
+					$("#actajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#actajax").html("<div class='load_div'></div>");
+					$("#actajax").load("/coupon/admin/getAct.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择活动</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="actajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="7" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseAct($velocityCount,this);">选择活动</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为140*227）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- >input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+
+
+
+
+	#if ($type==8)
+	<script type="text/javascript">
+			function chooseShop(num,obj){
+					$("#shopajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#shopajax").html("<div class='load_div'></div>");
+					$("#shopajax").load("/coupon/admin/getShop.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+	<h3>请选择商户</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="shopajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="8" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseShop($velocityCount,this);">选择商户</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为140*225）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/  --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+	
+	
+	
+	
+		#if ($type==9)
+		<script type="text/javascript">
+			function chooseCoupon(num,obj){
+					$("#couponajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#couponajax").html("<div class='load_div'></div>");
+					$("#couponajax").load("/coupon/admin/getCoupon.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择优惠劵</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="couponajax">
+		 	</div>
+		</div>
+	</div>
+		
+		
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="9" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseCoupon($velocityCount,this);">请选择优惠劵</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为225*90）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+	
+	
+	
+		#if ($type==10)
+		<script type="text/javascript">
+			function chooseAct(num,obj){
+					$("#actajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#actajax").html("<div class='load_div'></div>");
+					$("#actajax").load("/coupon/admin/getAct.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择活动</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="actajax">
+		 	</div>
+		</div>
+	</div>
+		
+		
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="10" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseAct($velocityCount,this);">选择活动</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为90*90）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+   			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+
+
+#if ($type==13)
+		<script type="text/javascript">
+			function chooseAct(num,obj){
+					$("#actajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#actajax").html("<div class='load_div'></div>");
+					$("#actajax").load("/coupon/admin/getAct.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择活动</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="actajax">
+		 	</div>
+		</div>
+	</div>
+		
+		
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="13" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseAct($velocityCount,this);">选择活动</a></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为380*160）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>商户主题</td>
+   			<td>
+   				<input type="text" name="objList[$count].title" value="$!{homePage.title}"/>
+   			</td>
+   			
+   		</tr>
+   		
+   		
+   		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>商户主题描述</td>
+   			<td>
+   			<textarea style="width: 500px;height:50px;"   name="objList[$count].description">$!{homePage.description}</textarea>
+   			  <td></td>
+   			</td>
+   			
+   		</tr>
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+ 
+   
+   
+   
+   
+   
+   
+   
+   
+   #if ($type==14)
+		<script type="text/javascript">
+			function chooseAct(num,obj){
+					$("#actajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#actajax").html("<div class='load_div'></div>");
+					$("#actajax").load("/coupon/admin/getAct.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择活动</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="actajax">
+		 	</div>
+		</div>
+	</div>
+		
+		
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="14" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseAct($velocityCount,this);">选择活动</a></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为90*90）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   		
+   		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>精选活动$velocityCount描述</td>
+   			<td>
+   			<textarea style="width: 500px;height:50px;"   name="objList[$count].description">$!{homePage.description}</textarea>
+   			  
+   			</td>
+   			<td></td>
+   		</tr>
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ #if ($type==15)
+	<script type="text/javascript">
+			function chooseShop(num,obj){
+					$("#shopajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#shopajax").html("<div class='load_div'></div>");
+					$("#shopajax").load("/coupon/admin/getShop.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+	<h3>请选择商户</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="shopajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="15" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseShop($velocityCount,this);">选择商户</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/  --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	#if ($type==16)
+	<script type="text/javascript">
+			function chooseShop(num,obj){
+					$("#shopajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#shopajax").html("<div class='load_div'></div>");
+					$("#shopajax").load("/coupon/admin/getShop.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+	<h3>请选择商户</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="shopajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="16" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseShop($velocityCount,this);">选择商户</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为160*50）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+	
+	
+	
+	
+	
+	#if ($type==17)
+	<script type="text/javascript">
+			function chooseCoupon(num,obj){
+					$("#couponajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#couponajax").html("<div class='load_div'></div>");
+					$("#couponajax").load("/coupon/admin/getCoupon.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+		<h3>请选择优惠劵</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="couponajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="17" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>优惠劵$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseCoupon($velocityCount,this);">请选择优惠劵</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>优惠劵$velocityCount主题</td>
+ 			<td><input type="text" value="$!{homePage.couponTitle}" name="objList[$count].couponTitle" style="width:250px;height:24px;" /></td>
+ 			<td></td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>优惠劵$velocityCount价格</td>
+ 			<td><input type="text" value="$!{homePage.couponPrice}" name="objList[$count].couponPrice" style="width:250px;height:24px;" /></td>
+ 			<td></td>
+ 		</tr>
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount（图片长宽为215*188）</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+	
+	
+	
+	
+	#if ($type==18)
+	<script type="text/javascript">
+			function chooseShop(num,obj){
+					$("#shopajax").attr("currentText",num);
+					$(".pop_win_bg").show();
+					var y=$(obj).offset().top-100;
+					$(".pop_win").css("top",y);
+					$(".pop_win").show();
+					$("#loading").show();
+					$("#shopajax").html("<div class='load_div'></div>");
+					$("#shopajax").load("/coupon/admin/getShop.html?from=1");
+				}
+			function close(){
+					$(".pop_win_bg").hide();
+					$(".pop_win").hide();
+				}
+	</script>
+    <div class="pop_win_bg" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+    <div class="pop_win" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;"><a class="pop_win_close" href="javascript:close();" >X</a>
+	<h3>请选择商户</h3>
+		<div class="" id="pop_win_login">
+		 	<div id="shopajax">
+		 	</div>
+		</div>
+	</div>
+	
+	
+   <div id="goodsadd" class="goodsadd" style="margin-top:50px;padding:10px;">
+   
+   <script type="text/javascript">
+   
+ 	$(document).ready(function() {
+ 	#foreach($homePage in $homePageList) 
+	  $('#file_upload$velocityCount').uploadify({
+	
+	    'uploader'  : '/coupon/res/js/uploadify.swf',
+	
+	    'script'    : '/coupon/admin/goods/upload',
+	
+	    'cancelImg' : '/coupon/res/js/cancel.png',
+	    'scriptData'  : {'upImg':'$velocityCount','age':30},
+	    'buttonImg':'/coupon/common/img/nav_file.gif',
+	    'folder'    : '/uploads',
+		'onComplete':function(event, ID, fileObj, response, data) {onComplete(event, ID, fileObj, response, data);},
+	    'auto'      : true
+	
+	  });
+	 
+	  #end
+	   });
+	</script>
+   <form action="homeAction.html?a=2" method="post">
+   	<input type="hidden" value="18" name="type"/>	
+		
+   <table cellspacing="1" cellpadding="2" border="0" bgcolor="#d1ddaa" align="center" width="98%" style="margin-top: 8px;">
+   		<!--<tr height="22" bgcolor="#fafaf1" align="left">
+   			<td>标题</td>
+   			<td><input type="text" class="text_cls" value="$!{goods.name}" name="name"/></td>
+   		</tr>-->
+   		
+   		
+ 	#foreach($homePage in $homePageList) 
+ 	#set($count= $velocityCount - 1)
+
+ 		<input type="hidden" value="$!{homePage.id}" name="objList[$count].id"/>
+ 		<input type="hidden" value="$!{homePage.type}" name="objList[$count].type"/>
+ 		
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount文字</td>
+ 			<td><input type="text" value="$!{homePage.description}" name="objList[$count].description" style="width:250px;height:24px;"/></td>
+ 			<td>
+ 			#if ($homePage.top == 0)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">固顶</a>
+ 			#end
+ 			#if($homePage.top == 1)
+ 			<a href="/coupon/admin/topAction.html?type=$!{homePage.type}&id=$!{homePage.id}&top=$!{homePage.top}">解固</a>
+ 			#end
+ 			</td>
+ 		</tr>
+ 		<tr height="22" bgcolor="#fafaf1" align="center">
+ 			<td>图片$velocityCount链接</td>
+ 			<td><input type="text" value="$!{homePage.link}" name="objList[$count].link" style="width:250px;height:24px;" id="linkid$velocityCount"/><a onclick="javascript:chooseShop($velocityCount,this);">选择商户</a></td>
+ 			<td></td>
+ 		</tr>
+ 		
+ 		
+		<tr height="22" bgcolor="#fafaf1" align="center">
+   			<td>图片$velocityCount</td>
+   			<td>
+   			#if(${homePage.imgurl})
+   			<p class="prew_img"><img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="200" height="200"/>
+   			<input type="hidden" value="$!{homePage.imgurl}" name="objList[$count].imgurl"/>
+   			</p>
+   			<p class="inputForm">
+   			<span id="upImg$velocityCount">
+      		<input id="file_upload$velocityCount" name="file" type="file"/>
+   			<!--<input type="button" value="上传" onclick="beginUpload(this);"/>-->
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>-->
+   			</span>
+   			</p>
+   			#else
+   			
+   			<p class="wait_img">等待上传图片</p>
+   			<p class="inputForm"><span id="upImg$velocityCount"><input type="file" value="" name="file" id="file_upload$velocityCount"/>
+   			<!-- <a href="javascript:;" onclick="beginUpload(this);">上传</a>--></span>
+   			</p>
+   			#end
+   			</td>
+   			<td></td>
+   		</tr>
+   			
+   		#end
+
+   		  <tr height="22" bgcolor="#fafaf1" align="center">
+   			<td></td>
+   			<td><input type="submit" value="保存"/> 
+			<!-- input type="button" value="返回 " onclick="history.go(-1)"/ --> </td>
+			<td></td>
+   		</tr>
+   	</table>
+		
+	</form>
+   </div>
+	#end
+	
+	
+	
+	
+	
+	
+</body>
+</html>

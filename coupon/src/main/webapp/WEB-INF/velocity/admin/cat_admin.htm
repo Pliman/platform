@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<script language="javascript" src="/coupon/common/js/main.js"></script>
+
+<style type="text/css"></style>
+<script type="text/javascript">
+	function batchDel(){
+		if(confirm("确定删除选中的记录？")){
+			$('#batchOpType').val('mdel');
+			$('#batchForm').submit();
+		}
+	}
+</script>
+</head>
+<body>
+ 
+	
+	<form onsubmit="return confirm('确定要执行？');" method="post" action="catAction.html?a=8&cat_type=${cat_type}">
+	  <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="4%">选择</td>
+      <td class="title_bg" width="12%">类别名</td>
+    <td class="title_bg" width="24%">类别描述</td>  
+	 <td class="title_bg" width="10%">是否可见</td>
+	  
+      <td class="title_bg" width="10%">操作</td>
+    </tr>
+   #if($shopCategoryList.size()>0)
+       #foreach($cat in $shopCategoryList) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="id_type" onclick="unselectall()" value="$!{cat.category_id}" type="checkbox"></td>		
+		<td><a href="/coupon/admin/catadmin.html?pid=$!{cat.category_id}&cat_type=${cat_type}">$!{cat.category_name}</a></td>
+		<td align="center">#set($str=$!{cat.category_desc}) 
+				   #if($str.length()>23)
+				      #set($str=$str.substring(0,23)+"...")
+				     #end $str</td>
+		<td align="center">#if(${cat.isvisible}==0)是 #end #if(${cat.isvisible}==-1)否 #end</td>
+		<td align="center">
+			<a href="/coupon/admin/catAction.html?a=3&category_id=$!{cat.category_id}&p=$p&cat_type=${cat_type}">编辑</a> 
+			<a href="/coupon/admin/catAction.html?a=5&category_id=$!{cat.category_id}&p=$p&cat_type=${cat_type}"  onclick="return confirm('确定要删除？');">删除</a>
+		</td>
+	</tr>
+	#end
+	#else
+	<tr>
+	<td colspan="5">该分类下没有子分类</td>
+	</tr>
+	#end
+		<tr>
+		<td colspan="5" class="tdbg">
+			<input name="chkAll" id="chkAll" onclick="CheckAll(this.form)" value="checkbox" type="checkbox"> 全选 
+			<input type="hidden" name="act" id="batchOpType" />
+			<input class="bnt01" value="批量删除" type="button" onclick="batchDel()"/>
+			<a href="/coupon/admin/catAction.html?a=4&cat_type=${cat_type}&pid=${pid}" class="tjbtn">添加</a>
+		</td>
+    </tr>
+
+      </tbody></table></form>
+</body>
+</html>

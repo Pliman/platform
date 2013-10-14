@@ -1,0 +1,23 @@
+
+        
+        	<div class="week">
+							<div class="week_I">
+								<h2>
+									精选商户
+								</h2>
+								<div>
+								 #foreach($homePage in $homePageList)
+									<ul class="week_A">
+										<li>
+											<p class="jing_hongse"></p>
+											<a target="_blank" href="$!{homePage.link}">
+												<img width="225" height="140" src="/coupon/goods0/img/$!{homePage.imgurl}">
+											</a>
+										</li>
+									</ul>
+									  #end
+									  <div class="week_I_btm" style="border:0;width:238px;"></div>
+								</div>
+							</div>
+						</div>
+        

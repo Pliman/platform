@@ -1,0 +1,10 @@
+<div class="coupon">
+        <h2 style="color:#578307;font-size:16px;font-weight:700">推荐商户</h2>
+        <ul>
+        #foreach($homePage in $homePageList)
+           <li>
+            <p class="coupon_A"> <a href="$!{homePage.link}" target="_blank"> <img height="210" width="210" src="/coupon/goods0/img/$!{homePage.imgurl}"></a> </p>
+          </li>
+          #end
+         </ul>
+      </div>

@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<script language="javascript" type="text/javascript"
+			src="/coupon/res/js/WdatePicker.js"></script>
+<script language="javascript" src="/coupon/common/js/main.js"></script>
+<style type="text/css"></style>
+<script language="javascript" src="/coupon/common/js/main.js"></script>
+
+<script type="text/javascript">
+function setvalue(){
+	if(document.getElementById("searchShop").value=="3"){
+		document.getElementById("zt").value = "注意：1为审核通过；0为审核中; -1为审核未通过";
+		document.getElementById("zt").style.color="#666666";
+		document.getElementById("time").style.display="none";
+		document.getElementById("text").style.display="block";
+	}else if(document.getElementById("searchShop").value=="4"){
+		document.getElementById("time").style.display="block";
+		document.getElementById("text").style.display="none";
+	}else{
+		document.getElementById("zt").value = "";
+		document.getElementById("time").style.display="none";
+		document.getElementById("text").style.display="block";
+	}
+}
+function moveIn(){
+	if(document.getElementById("searchShop").value=="3"){
+		document.getElementById("zt").value = "";
+	}
+}
+
+function auto(){
+	if(document.getElementById("1")){
+		document.getElementById("time").style.display="block";
+		document.getElementById("text").style.display="none";
+	}
+}
+function batchDel(){
+	if(confirm("确定删除选中的记录？")){
+		$('#batchOpType').val('mdel');
+		$('#batchForm').submit();
+	}
+}
+</script>
+
+
+</head>
+<body onload="auto()" id="$!{time}">
+	<form method="get" action="/coupon/admin/shopSearch.html" name="form3">
+<table width="100%" align="center" cellspacing="1" cellpadding="1" border="0" bgcolor="#CBD8AC" style="margin-top:8px">
+  <tbody><tr bgcolor="#EEF4EA">
+    <td align="center" background="/coupon/common/img/wbg.gif">
+      <table height="32" cellspacing="0" cellpadding="0" border="0">
+        <tbody><tr>
+          <td width="160">
+          <select id="searchShop" style="width: 150px" name="searchShop"  onchange="setvalue()">
+										<option  value="1" #if($searchShop == 1) selected="" #end >
+											ID
+										</option>
+										<option value="2" #if($searchShop == 2) selected="" #end>
+											名称
+										</option>
+										<option  value="3" #if($searchShop == 3) selected="" #end>
+											状态
+										</option>
+										#*<option value="4" #if($searchShop == 4) selected="" #end>
+											时间
+										</option>*#
+										
+			</select>
+        </td>
+        <td nowrap="">
+          关键字：
+        </td>
+        <td width="350" id="text" style="margin-top: 7px;">
+
+								<input type="text" style="width: 320px" id="zt"
+										onclick="moveIn();"
+										value="$!{wd}"
+										name="wd">
+        </td>
+ 		<td width="350" id="time" style="display: none;margin-top: 7px;">
+				          			从<input type="text" value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!create_time)" 
+				          				onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" 
+				          				name="beginTime">
+        						
+						 		
+						 			到<input type="text" value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!modify_time)" 
+						 					onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+						 	 					 name="endTime">
+		</td>
+
+       <td>
+          <input width="60" type="image" height="22" border="0" class="np" src="/coupon/common/img/button_search.gif" name="imageField">
+       </td>
+      </tr>
+     </tbody></table>
+   </td>
+  </tr>
+</tbody></table>
+<br/>
+</form>
+	<form id="batchForm" method="post" action="shopAction.html?a=8">
+	 <table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+    <td class="title_bg" width="3%">选择</td>
+     <td class="title_bg" width="4%">序号</td>
+      <td class="title_bg" width="4%">商户ID号</td>
+      <td class="title_bg" width="24%">商户名</td>
+    <td class="title_bg" width="10%">商户类别</td>  
+	<!--<td class="title_bg" width="15%">添加时间</td>-->
+	  <td class="title_bg" width="10%">商户行业</td>
+	 <td class="title_bg" width="8%">状态</td>
+      <td class="title_bg" width="16%">操作</td>
+    </tr>
+   
+       #foreach($shop in $shopList.list) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="idList" onclick="unselectall()" value="$!{shop.id}" type="checkbox"></td>
+		<td align="center">$velocityCount</td>
+		<td align="center">$!{shop.id}</td>	
+		<td>#if($shop.branchShopList.size()>0)<a  href="/coupon/admin/getBranchShop.html?pid=$!{shop.id}">$!{shop.name}(点击进入分店)</a> #else<span style="color:#ff3366"><a href="/coupon/admin/shopAction.html?a=3&id=$!{shop.id}&p=$p">$!{shop.name}</a>#end</span></td>
+		<td align="center">
+		#if($shop.shop_type == 1)
+			翼支付商户
+		#end
+		#if($shop.shop_type == 2)
+			积分支付
+		#end
+		#if($shop.shop_type == 3)
+			优惠劵商户
+		#end
+		</td>
+		<td align="center">
+		#foreach($obj in $shopCategoryList)
+			#if(${shop.belong_shopcat}==${obj.category_id})
+				$!{obj.category_name} 
+			#end
+		#end
+		
+		</td>
+		<td align="center">#if($shop.isverified==0)审核中#elseif($shop.isverified==1)审核通过#else审核未通过#end</td>	
+		<td align="center">
+			<a href="/coupon/admin/shopAction.html?a=3&id=$!{shop.id}&p=$p">编辑</a> 
+			<a href="/coupon/admin/shopAction.html?a=5&id=$!{shop.id}&p=$p"  onclick="return confirm('确定要删除？');">删除</a>
+			<a href="/coupon/admin/shopAction.html?a=9&id=$!{shop.id}&p=$p">审核</a> 
+			<!-- <a href="/coupon/admin/checkPreview.html?id=$!{shop.id}&p=$p&template=admin/temp/shopdetail&type=1">审核预览</a> -->
+
+		</td>
+	</tr>
+	#end
+	
+		<tr>
+		<td colspan="8" class="tdbg">
+			<input name="chkAll" id="chkAll" onclick="CheckAll(this.form)" value="checkbox" type="checkbox"> 全选 
+			<input type="hidden" name="act" id="batchOpType" />
+			<input class="bnt01" value="批量删除" type="button" onclick="batchDel()"/>
+			<a href="/coupon/admin/shopAction.html?a=4" class="tjbtn">添加</a>
+		</td>
+    </tr>
+        <tr>
+		<td colspan="8" class="tdbg" align="center">
+	 #if($shopList.list.size()>0 )
+	<div class="pages">
+	
+	#set($pageNo=${shopList.pager.pageNumber}) ##当前页码   
+	#set($pageSum=${shopList.pager.pageCount}) ##总页数   
+	#set($liststep = 4)      ##显示分页页数
+	#set($listpage = $pageNo - 1) 
+	#set($nextpage = $pageNo + 1)                               
+	#if($pageNo < 1)  
+	$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+	#end  
+                      
+		#set($bar = $liststep/2)  
+                    
+                    #if(($pageNo - $bar) < 1)  
+                    #set($listbegin = 1)  
+                    #else  
+                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+                    #end  
+                      
+                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+                      
+                    #if($listend > $pageSum)  
+                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+                    #end  
+                     
+                    ##<strong>$pageNo</strong>                          ##显示当前页  
+                      
+                    #if($pageNo > 1)                 ##显示上一页处理  
+                    <a href="/coupon/admin/shopadmin.html?wd=$!{wd}&p=$listpage&searchShop=$searchShop" class="no_bg">上一页</a>  
+                    #end  
+                    #if($listbegin > 1)                  ##第一页控制  
+                    <A href="#" rel=start>1</A><SPAN class=gap>…</SPAN>  
+                    #end  
+                      
+                      
+                    #foreach($i in [$listbegin..$listend])  
+                    ##if($i <= $pageSum)             ##分页码的显示  
+                        #if($i != $pageNo&&$i!=0)  
+                        <a href="/coupon/admin/shopadmin.html?wd=$!{wd}&p=$i&searchShop=$searchShop">$i</a>  
+                        #else  
+                      	<strong>$i</strong>   
+                        #end  
+                    ##end  
+                      
+                    #end  
+                      
+                    #if($listend < $pageSum)         ##最后一页的处理  
+                    <SPAN class=gap>…</SPAN><A href="#" rel=start>$pageSum</A>  
+                      
+                    #end  
+                    #if($pageNo != $pageSum)            ##显示下一页处理  
+                   <a class="no_bg" href="/coupon/admin/shopadmin.html?wd=$!{wd}&p=$nextpage&searchShop=$searchShop">下一页</a>  
+                    #end
+                    
+			 #else
+			 
+			 没有搜索到你要的结果  
+			 #end 
+			 </div>
+						
+		</td>
+    </tr>
+      </tbody></table>
+      </form>
+      
+      
+	
+	     
+</body>
+</html>

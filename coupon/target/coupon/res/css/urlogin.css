@@ -1,0 +1,150 @@
+/* 登录页面的css - start */
+.login_container {
+	width:900px;
+	margin:0 auto;
+}
+.title_icon {
+	background:url(../images/urlogin/title_icon.gif) 10px 2px no-repeat;
+	width:25px;
+	height:20px;
+	float:left;
+}
+.title_txt {
+	color:#F60;
+	font-weight:bold;
+	height:20px
+	line-height:14px;
+}
+.title_seperator {
+	border-bottom:1px dotted #ccc;
+	border-top:0;
+	border-left:0;
+	border-right:0;
+	width:99%;
+}
+.login_body {
+}
+.box_container {
+	float:left;
+	width:442px;
+	height:340px;
+}
+.body_seperatorC {
+	float:left;
+	width:16px;
+	height:340px;
+}
+.body_site_desc {
+	float:left;
+	width:442px;
+	height:340px;
+}
+.body_seperator {
+	width:0px;
+	border-left:1px solid #ccc;
+	border-top:0;
+	border-bottom:0;
+	border-right:0;
+	height:85%;
+	margin:30px auto;
+}
+.login_box_c {
+	height:260px;
+}
+.box_bottom {
+	color:#999;
+	width:382px;
+	margin-left:50px;
+}
+.login_box{
+	height:220px;
+	width:300px;
+	margin-left:84px;
+	margin-top:20px;
+}
+.box-title{
+	font-size:16px;
+	font-weight:bold;
+	padding-left:102px;
+	padding-top:12px;
+	height:26px;
+}
+.box-body{
+	background:url(../images/urlogin/box-body.gif);
+	height:182px;
+}
+.login_input{
+	height:27px;
+	padding-left:47px;
+}
+.login_input input{
+	width:144px;
+	height:21px;
+	border:0;
+	padding:0;
+	background:url(../images/urlogin/login_input.gif);
+	line-height:22px;
+}
+.r_pass{
+	height:23px;
+	padding-left:97px;
+	line-height:14px;
+}
+.login-btn{
+	width:134px;
+	height:30px;
+	border:0;
+	padding:0;
+	background:url(../images/urlogin/login_btn_c.gif) no-repeat;
+	margin-left:80px;
+	margin-top:10px;
+	display:block;
+}
+.site-desc-box{
+	width:250px;
+	height:260px;
+	margin-left:90px;
+	margin-top:50px;
+}
+.site-desc-title{
+	height:82px;
+}
+.site-desc-title p{
+	color:#F90;
+	font-family:微软雅黑,黑体,宋体;
+	font-size:17px;
+}
+.site-desc-content{
+	height:124px;
+	list-style:none;
+	padding:0;
+}
+.site-desc-content ul{
+	width:100%;
+	list-style:none;
+	padding:0;
+}
+.site-desc-content li{
+	color:#999;
+	display:block;
+	height:28px;
+	padding-left:35px;
+	line-height:22px;
+}
+.desc-icon1{
+	background:url(../images/urlogin/desc-icon1.gif) no-repeat;
+}
+.desc-icon2{
+	background:url(../images/urlogin/desc-icon2.gif) no-repeat;
+}
+.desc-icon3{
+	background:url(../images/urlogin/desc-icon3.gif) no-repeat;
+}
+.desc-icon4{
+	background:url(../images/urlogin/desc-icon4.gif) no-repeat;
+}
+.site-desc-bottom{
+	color:#999;
+	padding-top:23px;
+}
+/* 登录页面的css - end */

@@ -1,0 +1,564 @@
+#parse("header_front.htm")
+
+<link href="/coupon/res/css/embeded-login-box.css" rel="stylesheet"
+	type="text/css" />
+<script type="text/javascript">
+	$('#index').addClass('nav_contenton');
+	
+	$(function(){
+		// 用户名框事件
+		$('#em_username').focus(function(){
+			$(this).val() == '请输入用户名' && $(this).val('');
+		});
+		$('#em_username').blur(function(){
+			!$(this).val() && $(this).val('请输入用户名');
+		});
+		
+		// 按钮事件
+		$('#loginBtn').click(function(){
+			emLogin();
+		});
+	});
+	
+	function emLogin(){
+		jQuery.post('validate_wings_user',{
+			'userName':$('#em_username').val(),
+			'password':$('#em_password').val()
+		},function(data){
+			if(data.rtnCode == 0){
+				loginCallBack(data);
+				emShowLoginInfo(data);
+			}else{
+				$('#emLoginMsg').text(data.rtnMsg);
+			}
+		},'json');
+	}
+	
+	function emShowLoginInfo(data){
+		$('#infoUsername').text(data.userName);
+		$('#infoLastVisit').text(data.lastVist);
+		
+		$('#beforeLogin').css({
+			'display': 'none'
+		});
+		$('#afterLogin').css({
+			'display': 'block'
+		});
+	}
+	
+	function emLogout(){
+		$('#infoUsername').text('');
+		$('#infoLastVisit').text('');
+		
+		clearEmInput();
+		
+		$('#beforeLogin').css({
+			'display': 'block'
+		});
+		$('#afterLogin').css({
+			'display': 'none'
+		});
+	}
+	
+	function clearEmInput(){
+		$('#em_username').val('请输入用户名');
+		$('#em_password').val('');
+	}
+</script>
+<div class="mk">
+	<div class="left_side">
+	<ul>
+		<li class="" id="1">
+			<span class="gd_img"></span><a href="shop.html" class="tag_main">商户</a><a
+				href="shop">目录</a><a href="shop">商圈</a>
+			<div class="subitem">
+			</div>
+		</li>
+		<li id="2">
+			<span class="gd_img"></span><a href="coupon.html" class="tag_main">优惠</a><a
+				href="coupon">分类</a><a href="coupon">地域</a>
+			<div class="subitem">
+			</div>
+		</li>
+		<li id="3">
+			<span class="gd_img"></span><a href="activity.html" class="tag_main">活动</a><a
+				href="activity">类别</a><a href="activity">商家</a>
+			<div class="subitem">
+			</div>
+		</li>
+		<li id="4">
+			<span class="gd_img"></span><a
+				class="tag_main">热门</a><a href="activity">活动</a><a
+				href="coupon">优惠劵</a>
+		</li>
+		<li style="height: 39px" id="5" class="bb0">
+			<span class="gd_img"></span><a
+				class="tag_main">推荐</a><a href="shop">商户</a><a
+				href="coupon">优惠劵</a>
+			<div class="subitem">
+			</div>
+		</li>
+		</ul>
+		<div id="div_li_1" class="index_leftnav_po_fj"
+			style="display: block; z-index: 100001; top: 132px; left: 206px; display: none;">
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/phone/">目录</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_7344" title="全部" target="_blank"
+						href="shopSearch.html?bc=0&cat=0">全部</a> |
+					<a id="add_c_TITLE_7346" title="餐饮" target="_blank"
+						href="shopSearch.html?bc=0&cat=1">餐饮</a> |
+					<a id="add_c_TITLE_14640" title="娱乐" target="_blank"
+						href="shopSearch.html?bc=0&cat=2">娱乐</a> |
+					<a id="add_c_TITLE_14641" title="健身" target="_blank"
+						href="shopSearch.html?bc=0&cat=3">健身</a>
+				</p>
+			</ul>
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/number/">商圈</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_14653" title="全部" target="_blank"
+						href="shopSearch.html?bc=0&cat=0">全部</a> |
+					<a id="add_c_TITLE_14654" title="高升桥" target="_blank"
+						href="shopSearch.html?bc=1&cat=0">高升桥</a> |
+					<a id="add_c_TITLE_14655" title="春熙路" target="_blank"
+						href="shopSearch.html?bc=2&cat=0">春熙路</a> |
+					<a id="add_c_TITLE_14656" title="建设路" target="_blank"
+						href="shopSearch.html?bc=3&cat=0">建设路</a>
+				</p>
+			</ul>
+		</div>
+		<div id="div_li_2" class="index_leftnav_po_fj"
+			style="display: block; z-index: 100001; top: 180px; left: 206px; display: none;">
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/phone/">分类</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_7344" title="全部" target="_blank"
+						href="couponSearch.html?bc=0&cat=0">全部</a> |
+					<a id="add_c_TITLE_7346" title="餐饮" target="_blank"
+						href="couponSearch.html?bc=0&cat=1">餐饮</a> |
+					<a id="add_c_TITLE_14640" title="娱乐" target="_blank"
+						href="couponSearch.html?bc=0&cat=2">娱乐</a> |
+					<a id="add_c_TITLE_14641" title="健身" target="_blank"
+						href="couponSearch.html?bc=0&cat=3">健身</a>
+				</p>
+			</ul>
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/number/">地域</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_14653" title="全部" target="_blank"
+						href="couponSearch.html?bc=0&cat=0">全部</a> |
+					<a id="add_c_TITLE_14654" title="高升桥" target="_blank"
+						href="couponSearch.html?bc=1&cat=0">高升桥</a> |
+					<a id="add_c_TITLE_14655" title="春熙路" target="_blank"
+						href="couponSearch.html?bc=2&cat=0">春熙路</a> |
+					<a id="add_c_TITLE_14656" title="建设路" target="_blank"
+						href="couponSearch.html?bc=3&cat=0">建设路</a>
+				</p>
+			</ul>
+		</div>
+		<div id="div_li_3" class="index_leftnav_po_fj"
+			style="display: block; z-index: 100001; top: 228px; left: 206px; display: none;">
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/phone/">类别</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_7344" title="全部" target="_blank"
+						href="actSearch.html?bc=0&cat=0">全部</a> |
+					<a id="add_c_TITLE_7346" title="餐饮" target="_blank"
+						href="actSearch.html?bc=0&cat=1">餐饮</a> |
+					<a id="add_c_TITLE_14640" title="娱乐" target="_blank"
+						href="actSearch.html?bc=0&cat=2">娱乐</a> |
+					<a id="add_c_TITLE_14641" title="健身" target="_blank"
+						href="actSearch.html?bc=0&cat=3">健身</a>
+				</p>
+			</ul>
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/number/">商家</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_14653" title="全部" target="_blank"
+						href="actSearch.html?bc=0&cat=0">全部</a> |
+					<a id="add_c_TITLE_14654" title="高升桥" target="_blank"
+						href="actSearch.html?bc=1&cat=0">高升桥</a> |
+					<a id="add_c_TITLE_14655" title="春熙路" target="_blank"
+						href="actSearch.html?bc=2&cat=0">春熙路</a> |
+					<a id="add_c_TITLE_14656" title="建设路" target="_blank"
+						href="actSearch.html?bc=3&cat=0">建设路</a>
+				</p>
+			</ul>
+		</div>
+		<div id="div_li_4" class="index_leftnav_po_fj"
+			style="display: block; z-index: 100001; top: 276px; left: 206px; display: none;">
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/phone/">活动</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_7344" title="李锦记蒜蓉辣椒酱免费派发" target="_blank"
+						href="activityDetail.html?id=2">李锦记蒜蓉辣椒酱免费派发</a> |
+					<a id="add_c_TITLE_7346" title="力士新活炫亮洗发水旅行套装免费派发中" target="_blank"
+						href="activityDetail.html?id=3">力士新活炫亮洗发水旅行套装免费派发中</a> |
+					<a id="add_c_TITLE_14640" title="味好美家常经典菜谱式调料免费派发" target="_blank"
+						href="activityDetail.html?id=4">味好美家常经典菜谱式调料免费派发</a> |
+					<a id="add_c_TITLE_14641" title="美家常经典菜谱式调料免费派发1" target="_blank"
+						href="activityDetail.html?id=5">樱之花热力贴冬日给力派发中～</a>
+				</p>
+			</ul>
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/number/">优惠券</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_14653" title="[啡比寻茶]满30元抵用20元现金" target="_blank"
+						href="couponDetail.html?id=113">[啡比寻茶]满30元抵用20元现金</a> |
+					<a id="add_c_TITLE_14654" title="[一鼎乾坤肥牛]菜品8折" target="_blank"
+						href="couponDetail.html?id=112">[一鼎乾坤肥牛]菜品8折</a> |
+					<a id="add_c_TITLE_14655" title="[新东方千禧大酒店]自助餐7折" target="_blank"
+						href="couponDetail.html?id=111">[新东方千禧大酒店]自助餐7折</a> |
+					<a id="add_c_TITLE_14656" title="[小尖椒餐饮]9折优惠" target="_blank"
+						href="couponDetail.html?id=110">[小尖椒餐饮]9折优惠</a>
+				</p>
+			</ul>
+		</div>
+		<div id="div_li_5" class="index_leftnav_po_fj"
+			style="display: block; z-index: 100001; top: 324px; left: 206px; display: none;">
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/phone/">商户</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_7344" title="碎碟咖啡厅" target="_blank"
+						href="shopdetail.html?id=101">碎碟咖啡厅</a> |
+					<a id="add_c_TITLE_7346" title="哈根达斯" target="_blank"
+						href="shopdetail.html?id=102">哈根达斯</a> |
+					<a id="add_c_TITLE_14640" title="万达电影院线" target="_blank"
+						href="shopdetail.html?id=103">万达电影院线</a> |
+					<a id="add_c_TITLE_14641" title="国美电器 " target="_blank"
+						href="shopdetail.html?id=104">国美电器 </a>
+				</p>
+			</ul>
+			<ul>
+				<h6>
+					<a target="_blank" href="/mall/number/">优惠券</a>
+				</h6>
+				<p>
+					<a id="add_c_TITLE_14653" title="[啡比寻茶]满30元抵用20元现金" target="_blank"
+						href="couponDetail.html?id=113">[啡比寻茶]满30元抵用20元现金</a> |
+					<a id="add_c_TITLE_14654" title="[一鼎乾坤肥牛]菜品8折" target="_blank"
+						href="couponDetail.html?id=112">[一鼎乾坤肥牛]菜品8折</a> |
+					<a id="add_c_TITLE_14655" title="[新东方千禧大酒店]自助餐7折" target="_blank"
+						href="couponDetail.html?id=111">[新东方千禧大酒店]自助餐7折</a> |
+					<a id="add_c_TITLE_14656" title="[小尖椒餐饮]9折优惠" target="_blank"
+						href="couponDetail.html?id=110">[小尖椒餐饮]9折优惠</a>
+				</p>
+			</ul>
+		</div>
+	</div>
+	<!--end for left_side-->
+	<div class="slider">
+		<div id="picBox">
+			<ul id="show_pic" style="left: 0;">
+				<li>
+					<div class="slider_img1">
+						<div class="slider_download">
+							<a href="activityDetail.html?id=2"><img
+									src="/coupon/res/images/flash_pic1.gif" alt="李锦记蒜蓉辣椒酱免费派发"
+									width="500" height="232" /> </a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="slider_img2">
+						<div class="slider_download2">
+							<a href="activityDetail.html?id=5"><img
+									src="/coupon/res/images/flash_pic2.jpg" alt="樱之花热力贴冬日给力派发中～"
+									width="500" height="232" /> </a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="slider_img3">
+						<div class="slider_download3">
+							<a href="activityDetail.html?id=7"><img
+									src="/coupon/res/images/flash_pic3.jpg" alt="阿华田乐活五谷随身包免费派发中～"
+									width="500" height="232" /> </a>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="slider_img4">
+						<div class="slider_download4">
+							<a href="activityDetail.html?id=8"><img
+									src="/coupon/res/images/flash_pic4.jpg" alt="可采上品营肌系列面膜免费派发中～"
+									width="500" height="232" /> </a>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="show_pic_trigger">
+			<ul id="icon_num">
+				<li class="active">
+					1
+				</li>
+				<li>
+					2
+				</li>
+				<li>
+					3
+				</li>
+				<li>
+					4
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+
+var glide =new function(){
+	function $id(id){return document.getElementById(id);};
+	this.layerGlide=function(auto,oEventCont,oSlider,sSingleSize,second,fSpeed,point){
+		var oSubLi = $id(oEventCont).getElementsByTagName('li');
+		var interval,timeout,oslideRange;
+		var time=1; 
+		var speed = fSpeed 
+		var sum = oSubLi.length;
+		var a=0;
+		var delay=second * 1000; 
+		var setValLeft=function(s){
+			return function(){
+				oslideRange = Math.abs(parseInt($id(oSlider).style[point]));	
+				$id(oSlider).style[point] =-Math.floor(oslideRange+(parseInt(s*sSingleSize) - oslideRange)*speed) +'px';		
+				if(oslideRange==[(sSingleSize * s)]){
+					clearInterval(interval);
+					a=s;
+				}
+			}
+		};
+		var setValRight=function(s){
+			return function(){	 	
+				oslideRange = Math.abs(parseInt($id(oSlider).style[point]));							
+				$id(oSlider).style[point] =-Math.ceil(oslideRange+(parseInt(s*sSingleSize) - oslideRange)*speed) +'px';
+				if(oslideRange==[(sSingleSize * s)]){
+					clearInterval(interval);
+					a=s;
+				}
+			}
+		}
+		
+		function autoGlide(){
+			for(var c=0;c<sum;c++){oSubLi[c].className='';};
+			clearTimeout(interval);
+			if(a==(parseInt(sum)-1)){
+				for(var c=0;c<sum;c++){oSubLi[c].className='';};
+				a=0;
+				oSubLi[a].className="active";
+				interval = setInterval(setValLeft(a),time);
+				timeout = setTimeout(autoGlide,delay);
+			}else{
+				a++;
+				oSubLi[a].className="active";
+				interval = setInterval(setValRight(a),time);	
+				timeout = setTimeout(autoGlide,delay);
+			}
+		}
+	
+		if(auto){timeout = setTimeout(autoGlide,delay);};
+		for(var i=0;i<sum;i++){	
+			oSubLi[i].onmouseover = (function(i){
+				return function(){
+					for(var c=0;c<sum;c++){oSubLi[c].className='';};
+					clearTimeout(timeout);
+					clearInterval(interval);
+					oSubLi[i].className="active";
+					if(Math.abs(parseInt($id(oSlider).style[point]))>[(sSingleSize * i)]){
+						interval = setInterval(setValLeft(i),time);
+						this.onmouseout=function(){if(auto){timeout = setTimeout(autoGlide,delay);};};
+					}else if(Math.abs(parseInt($id(oSlider).style[point]))<[(sSingleSize * i)]){
+							interval = setInterval(setValRight(i),time);
+						this.onmouseout=function(){if(auto){timeout = setTimeout(autoGlide,delay);};};
+					}
+				}
+			})(i)			
+		}
+	}
+}
+glide.layerGlide(true,'icon_num','show_pic',498,3,0.1,'left');
+</script>
+	</div>
+	
+	<div class="right_side">
+
+		<!-- 嵌入式登录框 start -->
+		<div class="login-box" id="beforeLogin" 
+		#if($currUser)
+			style="display: none"
+		#end
+		>
+			<div class="loginSpace"></div>
+			<div class="loginLabC">
+				<label class="login-lab">
+					登录
+				</label>
+			</div>
+			<div class="inputC">
+				<input type="text" id="em_username" name="em_username"
+					class="login_input" value="请输入用户名" />
+			</div>
+			<div class="loginLabC">
+				<label class="login-lab">
+					密码
+				</label>
+			</div>
+			<div class="inputC">
+				<input type="password" id="em_password" name="em_password"
+					class="login_input" />
+			</div>
+			<div class="loginBtnC">
+				<a class="login-btn" id="loginBtn"></a>
+			</div>
+			<div id="emLoginMsg" class="em-login-msg"></div>
+		</div>
+
+		<div class="login-box" id="afterLogin" 
+		#if(!$currUser)
+			style="display: none"
+		#end
+		>
+			<div class="loginSpace"></div>
+			<div class="loginLabC">
+				<label class="login-lab">
+					您好：
+				</label>
+			</div>
+			<div id="infoUsername" class="inputC info-lab">$!currUser.name</div>
+			<div class="loginLabC">
+				<label class="login-lab">
+					最近一次登录：
+				</label>
+			</div>
+			<div id="infoLastVisit" class="inputC info-lab">$!date.format('yyyy-MM-dd HH:mm:ss ',$!currUser.lastVisit)</div>
+			<div class="loginBtnC">
+				<a class="uc-btn" id="ucBtn" href="uc_index"></a>
+			</div>
+			<div id="emLogoutMsg" class="em-login-msg"></div>
+		</div>
+		<!-- 嵌入式登录框 end -->
+
+	</div>
+</div>
+<!--end for mk-->
+<div class="sh_bk">
+	<h2>
+		<a href="shop" class="more_shop">+更多</a>商户推荐
+	</h2>
+	<div class="shbk_con">
+		<ul>
+			<li>
+				<p class="sh_pic">
+					<a href="shopdetail.html?id=101"><img
+							src="/coupon/res/images/sp_pic1.jpg" width="215" height="215" />
+					</a>
+				</p>
+			</li>
+			<li>
+				<p class="sh_pic">
+					<a href="shopdetail.html?id=102"><img
+							src="/coupon/res/images/sp_pic2.jpg" width="215" height="215" />
+					</a>
+				</p>
+			</li>
+			<li>
+				<p class="sh_pic">
+					<a href="shopdetail.html?id=103"><img
+							src="/coupon/res/images/sp_pic3.jpg" width="215" height="215" />
+					</a>
+				</p>
+			</li>
+			<li>
+				<p class="sh_pic">
+					<a href="shopdetail.html?id=104"><img
+							src="/coupon/res/images/sp_pic4.jpg" width="215" height="215" />
+					</a>
+				</p>
+			</li>
+		</ul>
+	</div>
+	<div class="shbk_btm">
+	</div>
+</div>
+<!--end for sh_bk-->
+<div class="sh_bk2">
+	<h2>
+		<a href="coupon" class="more_shop">+更多</a>优惠券
+		</span>
+	</h2>
+	<div class="shbk2_con">
+		<div class="shList">
+			<div class="shList_l">
+				<span class="mktt">[韩坊韩国传统料理]</span> 所有菜品8.8折优惠（套餐、酒水除外）……
+				<a href="couponDetail.html?id=108"><img src="/coupon/goods0/img/1_11211_1328104229599_6413706791724713378.jpg"
+						width="290" height="215" /> </a>
+			</div>
+		</div>
+		<!--end for shList-->
+		<div class="shList">
+			<div class="shList_l">
+				<span class="mktt">[老北京涮羊肉东安南路店]</span> 自助原价58元/客（烤鸭10元/份，另外收费），现价48元/客（烤鸭包括在内）
+				<a href="couponDetail.html?id=109"><img src="/coupon/goods0/img/1_11211_1328104959935_8775048614816934708.jpg"
+						width="290" height="215" /> </a>
+			</div>
+		</div>
+		<!--end for shList-->
+		<div class="shList">
+			<div class="shList_l">
+				<span class="mktt">[小尖椒餐饮]</span>
+				王府井店，消费满100元 赠送30元代金券；紫竹店、双楠店，来店可享受9折优惠。 ……
+				<a href="couponDetail.html?id=110"><img src="/coupon/goods0/img/1_11211_1328105847832_340940473106197866.jpg"
+						width="290" height="215" /> </a>
+			</div>
+		</div>
+		<!--end for shList-->
+		<div class="shList">
+			<div class="shList_l">
+				<span class="mktt">[新东方千禧大酒店]</span> 每日自助晚餐 7折周末自助午餐 7折平安夜、圣诞节、除夕、元旦节、情人节不能使用
+				<a href="couponDetail.html?id=111"><img src="/coupon/goods0/img/1_11211_1328106440276_-1963746271021077951.jpg"
+						width="290" height="215" /> </a>
+			</div>
+		</div>
+		<!--end for shList-->
+		<div class="shList">
+			<div class="shList_l">
+				<span class="mktt">[一鼎乾坤肥牛]</span>
+				菜品8折优惠免包间费送精美果盘一份营业时间10:00-22:00
+				<a href="couponDetail.html?id=112"><img src="/coupon/goods0/img/1_11211_1328106735087_-2519326355236864774.jpg"
+						width="290" height="215" /> </a>
+			</div>
+		</div>
+		<!--end for shList-->
+		<div class="shList">
+			<div class="shList_l">
+				<span class="mktt">[啡比寻茶]</span>
+				A泰式奶茶+骨肉相连，原价70元，现价36元卡布基诺+芝士蛋糕，原价56元，现价36元
+				<a href="couponDetail.html?id=113"><img src="/coupon/goods0/img/1_11211_1328107234741_5916453619006025017.jpg"
+						width="290" height="215" /> </a>
+			</div>
+		</div>
+		<!--end for shList-->
+	</div>
+	<div class="shbk2_btm">
+	</div>
+</div>
+<!--end for sh_bk2-->
+
+#parse("footer_front.htm")

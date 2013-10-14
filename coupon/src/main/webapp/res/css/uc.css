@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+/*------------- 订单列表页面 start ----------------*/
+.tb-line {
+	border-top:1px solid #BFC9CB;
+}
+.tb-void {margin-top:10px;}
+.tb-void table {
+	
+	border-collapse:collapse;
+	border:1px solid #BFC9CB;
+	border-width:0 1px 1px 1px;
+}
+.tb-void th {
+	background:#EBF4FB;
+	height:31px;
+	color:#666666;
+	font-weight:normal;
+	text-align:center;
+}
+.tb-void td {
+	border:1px solid #BFC9CB;
+	border-width:1px 0 0 1px;
+	padding:5px 4px;
+	text-align:center
+}
+.order_goodsimg{border:1px solid #DFDDE2;padding:1px;vertical-align:middle;}
+.img-list{text-align:left;}
+/*------------- 订单列表页面 end ----------------*/

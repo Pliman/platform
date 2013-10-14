@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+/*basic*/
+html{line-height:1.8;word-wrap:break-word;}
+*{margin:0;padding:0;list-style-type:none;word-break:break-all;}
+body{color:#000;font-size:12px;background-color:#fff;font-family:Arial, Helvetica, sans-serif;background:url(../images/topbg.jpg) repeat-x;}
+/*elements*/
+a{color: #5a5959;text-decoration: none;}
+a:hover{text-decoration: underline;}
+h2{font-size:14px;}
+h3{font-size:13px;}
+h4{font-size:12px;}
+img{border:0px;}
+.clear{ clear:both; height:1px;overflow:hidden;margin-top:-1px;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}
+button{background:transparent none repeat scroll 0 0;border:medium none;cursor:pointer;font-weight:700;}
+select, input, button, textarea {-x-system-font:none;font-family:Tahoma,Helvetica,Arial,sans-serif;font-size:12px;
+font-size-adjust:none;font-stretch:normal;font-style:normal;font-variant:normal;font-weight:normal;line-height:normal;
+}
+input{font-size:14px;font-family:Arial;vertical-align:middle;}
+table{border-collapse:collapse;border-spacing:0;} 
+
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal;}
+ol,ul {list-style:none;}
+.fl{float:left;}
+.fr{float:right;}
+ul{overflow:hidden;}
+caption,th {text-align:left;}
+q:before,q:after{content:'';}
+
+/*****common******/
+.clearfix:after {font:0/0 arial sans-serif; content:"."; display:block; height:0; clear:both; visibility:hidden; }
+.clear {clear:both;line-height:0;height:0;font-size:0;} 
+
+.mb10 {margin-bottom:10px;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+
+/**------------page start----------------***/
+.pages {
+    clear: both;
+    font: 12px/16px Tahoma,Arial,"宋体";
+    padding: 10px 8px 10px;
+    text-align: center;
+}
+
+.pages a {
+    border: 1px solid #E6E6E6;
+    color: #5E7AC7;
+    line-height: 18px;
+    margin: 0 3px;
+    padding: 2px 5px;
+    text-decoration: none;
+}
+
+.pages a:hover, .pages strong {
+    background: none repeat scroll 0 0 #5E7AC7;
+    border: 1px solid #5E7AC7;
+    color: #FFFFFF;
+    font-weight: normal;
+    line-height: 18px;
+    margin: 0 3px;
+    padding: 2px 5px;
+    text-decoration: none;
+}

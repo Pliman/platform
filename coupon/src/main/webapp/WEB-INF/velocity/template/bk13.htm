@@ -1,0 +1,12 @@
+		
+		
+		#foreach($homePage in $homePageList)
+			<p class="focs_img">
+				<a href="$!{homePage.link}">
+			<img src="/coupon/goods0/img/$!{homePage.imgurl}" alt="" width="380" height="160"/>
+			</a>
+			</p>
+						<h3>$!{homePage.title}</h3>
+						<p class="home_des">$!{homePage.description}</p>
+						<p class="seedet"><a href="$!{homePage.link}"><img src="/coupon/res/images/see_detbtn.png" alt=""/></a></p>
+		#end

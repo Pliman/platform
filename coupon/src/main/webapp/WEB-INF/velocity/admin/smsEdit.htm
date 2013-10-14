@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<style type="text/css"></style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+<form action="/coupon/admin/smsSave" method="post">
+		<input type="hidden" value="$!{msgTemplate.id}" name="id"/>
+		<input type="hidden" value="$!{msgTemplate.msg_flag}" name="msg_flag"/>
+		<input type="hidden" value="$!{msgTemplate.modifier}" name="modifier"/>
+<table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="10%">字段描述</td>
+      <td class="title_bg" width="90%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>模版编码：</td>
+       <td><input type="text" value="$!{msgTemplate.templateCode}" name="templateCode"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>模版内容：</td>
+       <td>
+       		<textarea rows="15" cols="50" name="templateContent">$!{msgTemplate.templateContent}</textarea>
+       		
+       		<p>
+       			自定义内容编辑说明：
+       			</p>
+       			<p>
+       			当前模板支持动态填入用户信息，优惠劵信息和日期时间。</p><br />
+       			<p>如果要获取用户信息，请使用${user.xxx}，其中xxx可以不同取值，表示插入不同内容：
+       			</p>
+       			<p>
+       			name：用户名 nick：用户昵称 email：用户邮件账号 mobile：用户手机号码
+       			</p><br />
+       			<p>如果要获取优惠劵信息，请使用${coupon.yyy}，其中yyy可以不同取值，表示插入不同内容：
+       			</p>
+       			<p>
+       			name：优惠劵名称 description：优惠劵描述 price：优惠劵价格
+       			</p><br />
+       			<p>要获取系统时间，请在模板中插入${time}</p><br />
+       			<p>一个模板示例：</p>
+       			<p>你好：${user.name}，你已成功收藏${coupon.name}，${time}</p>
+       		</td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+       <td>模版描述</td>
+       <td><textarea rows="15" cols="50" name="description">$!{msgTemplate.description}</textarea></td>
+       </tr>
+       
+
+		    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="保存"/> <input type="button" value="返回" onclick="history.go(-1)"/></td>
+		  </tr>
+		  
+		  
+		 
+      </tbody>
+      </table>
+      </form>
+
+
+
+ 
+</body>
+</html>

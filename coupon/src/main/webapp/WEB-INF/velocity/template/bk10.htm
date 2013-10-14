@@ -1,0 +1,28 @@
+
+ 
+ 
+				<div class="week">
+						<div class="week_I">
+							<h2>
+								精选活动
+							</h2>
+							<div>
+							     #foreach($homePage in $homePageList)
+								<ul class="week_A">
+									<li>
+										<a target="_blank" href="$!{homePage.link}">
+											<img width="90" height="90" src="/coupon/goods0/img/$!{homePage.imgurl}">
+										</a>
+									</li>
+									<li class="week_A2">
+										#set($str=$!{homePage.description}) 
+				   #if($str.length()>33)
+				      #set($str=$str.substring(0,33)+"...")
+				     #end $str...<a target="_blank" href="$!{homePage.link}">立即查看&gt;&gt;</a></li>
+									</li>
+								</ul>
+								#end
+								<div class="week_I_btm" style="border:0;width:238px;"></div>	
+							</div>
+						</div>
+					</div>

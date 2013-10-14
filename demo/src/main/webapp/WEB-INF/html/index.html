@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="" />
+<title>中国电信优惠劵平台</title>
+<link href="css/globle.css" rel="stylesheet"
+			type="text/css" />
+<link href="css/decoindex.css" rel="stylesheet"
+			type="text/css" />
+<link href="css/login.css" rel="stylesheet"
+			type="text/css" />
+<script type="text/javascript"
+			src="js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+
+	<script>
+			$(function(){
+				$(".left_side ul >li").hover(
+				function(){
+					var id=$(this).attr("id");
+					$("#div_li_"+id).show();
+					$(this).removeClass("li_on");
+					$(this).addClass("li_on");
+				},function(){
+					$(".index_leftnav_po_fj").hide();
+					var id=$(this).attr("id");
+					$(this).removeClass("li_on");
+				})
+				
+				$(".index_leftnav_po_fj").hover(
+				function(){
+					var id=$(this).attr("id");
+					var r=id.substring(7,8);
+			
+					$("#"+r).addClass("li_on");
+					$(this).show();
+				},function(){
+					var r=id.substring(7,8); 
+					$("#"+r).addClass("li_on");
+					$(this).hide();
+				})
+				$(".shbk2_con >.shList ").hover(
+				function(){
+					$(this).addClass("shListhover");
+				},function(){
+					$(this).removeClass("shListhover");
+				})
+				
+				// 页首导航条
+				var hadNavContenton = false;
+				$('.nav_content li').hover(function(){
+					hadNavContenton = $(this).hasClass("nav_contenton");
+					$(this).addClass("nav_contenton");
+				},function(){
+					!hadNavContenton && $(this).removeClass("nav_contenton");
+				});
+				
+				// 加载公告，实现走马灯效果
+				jQuery.get('bulletins',{},
+				function(data){
+					var width = data.length*12.5;
+					var _this = $('#bulletins');
+					_this.text(data);
+					_this.css({
+						'width': width,
+						'height': 22,
+						'marginLeft' : -width/2
+					});
+				});
+				
+				// 搜索条事件
+				$('#keyword').focus(function(){
+					$(this).val() == '您可以搜索优惠券/打折活动/店铺信息等' && $(this).val('');
+				});
+				$('#keyword').blur(function(){
+					!$(this).val() && $(this).val('您可以搜索优惠券/打折活动/店铺信息等');
+				});
+				
+		
+				$('#searchType').change(function(){
+					var value = $(this).val();
+					
+					if(value == 'shop'){
+						action = 'shop';
+					}else if(value == 'coupon'){
+						action = 'coupon';
+					}else{
+						action = 'activity';
+					}
+					
+					$('#adSearchForm')[0].action = action;
+				});
+			})
+			
+			function popLogin(){
+				//centering with css
+				centerPopup();
+				//load popup
+				loadPopup();
+			}
+			
+			function doLogin(){
+				jQuery.post('/coupon/validate_wings_user',{
+					'userName':$('#username').val(),
+					'password':$('#password').val()
+				},
+				function(data){
+					if(data.rtnCode == 0){
+						loginCallBack(data);
+						emShowLoginInfo(data);
+					}else{
+						$('#loginMsg').text(data.rtnMsg);
+					}
+				},'json');
+			}
+			
+			function loginCallBack(data){
+				var logedIn = '，欢迎光临中国电信！[<a onclick="doLogout()" href="javascript:void(0)" class="log_color">退出</a>]';
+				
+				$('#loginNote').html(data.userName + logedIn);
+				disablePopup();
+			}
+			
+			function doLogout(){
+				clearPopup();
+				
+				jQuery.post('/coupon/wings_user_logout',{},
+				logoutCallBack,'json');
+			}
+			
+			function logoutCallBack(data){
+				var logedOut = '早上好，欢迎光临中国电信！请[<a id="loginButton" onclick="popLogin()" href="javascript:void(0)" class="log_color">登录</a>]';
+				
+				if(data.rtnCode == 0){
+					$('#loginNote').html(logedOut);
+					
+					emLogout && emLogout();
+					
+					alert(data.rtnMsg);
+				}else{
+				}
+			}
+		</script>
+</head>
+	<body>
+	<div id="wrap">
+		<div class="header">
+					  <div class="k100" id="edit_frame_head" style="height:147px;height:auto;min-height:147px;">
+    <style type="text/css">
+    .nav_content{ z-index:8; position:absolute; width:613px; height:38px; left:267px; top:-33px; background:url(images/nav_txtbg.gif) left top no-repeat; overflow:hidden; zoom:1;}
+</style>
+
+    <div class="main_div index_topbg" id="topdiv">
+      <div class="fl index_top" id="topdiv_1" style="width:100%;">
+        <ul class="logo fl">
+          <a href="/"><img id="logoimg" src="images/logo.gif" /></a>
+        </ul>
+
+        <ul class="login fl" style="width:285px;float:right;margin-top:-0px;">
+          <li> <span style="width:185px;">早上好，欢迎光临中国电信！请[<a href="#" class="log_color">登录</a>]&nbsp;&nbsp;[<a href="#"  class="log_color">注册</a>]</span> </li>
+        </ul>
+      </div>
+      <div class="clear"></div>
+      <div class="top_nav">
+        <div class="nav_content">
+          <ul>
+            <li class='nav_contenton'> <span > <a href="/" target="_self">首页</a>
+              <div class="nav_sale" style="background:url() left top no-repeat; "></div>
+              </span> </li>
+            <li > <span > <a href="/mall/" target="_self">翼支付商户</a>
+              <div class="nav_sale" style="background:url(images/3729.gif) left top no-repeat; "></div>
+              </span> </li>
+            <li > <span > <a href="/business/" target="_self">优惠券</a> </span> </li>
+            <li > <span > <a href="/service/" target="_self">会员中心</a> </span> </li>
+            <li > <span > <a href="/vip/" target="_self">促销活动</a> </span> </li>
+            <li > <span class='nav_contentspan'> <a href="/support/" target="_self">帮助与支持</a> </span> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="nav fl" id="edit_mod_13148">
+      <div class="nav_quick fl">
+        <ul class="nav_search fl">
+          <li>
+            <form id="udsearchform" name="udsearchform" action="/10000zhidao/search.jsp" method="post" target="_blank">
+              <input type="text" id="qs" name="qs" class="nav_search_inp" value="您可以搜索优惠券/打折活动/信息等" onfocus="searchfocus()" onblur="searchblur()" />
+              <link href="/10000zhidao/common/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
+              <script language="javascript" src="/10000zhidao/common/js/jquery.autocomplete.js"></script> 
+              <script language="javascript" src="/10000zhidao/common/js/tianyiSearch.js"></script>
+              <input type="submit" class="nav_search_btn" value="" />
+            </form>
+          </li>
+        </ul>
+   
+    <ul class="nav_hot fl">
+                        <span>热门搜索：</span>
+                                                      <a title="翼支付" target="_blank" href="http://sc.189.cn/cms/udw/0128/business/brand/esurfing/special/4711.php">电影票</a>
+                                                          <a title="e169" target="_blank" href="/10000zhidao/search.jsp?&amp;qs=e169">美食</a>
+														    <a title="e169" target="_blank" href="/10000zhidao/search.jsp?&amp;qs=e169">免费派送</a>
+															
+ </ul>
+ 
+	 <ul class="hot_phone">
+		<li><img src="images/hot_phone.png" alt=""/></li>
+	 </ul>
+      </div>
+      <div class="clear"></div>
+    </div>
+		</div><!--end for header-->
+		
+		<div class="content">
+      		<div class="flash_top">
+					<div class="slider">
+        <div id="picBox">
+          <ul  id="show_pic">
+            <li>
+              <div class="slider_img1">
+                <div class="slider_download"><a href="3.1优惠劵detail页面detail.html"><img height="270" width="726" alt="" src="images//flash_pic1.gif"></a></div>
+              </div>
+            </li>
+            <li>
+              <div class="slider_img2">
+                <div class="slider_download2"><a href="3.1优惠劵detail页面detail.html"><img height="270" width="726" alt="" src="images//flash_pic2.jpg"></a></div>
+              </div>
+            </li>
+            <li>
+              <div class="slider_img3">
+                <div class="slider_download3"><a href="3.1优惠劵detail页面detail.html"><img height="270" width="726" alt="" src="images//flash_pic3.jpg"></a></div>
+              </div>
+            </li>
+            <li>
+              <div class="slider_img4">
+                <div class="slider_download4"><a href="3.1优惠劵detail页面detail.html"><img height="270" width="726" alt="" src="images//flash_pic4.jpg"></a></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="show_pic_trigger">
+          <ul id="icon_num">
+            <li class="">1</li>
+            <li class="">2</li>
+            <li class="active">3</li>
+            <li class="">4</li>
+          </ul>
+        </div>
+        <script type="text/javascript">
+
+var glide =new function(){
+	function $id(id){return document.getElementById(id);};
+	this.layerGlide=function(auto,oEventCont,oSlider,sSingleSize,second,fSpeed,point){
+		var oSubLi = $id(oEventCont).getElementsByTagName('li');
+		var interval,timeout,oslideRange;
+		var time=1; 
+		var speed = fSpeed 
+		var sum = oSubLi.length;
+		var a=0;
+		var delay=second * 1000; 
+		var setValLeft=function(s){
+			return function(){
+				oslideRange = Math.abs(parseInt($id(oSlider).style[point]));	
+				$id(oSlider).style[point] =-Math.floor(oslideRange+(parseInt(s*sSingleSize) - oslideRange)*speed) +'px';		
+				if(oslideRange==[(sSingleSize * s)]){
+					clearInterval(interval);
+					a=s;
+				}
+			}
+		};
+		var setValRight=function(s){
+			return function(){	 	
+				oslideRange = Math.abs(parseInt($id(oSlider).style[point]));							
+				$id(oSlider).style[point] =-Math.ceil(oslideRange+(parseInt(s*sSingleSize) - oslideRange)*speed) +'px';
+				if(oslideRange==[(sSingleSize * s)]){
+					clearInterval(interval);
+					a=s;
+				}
+			}
+		}
+		
+		function autoGlide(){
+			for(var c=0;c&lt;sum;c++){oSubLi[c].className='';};
+			clearTimeout(interval);
+			if(a==(parseInt(sum)-1)){
+				for(var c=0;c&lt;sum;c++){oSubLi[c].className='';};
+				a=0;
+				oSubLi[a].className="active";
+				interval = setInterval(setValLeft(a),time);
+				timeout = setTimeout(autoGlide,delay);
+			}else{
+				a++;
+				oSubLi[a].className="active";
+				interval = setInterval(setValRight(a),time);	
+				timeout = setTimeout(autoGlide,delay);
+			}
+		}
+	
+		if(auto){timeout = setTimeout(autoGlide,delay);};
+		for(var i=0;i&lt;sum;i++){	
+			oSubLi[i].onmouseover = (function(i){
+				return function(){
+					for(var c=0;c&lt;sum;c++){oSubLi[c].className='';};
+					clearTimeout(timeout);
+					clearInterval(interval);
+					oSubLi[i].className="active";
+					if(Math.abs(parseInt($id(oSlider).style[point]))&gt;[(sSingleSize * i)]){
+						interval = setInterval(setValLeft(i),time);
+						this.onmouseout=function(){if(auto){timeout = setTimeout(autoGlide,delay);};};
+					}else if(Math.abs(parseInt($id(oSlider).style[point]))&lt;[(sSingleSize * i)]){
+							interval = setInterval(setValRight(i),time);
+						this.onmouseout=function(){if(auto){timeout = setTimeout(autoGlide,delay);};};
+					}
+				}
+			})(i)			
+		}
+	}
+}
+glide.layerGlide(true,'icon_num','show_pic',726,3,0.1,'left');
+
+
+
+</script>
+      </div>
+	  
+	  
+	  <div class="today_recom">
+	  		<img src="images/today_com.png" alt=""/>
+	  </div>
+			
+			</div><!--end for flash_top-->
+			
+			
+			
+		<div class="jpbk_wrap">	
+			<div class="jpbk">
+				<h2></h2>
+				<div class="new_shop">
+				</div><!--end for new_shop-->
+				<div class="recom_act">
+						<p class="focs_img"><img src="images/flash_pic2.jpg" alt="" width="380" height="160"/></p>
+						<h3>翼支付商户翼支付商户翼支付商户</h3>
+						<p>翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户翼支付商户</p>
+						<p class="seedet"><a href="#"><img src="images/see_detbtn.png" alt=""/></a></p>
+				</div><!--end for recom_act-->
+			</div><!--end for jpbk-->
+			
+			<div class="index_side">
+				<div class="side_module">
+					<div class="in_side_top"><h2>精选活动</h2></div><!--end for in_side_top-->
+					<div class="in_side_mid">
+						<ul class="jx_hdlist">
+							<li><a href="#">翼支付商户翼支付</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付户</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+				
+						</ul>
+					</div><!--end for in_side_mid-->
+					<div class="in_side_btm">
+					
+					</div><!--end for in_side_btm-->
+
+			</div><!--end for side_module-->
+			
+					<div class="pas_ad">
+		
+		
+					</div><!--end for pas_ad-->
+			</div><!--end for index_side-->
+
+			
+			
+			
+			
+		</div>	<!--end for jpbk_wrap-->
+			
+			
+		<div class="yhq_wrap">
+				<div class="index_yhq">
+						<div class="index_yhq_top"><h2>推荐优惠券</h2></div><!--end for index_yhq_top-->
+						<div class="index_yhq_mid">
+							<div class="index_yhq_content">	
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>三店通用</h3>
+												<p><span class="stress">仅49元！</span>欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢</p>
+												<p><a href="#"><img src="images/img_pic.png" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<img src="images/ms_see.png" alt=""/>
+										</div>
+									</div><!--end for index_tjyh-->
+									
+									
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>三店通用</h3>
+												<p><span class="stress">仅49元！</span>欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢</p>
+												<p><a href="#"><img src="images/img_pic.png" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<img src="images/ms_see.png" alt=""/>
+										</div>
+									</div><!--end for index_tjyh-->
+									
+									
+									
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>三店通用</h3>
+												<p><span class="stress">仅49元！</span>欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢</p>
+												<p><a href="#"><img src="images/img_pic.png" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<img src="images/ms_see.png" alt=""/>
+										</div>
+									</div><!--end for index_tjyh-->
+									
+									
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>三店通用</h3>
+												<p><span class="stress">仅49元！</span>欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢</p>
+												<p><a href="#"><img src="images/img_pic.png" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<img src="images/ms_see.png" alt=""/>
+										</div>
+									</div><!--end for index_tjyh-->
+									
+									
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>三店通用</h3>
+												<p><span class="stress">仅49元！</span>欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢</p>
+												<p><a href="#"><img src="images/img_pic.png" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<img src="images/ms_see.png" alt=""/>
+										</div>
+									</div><!--end for index_tjyh-->
+									
+									
+									<div class="index_tjyh">
+										<div class="index_yhq_module">
+												<h3>三店通用</h3>
+												<p><span class="stress">仅49元！</span>欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢欢</p>
+												<p><a href="#"><img src="images/img_pic.png" alt="" width="174" height="101"/></a></p>
+										</div>
+										<div class="ms_see">
+											<img src="images/ms_see.png" alt=""/>
+										</div>
+									</div><!--end for index_tjyh-->
+							</div>
+						</div><!--end for index_yhq_mid-->
+						<div class="index_yhq_btm"></div><!--end for index_yhq_btm-->
+				</div><!--end for index_yhq-->
+				
+				
+				
+				
+				
+				
+			<div class="index_side">
+				<div class="side_module">
+					<div class="in_side_top"><h2>精选活动</h2></div><!--end for in_side_top-->
+					<div class="in_side_mid">
+						<ul class="jx_hdlist">
+							<li><a href="#">翼支付商户翼支付</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付户</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+							<li><a href="#">翼支付商户翼支付翼</a> <span>[01. 15]</span></li>
+				
+						</ul>
+					</div><!--end for in_side_mid-->
+					<div class="in_side_btm">
+					
+					</div><!--end for in_side_btm-->
+
+			</div><!--end for side_module-->
+			
+				
+			</div><!--end for index_side-->
+		</div><!--end for yhq_wrap-->
+
+            
+            
+            
+            
+		</div><!--end for content-->
+		<div class="bottom_ad">
+			<a href="#"><img src="images/bottom_ad.png" alt=""/></a>
+		</div>
+		
+		
+		
+		
+		<style type="text/css">
+	#demo {
+		overflow: hidden;
+		width: 585px;
+	}
+	
+	#indemo {
+		float: left;
+		width: 800%;
+	}
+	
+	#demo1 {
+		float: left;
+	}
+	
+	#demo2 {
+		float: left;
+	}
+	</style>
+		
+		<div class="footerbg">
+					<div id="edit_mod_13140" class="main_div fl">
+						<div class="footer">
+							<ul class="footerL fl">
+								<li class="footerLtop">
+									<a target="_blank" title="关于我们" href="/aboutus/" id="add_All_7482"><span id="add_c_TITLE_7482">关于我们</span>
+									</a> |
+									<a target="_blank" title="电信公告" href="/notice/" id="add_All_7483"><span id="add_c_TITLE_7483">电信公告</span>
+									</a> |
+									<a target="_blank" title="网站使用帮助" href="/support/faq/website/" id="add_All_7484"><span id="add_c_TITLE_7484">网站使用帮助</span>
+									</a> |
+									<a target="_blank" title="网站导航" href="/sitemap/" id="add_All_7485"><span id="add_c_TITLE_7485">网站导航</span>
+									</a> |
+									<a target="_blank" title="代理商专区" href="http://hzhb.sc.ct10000.com/" id="add_All_7487"><span id="add_c_TITLE_7487">代理商专区</span>
+									</a> |
+									<a target="_blank" title="业务合作" href="/cooperation/" id="add_All_7486"><span id="add_c_TITLE_7486">业务合作</span>
+									</a> |
+									<a target="_blank" title="友情链接" href="/links/" id="add_All_7488"><span id="add_c_TITLE_7488">友情链接</span>
+									</a>
+								</li>
+								<div class="footerLimg">
+									<div style="width: 960px;" id="demo">
+										<div id="indemo">
+											<div id="demo1">
+												<a target="_blank" href="/service/sso/189StoreSSO.jsp?redirecturl=gSww%2BtJdagNRelhrumkjFqf7jboclo8BgMYlXyjrM46wZ3fjG1v56Q%3D%3D%0A" id="add_All_19085"> <span id="add_c_IMAGE_19085"><img src="images//11612.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=70" id="add_All_14280">
+													<span id="add_c_IMAGE_14280"><img src="images//9359.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.ecplive.cn/" id="add_All_13290"> <span id="add_c_IMAGE_13290"><img src="images//9358.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=71" id="add_All_13289">
+													<span id="add_c_IMAGE_13289"><img src="images//9356.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=58" id="add_All_13288">
+													<span id="add_c_IMAGE_13288"><img src="images//9355.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.chinatelecomiot.com/" id="add_All_13286"> <span id="add_c_IMAGE_13286"><img src="images//9351.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.118114.cn/quanguo_portal/chengdu/" id="add_All_13285"> <span id="add_c_IMAGE_13285"><img src="images//9350.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://eb100.com/" id="add_All_13284"> <span id="add_c_IMAGE_13284"><img src="images//151233.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=61" id="add_All_7490">
+													<span id="add_c_IMAGE_7490"><img src="images//2396.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=73" id="add_All_7491">
+													<span id="add_c_IMAGE_7491"><img src="images//2852.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="https://www.bestpay.com.cn/" id="add_All_7492"> <span id="add_c_IMAGE_7492"><img src="images//2853.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=72" id="add_All_7493">
+													<span id="add_c_IMAGE_7493"><img src="images//2856.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://cwclient.vnet.cn/" id="add_All_7494"> <span id="add_c_IMAGE_7494"><img src="images//2854.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.hicdma.com/" id="add_All_7496"> <span id="add_c_IMAGE_7496"><img src="images//2851.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.118114.cn/" id="add_All_7497"> <span id="add_c_IMAGE_7497"><img src="images//2849.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+											</div>
+											<div id="demo2">
+												<a target="_blank" href="/service/sso/189StoreSSO.jsp?redirecturl=gSww%2BtJdagNRelhrumkjFqf7jboclo8BgMYlXyjrM46wZ3fjG1v56Q%3D%3D%0A" id="add_All_19085"> <span id="add_c_IMAGE_19085"><img src="images//11612.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=70" id="add_All_14280">
+													<span id="add_c_IMAGE_14280"><img src="images//9359.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.ecplive.cn/" id="add_All_13290"> <span id="add_c_IMAGE_13290"><img src="images//9358.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=71" id="add_All_13289">
+													<span id="add_c_IMAGE_13289"><img src="images//9356.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=58" id="add_All_13288">
+													<span id="add_c_IMAGE_13288"><img src="images//9355.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.chinatelecomiot.com/" id="add_All_13286"> <span id="add_c_IMAGE_13286"><img src="images//9351.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.118114.cn/quanguo_portal/chengdu/" id="add_All_13285"> <span id="add_c_IMAGE_13285"><img src="images//9350.gif" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://eb100.com/" id="add_All_13284"> <span id="add_c_IMAGE_13284"><img src="images//151233.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=61" id="add_All_7490">
+													<span id="add_c_IMAGE_7490"><img src="images//2396.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=73" id="add_All_7491">
+													<span id="add_c_IMAGE_7491"><img src="images//2852.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="https://www.bestpay.com.cn/" id="add_All_7492"> <span id="add_c_IMAGE_7492"><img src="images//2853.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="/service/sso/unionSSO.jsp?sysid=72" id="add_All_7493">
+													<span id="add_c_IMAGE_7493"><img src="images//2856.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://cwclient.vnet.cn/" id="add_All_7494"> <span id="add_c_IMAGE_7494"><img src="images//2854.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.hicdma.com/" id="add_All_7496"> <span id="add_c_IMAGE_7496"><img src="images//2851.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+												<a target="_blank" href="http://www.118114.cn/" id="add_All_7497"> <span id="add_c_IMAGE_7497"><img src="images//2849.jpg" style="height: 27px; width: 85px;">
+												</span> </a>
+											</div>
+										</div>
+									</div>
+									<script>
+                        &lt;!--
+                        var speed=20;
+                        var tab=document.getElementById("demo");
+                        var tab1=document.getElementById("demo1");
+                        var tab2=document.getElementById("demo2");
+                        tab2.innerHTML=tab1.innerHTML;
+                        function Marquee(){
+                            if(tab2.scrollWidth-tab.scrollLeft&lt;=0){
+                                tab.scrollLeft-=tab1.scrollWidth
+                            }else{
+                                tab.scrollLeft++;
+                            }
+                        }
+                        var MyMar=setInterval(Marquee,speed);
+                        tab.onmouseover=function() {clearInterval(MyMar)};
+                        tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)};
+                        --&gt;
+                    </script>
+								</div>
+							</ul>
+							<div style="text-align: center; line-height: 22px; margin-bottom: 5px;" class="footerR fr">
+								<a target="_blank" href="http://www.ct10000.com/images/jyxkz2009.gif" id="add_c_TITLE_20161">版权所有2009中国电信集团公司</a>
+								<a target="_blank" href="http://www.ct10000.com/images/jyxkz2009.gif" id="add_c_TITLE_20162">[增值电信业务经营许可证A2.B1.B2-2009001]</a>
+								<a target="_blank" href="http://www.miibeian.gov.cn/" id="add_c_TITLE_20155">ICP证号：京ICP备09031924号</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="fl" style="text-align: center; width: 960px;">
+					<img alt="客户服务热线10000" src="images/152397.jpg">
+					<img alt="诚信网站" src="images/152379.png">
+				</div>
+	</div><!--end for wrap-->
+	</body>
+</html>
+		

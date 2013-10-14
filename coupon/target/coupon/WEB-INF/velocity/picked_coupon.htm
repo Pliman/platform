@@ -1,0 +1,16 @@
+ <!--精选优惠劵 start-->
+        <div class="week">
+          <div class="week_I">
+            <h2 class="picked-title">精选优惠券</h2>
+             #foreach($obj in $recomGoods)
+              #if($velocityCount<=5)
+            <ul class="week_A">
+              <li><a href="couponDetail.html?id=${obj.id}" target="_blank"> <img width="225" height="90" src="/coupon/goods0/img/${obj.default_pic}"> </a> </li>
+              ##<li class="week_A3"><span class="week_shop">聚香楼</span><span class="week_A4">年夜套餐8.5折</span></li>
+			  <li class="week_A5">有效期至$!date.format('yyyy-MM-dd ',$!obj.end_time)<span></span></li>
+            </ul>
+            #end
+             #end
+          </div>
+        </div>
+        <!--精选优惠劵 end-->

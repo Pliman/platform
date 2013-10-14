@@ -1,0 +1,275 @@
+#set($nav=3)
+#parse("/header_front.htm")
+
+<div class="user_center">
+	#parse("/uc/uc_menu.htm")
+
+	<!-- right start -->
+	<div class="uc_right_side">
+		<!--右边内容模块 开始-->
+		<div class="right_top">
+			<!--右边导航 开始-->
+			<label>
+				现在位置：
+			</label>
+			&nbsp;&nbsp;
+			<a href="$!{appContext}/index.htm">首页</a>
+			<label></label>
+			>
+			<label>
+				账户充值
+			</label>
+		</div>
+		<!--右边导航 结束-->
+
+
+		#**<div class="uc_charge_content">
+			<div class="uc_charge_title">
+				您正在为账户&nbsp;$!{currUser.name}&nbsp;充值
+			</div>
+			<form id="chargeForm" action="$!{appContext}/uc/user_charge"
+				method="post">
+				<div class="uc_charge_input">
+					充值金额：
+					<input id="price" name="price" type="text" maxlength="30" />
+					&nbsp;元
+				</div>
+				<div class="uc_charge_confirm">
+					<a href="javascript:void(0)"
+						onclick="javascript:$('#chargeForm').submit();"> 确定充值</a>
+				</div>
+
+				<input type="hidden" id="cargocode" name="cargocode" value="10" />
+			</form>
+		</div>
+
+
+	</div>
+
+	<div class="clr"></div>
+</div>**#
+
+
+
+<script>
+	function kuangSelect(){
+		$(".kuang_yhb").find("input").click(function(){
+			$(this).next().child().addClass("bank_select");
+		})
+	}
+	function showotherBank(){
+		var otherbankHtml=$(".otherbank").html();
+		$(".choose_otherbank").after(otherbankHtml);
+		$(".choose_otherbank").hide();
+	}
+</script>
+<div class="right_zhifu">
+        <div class="rt_zhifu">
+          <div class="rt_zhifu_top"></div>
+          <div class="rt_zhifu_mid">
+          <form method="get" action="uc_charge_step2" id="bestPay">
+            <div class="rt_zhifu_con">
+              <p class="wsyh_sm"><span style="color:#454545;font-size:14px;">网上银行：</span><span style="color:#989898">需要通过网上银行付款</span></p>
+              <div class="kuang" style="left: 236px; top: 53.5px; display: block;">
+               <!-- <div id="kuang_bt">
+                  <div id="kuang_bt_left"> 选择银行 </div>
+                </div>-->
+                
+                <ul class="kuang_yhb">
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__BOC" checked="checked"/>
+                    </span> <span class="yh_img"><img id="imgBOC" src="/coupon/res/images/pay/BOC.jpg"  class="bank_select"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__ICBC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/ICBC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CCB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CCB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__ABC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/ABC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CMB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CMB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__BCOM">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/BCOM.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__POST">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/POST.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CEB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CEB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CITIC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CITIC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CIB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CIB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CMBC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CMBC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__BOB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/BOB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__NJCB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/NJCB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__NBCB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/NBCB.jpg"> </span> </li>
+              		<li class="choose_otherbank"><a onclick="javascript:showotherBank();">选择其他</a></li>
+					</ul>
+					 <ul class="kuang_yhb otherbank">
+					     <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__BEA">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/BEA.gif"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__HKBANK">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/HKBANK.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__CBHB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/CBHB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__SHRCC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/SHRCC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__BJRCB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/BJRCB.gif"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__GZCB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/GZCB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__ABCB2B">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/WZCB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__JCB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/JCB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__ZHRCC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/ZHRCC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__GZRCC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/GZRCC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__SDRCC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/SDRCC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__YDRCC">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/YDRCC.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__PAB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/PAB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__HSB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/HSB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__SDB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/SDB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__HXB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/HXB.jpg"> </span> </li>
+                  <li class="kuang_yinghang_b"> <span class="danxuan">
+                    <input type="radio" name="BANK" value="IZBANK__HZB">
+                    </span> <span class="yh_img"><img src="/coupon/res/images/pay/HZB.jpg"> </span> </li>
+                </ul>
+				<div class="cz_nextstep">
+					<input type="image" src="/coupon/res/images/cz_nextstep.png"/>
+				</div>
+				</form>
+                <div class="xiabu_b">
+                  <form method="get" action="http://webpay.bestpay.com.cn/payWebDirect.do" id="bestPay">
+                    <table cellspacing="0" cellpadding="0" width="100%" style="display:none;">
+                      <tbody>
+                        <tr>
+                          <td> SP身份标识 </td>
+                          <td><input type="text" value="123456789" name="MERCHANTID">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 订单号 </td>
+                          <td><input type="text" value="20120316100358YkicEM" name="ORDERSEQ">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 订单请求交易流水号 </td>
+                          <td><input type="text" value="20120316100358iAr8Pu" name="ORDERREQTRANSEQ">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 订单日期 </td>
+                          <td><input type="text" value="20120316" name="ORDERDATE">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 订单总金额 </td>
+                          <td><input type="text" value="11.0" name="ORDERAMOUNT">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 产品金额 </td>
+                          <td><input type="text" value="11.0" name="PRODUCTAMOUNT">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 附加金额 </td>
+                          <td><input type="text" value="-0.0" name="ATTACHAMOUNT">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 币种 </td>
+                          <td><input type="text" value="RMB" name="CURTYPE">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 加密方式 </td>
+                          <td><input type="text" value="1" name="ENCODETYPE">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 前台返回地址 </td>
+                          <td><input type="text" value="http://localhost:8080/coupon/payed" name="MERCHANTURL">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 后台返回地址 </td>
+                          <td><input type="text" value="http://localhost:8080/coupon/paycallback" name="BACKMERCHANTURL">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 业务类型代码 </td>
+                          <td><input type="text" value="0001" name="BUSICODE">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 产品标识 </td>
+                          <td><input type="text" value="0" name="PRODUCTID">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> 产品描述 </td>
+                          <td><input type="text" value="${goods.description}" name="PRODUCTDESC">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> MAC校验域 </td>
+                          <td><input type="text" value="b1674f8a48e61d04f4f07406a3a0477d" name="MAC">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <input type="hidden" name="BANKID" id="BANKID" value="">
+                   <!-- <input type="submit" class="normal_btn" value="确定">-->
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rt_zhifu_btm"></div>
+        </div>
+        <!--end for rt_zhifu-->
+      </div>
+      <!--右边内容结束-->
+      </div>
+
+#parse("/footer_front.htm")

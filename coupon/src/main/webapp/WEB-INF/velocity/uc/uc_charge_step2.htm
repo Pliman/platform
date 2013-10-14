@@ -1,0 +1,169 @@
+#set($nav=3)
+#parse("/header_front.htm")
+<script type="text/javascript">
+function checkRate(input)
+{
+     var re = /^[0-9]*[1-9][0-9]*$/;   //判断字符串是否为数字     //判断正整数 /^[1-9]+[0-9]*]*$/  
+	
+
+     if (!re.test(input))
+    {
+       // alert("请输入数字");
+       // input.rate.focus();
+        return false;
+     }
+     return true;
+}
+
+function checkJine(){
+		if($("#cz_je").val()==""){
+		   alert("请输入要充值的金额！");
+		   $("#cz_je").focus();
+			return false;
+			}
+	   var value=$("#cz_je").val();
+		if(!checkRate(value)){
+			alert("请输入金额数字！");
+			 $("#cz_je").focus();
+			return false;
+		}
+	
+	}
+</script>
+<div class="user_center">
+	#parse("/uc/uc_menu.htm")
+
+	<!-- right start -->
+	<div class="uc_right_side">
+		<!--右边内容模块 开始-->
+		<div class="right_top">
+			<!--右边导航 开始-->
+			<label>
+				现在位置：
+			</label>
+			&nbsp;&nbsp;
+			<a href="$!{appContext}/index.htm">首页</a>
+			<label></label>
+			>
+			<label>
+				账户充值
+			</label>
+		</div>
+		<!--右边导航 结束-->
+
+
+		#**<div class="uc_charge_content">
+			<div class="uc_charge_title">
+				您正在为账户&nbsp;$!{currUser.name}&nbsp;充值
+			</div>
+			<form id="chargeForm" action="$!{appContext}/uc/user_charge"
+				method="post">
+				<div class="uc_charge_input">
+					充值金额：
+					<input id="price" name="price" type="text" maxlength="30" />
+					&nbsp;元
+				</div>
+				<div class="uc_charge_confirm">
+					<a href="javascript:void(0)"
+						onclick="javascript:$('#chargeForm').submit();"> 确定充值</a>
+				</div>
+
+				<input type="hidden" id="cargocode" name="cargocode" value="10" />
+			</form>
+		</div>
+
+
+	</div>
+
+	<div class="clr"></div>
+</div>**#
+
+
+  <div class="right_zhifu">
+        <div class="rt_zhifu">
+          <div class="rt_zhifu_top cz_top2"></div>
+          <div class="rt_zhifu_mid">
+            <div class="rt_zhifu_con">
+            <form action="uc_charge_step3" method="get" onsubmit="return checkJine();">
+            <input type="hidden" value="${bank}" name="BANK"/>
+			<div class="rt_zhifu_step2">
+			#if(${bank}=='IZBANK__BOC')
+					#parse("/uc/bank/bank_boc.htm")
+			  
+			  	#elseif(${bank}=='IZBANK__ICBC')
+			  		
+			  		#parse("/uc/bank/bank_icbc.htm")
+			  	
+			  	
+			  	#elseif(${bank}=='IZBANK__CCB')
+			  	
+			  		#parse("/uc/bank/bank_ccb.htm")
+			  
+			  
+			  #elseif(${bank}=='IZBANK__ABC')
+			  	#parse("/uc/bank/bank_abc.htm")
+			  		
+			  #elseif(${bank}=='IZBANK__CMB')
+			  		#parse("/uc/bank/bank_cmb.htm")
+			  		
+			 #elseif(${bank}=='IZBANK__BCOM')
+			  		#parse("/uc/bank/bank_bcom.htm")
+			  		
+			  #elseif(${bank}=='IZBANK__POST')
+			  		#parse("/uc/bank/bank_post.htm")
+	
+			  
+			    #elseif(${bank}=='IZBANK__cbb')
+			  		#parse("/uc/bank/bank_cbb.htm")
+		
+			  
+			  
+			  
+			    #elseif(${bank}=='IZBANK__CITIC')
+			  		#parse("/uc/bank/bank_CITIC.htm")
+			  		
+			  #elseif(${bank}=='IZBANK__CIB')
+			  		#parse("/uc/bank/bank_CIB.htm")
+			  		
+			  		
+			  #elseif(${bank}=='IZBANK__CMBC')
+			  		#parse("/uc/bank/bank_CMBC.htm")
+			  		
+			  		
+			   #elseif(${bank}=='IZBANK__BOB')
+			  		#parse("/uc/bank/bank_BOB.htm")
+			  		
+			  #elseif(${bank}=='IZBANK__NJCB')
+			  		#parse("/uc/bank/bank_BOB.htm")
+			  		
+			  		
+			 #elseif(${bank}=='IZBANK__NBCB')
+			  		#parse("/uc/bank/bank_NBCB.htm")
+			  		
+			 #elseif(${bank}=='IZBANK__BOB')
+			  		#parse("/uc/bank/bank_BOB.htm")
+			  #end
+			  
+			  
+			  
+			  
+			  
+			  
+			  <div class="cz_count">
+			  	充值金额：<input  type="text" value=""  class="cz_je" name="" id="cz_je"/> 元
+			  	</div><!--end for cz_count-->
+				<div class="cz_submit">
+					<input type="image" src="/coupon/res/images/loginandpay.png"/>
+				</div>
+			  </div>
+			  </form>
+            </div>
+          </div>
+          <div class="rt_zhifu_btm"></div>
+        </div>
+        <!--end for rt_zhifu-->
+      </div>
+      <!--右边内容结束-->
+      </div>
+
+#parse("/footer_front.htm")

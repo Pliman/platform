@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<style type="text/css"></style>
+<script type="text/javascript"
+			src="/coupon/res/js/jquery-1.4.2.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+function chooseCity(){
+	$(".pop_win_bgct").show();
+	$(".pop_winct").show();
+	$("#loading").show();
+	$("#cityajax").html("<div class='load_divct'></div>");
+	$("#cityajax").load("/coupon/admin/getCitys.html?from=2");
+	}
+function closeCity(){
+	$(".pop_win_bgct").hide();
+	$(".pop_winct").hide();
+	}
+function deleteBelongCity(id,obj){
+	$("#citynameWrap"+id).remove();
+}
+</script>
+
+
+
+<div class="pop_win_bgct" style="height:100%; width: 100%; left: 0px; top: 0px; z-index: 8888;"></div>
+     <div class="pop_winct" style="left: 30.5px; top: 109.55px; visibility: visible; z-index: 9999;">
+     		<a class="pop_win_close" href="javascript:closeCity();" >X</a>
+			<h3>请选择城市</h3>			
+			<div class="" id="pop_win_login">			 
+			 	<div id="cityajax">			 		
+			 	</div>			
+			</div>			
+			</div>
+
+ #if( $a ==3 ) 
+
+<form action="catAction?a=2" method="post">
+		<input type="hidden" value="$!{shopCategroy.p_category_id}" name="p_category_id"/>
+		<input type="hidden" value="$!{shopCategroy.category_id}" name="category_id"/>
+		<input type="hidden" value="$!{shopCategroy.category_type}" name="category_type"/>
+		<input type="hidden" value="$!{shopCategroy.p_category_id}" name="pid"/>
+		<input type="hidden" value="$!{cat_type}" name="cat_type"/>
+	<table class="table_b"  align="center" border="0" cellpadding="3" cellspacing="1" width="98%">
+			<tbody>
+			<tr>
+		      <td class="title_bg">字段名</td>
+		      <td  class="title_bg">内容</td>
+		   	 <td  class="title_bg"></td>
+		    </tr>
+			<tr>
+				<td class="tdbg" align="center" width="60">类别名：</td>
+				<td class="tdbg"><input name="category_name" value="$!{shopCategroy.category_name}" class="input" type="text"></td>
+				<td class="tdbg">
+				</td>
+			</tr>
+			
+				<tr>
+				<td class="tdbg" align="center" width="60">类别描述：</td>
+				<td class="tdbg"><textarea name="category_desc"  class="input"  style="width:500px;height:200px;" >$!{shopCategroy.category_desc}</textarea></td>
+				<td class="tdbg">
+				</td>
+			</tr>
+			<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属城市
+						</td>
+						<td>
+						<div id="avtivtyBelongCity">
+						#foreach($obj in $belongCityList)
+							<p id="citynameWrap$!{obj.id}"> 
+							 <input type="hidden" value="$!{obj.id}" name="idCityList" class="idCityList" id="idCityList$!{obj.id}"/>
+							 <span>$!{obj.city}</span>
+							 <a onclick="javascript:deleteBelongCity($!{obj.id},this)">删除</a>
+							 </p>
+						 #end
+				
+				        </div>
+							<a href="javascript:chooseCity();">选择所属城市</a>
+						
+						
+						</td>
+					</tr>
+			<tr>
+				<td class="tdbg" align="center" width="60">是否可见：</td>
+				<td class="tdbg">是<input type="radio" value="0" name="isvisible" #if(${shopCategroy.isvisible}==0)checked="true" #end/>&nbsp;&nbsp;否<input type="radio" value="-1" name="isvisible" #if(${shopCategroy.isvisible}==-1)checked="true" #end/></td>
+				<td class="tdbg">
+				</td>
+			</tr>
+			
+				<tr>
+				<td class="tdbg" align="center" width="60"></td>
+				<td class="tdbg"> <input type="submit" value="" class="save gbtn"/> <input type="button" value="" class="cancel gbtn" onclick="history.go(-1)"/></td>
+				<td class="tdbg">
+				</td>
+			</tr>
+			
+	</tbody>
+	</table>
+	</form>
+
+#end 
+
+ #if( $a ==4 ) 
+ <form action="catAction?a=1" method="post">
+		<input type="hidden" value="${cat_type}" name="category_type"/>
+		<input type="hidden" value="$!{pid}" name="p_category_id"/>
+		<input type="hidden" value="$!{shopCategroy.category_id}" name="category_id"/>
+		<input type="hidden" value="$!{pid}" name="pid"/>
+			<table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1" width="98%">
+			<tbody>
+			
+			<tr>
+		      <td class="title_bg">字段名</td>
+		      <td  class="title_bg">内容</td>
+		   	 <td  class="title_bg"></td>
+		    </tr>
+			<tr>
+				<td class="tdbg" align="center" width="60">类别名：</td>
+				<td class="tdbg"><input name="category_name" value="$!{shopCategroy.category_name}" class="input" type="text"/></td>
+				<td class="tdbg" rowspan="8" >
+				</td>
+			 </tr>
+			<tr>
+				<td class="tdbg" align="center" width="60">类别描述：</td>
+				<td class="tdbg"><textarea name="category_desc"  class="input"  style="width:500px;height:200px;" >$!{shopCategroy.category_desc}</textarea></td>
+				<td class="tdbg">
+				</td>
+			</tr>
+			<tr height="22" bgcolor="#fafaf1" align="left">
+						<td>
+							所属城市
+						</td>
+						<td>
+						<div id="avtivtyBelongCity">
+						#foreach($obj in $belongCityList)
+							<p id="citynameWrap$!{obj.id}"> 
+							 <input type="hidden" value="$!{obj.id}" name="idCityList" class="idCityList" id="idCityList$!{obj.id}"/>
+							 <span>$!{obj.city}</span>
+							 <a onclick="javascript:deleteBelongCity($!{obj.id},this)">删除</a>
+							 </p>
+						 #end
+				
+				        </div>
+							<a href="javascript:chooseCity();">选择所属城市</a>
+						
+						
+						</td>
+					</tr>
+				<tr>
+				<td class="tdbg" align="center" width="60">是否可见：</td>
+				<td class="tdbg">是<input type="radio" value="0" name="isvisible" #if(${shopCategroy.isvisible}==0)checked="true" #end/>&nbsp;&nbsp;否<input type="radio" value="-1" name="isvisible" #if(${shopCategroy.isvisible}==-1)checked="true" #end/></td>
+				<td class="tdbg">
+				</td>
+			</tr>
+				<tr>
+				<td class="tdbg" align="center" width="60"></td>
+				<td class="tdbg"> <input type="submit" value="" class="save gbtn"/> <input type="button" value="" class="cancel gbtn" onclick="history.go(-1)"/></td>
+				<td class="tdbg" rowspan="8" >
+				</td>
+			</tr>
+			
+	</tbody>
+	</table>
+
+</form>
+
+ #end 
+ 		
+	
+</body>
+</html>

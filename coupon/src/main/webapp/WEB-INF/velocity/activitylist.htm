@@ -1,0 +1,282 @@
+#set($nav=4) #parse("header_front.htm")
+<script type="text/javascript">
+				
+					function loadAct(id){
+						$(".subcat").hide();
+						$("#childCate"+id).show();
+					}
+						
+					function selectIconHover(obj){
+						$("#selectDefault").css({height: "auto", overflow: "visible" });
+						$(".select_option_li").each(function(){
+							$(this).click(function(){
+								var value=$(this).attr("value");
+								$(".default").html($(this).html());
+								$(".default").attr("value",value);
+								$("#selectDefault").css({height: "22px", overflow: "hidden" });
+								$("#default").val(value);
+							})
+						})
+					}
+					function orderAct(id){
+						if(id!=null){
+							document.actForm.action="/coupon/activity.html?order="+id+"&p="+$p;
+							//$("#paramp").html("<input type='hidden' value='$p' name='p'/>");
+							document.actForm.submit();
+						}
+					}
+				</script>
+
+<div class="detail">
+	<div class="content">
+		<!--hot-->
+
+		<!--hot-->
+		#include("/template/product/bk7.htm")
+
+
+		<div class="dot_line">
+		</div>
+		<!--end for dot_line-->
+		<!--end for dot_line-->
+		<div class="cate">
+			<div class="subcat_arrow"></div>
+			<ul class="cate_I2">
+				<li class="cate_L sq_bc">
+					商圈：
+				</li>
+				<li class="cate_R">
+					<a #if($bc==0)class= "color"#end
+						href="/coupon/activity.html?bc=0&cat=$cat">全部</a> #foreach($obj in
+					$bussinessCircleList)
+					<a href="/coupon/activity.html?bc=${obj.id}&cat=$cat"
+						#if($bc==${obj.id}) class="color" style="" #end>${obj.bc_name}</a>
+					#end
+				</li>
+			</ul>
+			<div id="circleDiv">
+			</div>
+		</div>
+		<div class="dot_line btdot">
+		</div>
+		<!--end for dot_line-->
+		
+		<!--left-->
+		<div class="leftList">
+			<div class="search_bk">
+
+				<form action="activity.html" name="actForm" method="get">
+				<span id="paramp"></span>
+					<span class="selected_span"> <select name="goodstype">
+							<option value="3">
+								活动
+							</option>
+						</select> </span>
+					<span class="selected_span"> <select style="width: 120px;"
+							name="bc">
+							<option value="0" selected="selected">
+								所有商圈
+							</option>
+							#foreach($obj in $bussinessCircleList)
+							<option #if($bc==$obj.id)selected= "selected"#end
+								value="${obj.id}">
+								${obj.bc_name}
+							</option>
+							#end
+						</select> </span>
+					<span class="wd_span"><input type="text"
+							style="line-height: 18px;" class="h20 w160" value="$!{wd}"
+							name="wd">
+					</span>
+					<span class="youh_span"> &nbsp;&nbsp;</span>
+
+					<div class="selecteSortWrap">
+						<div id="selectSort">
+							<span class="select_icon" onclick="selectIconHover(this)"></span>
+							<ul hidefocus="true" id="selectDefault" class="select_option"
+								tabindex="998" style="height: 22px; overflow: hidden;">
+								<input type="hidden" value="1" name="order" id="default" />
+								<li class="default" value="1">
+									默认排序
+								</li>
+								<li class="select_option_li" value="0">
+									<a href="javascript:orderAct(0);"
+										style="cursor: default; background: none repeat scroll 0% 0% rgb(246, 246, 246);">默认排序</a>
+								</li>
+								<li class="select_option_li" value="1">
+									<a href="javascript:orderAct(1);">按时间排序</a>
+								</li>
+								<li class="select_option_li" value="2">
+									<a href="javascript:orderAct(2);">按名字排序</a>
+								</li>
+
+
+							</ul>
+						</div>
+					</div>
+					<span class="submit_span"> <input type="submit"
+							class="r-button" title="搜　索" id="" value="搜　索" name=""> </span>
+
+				</form>
+			</div>
+			<!--end for search_bk-->
+
+			<div class="activity_content">
+				#foreach($obj in $pageObj.list)
+				<div class="activity_bk">
+					<div class="act_bkleft">
+						<h3>
+							<a target="_blank" title="
+"
+								href="activityDetail.html?id=$!{obj.id}"><span class="fcred">${obj.title}</span>
+							</a>
+						</h3>
+						<p>
+							地点：
+							<strong class="hdtime">$!{obj.act_address}</strong>
+						</p>
+						<div class="hd_content">
+							活动内容：
+							<a target="_blank" title=""
+								href="activityDetail.html?id=$!{obj.id}">#set($str=$!{obj.content})
+								#if($str.length()>53) #set($str=$str.substring(0,53)+"...") #end
+								$str</a>
+						</div>
+						<!--end for hd_content-->
+						<div class="seeact_detwrap">
+							<div class="seeact_det">
+								<a href="activityDetail.html?id=$!{obj.id}">查看详细</a>
+							</div>
+							<div class="seeact_det_rt">
+								<span>时 间：<strong class="hdtime">$!date.format('MM月dd日
+										',$!obj.begin_time)至$!date.format('MM月dd日 ',$!obj.end_time)</strong>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--end for act_bkleft-->
+					<div class="act_bkright">
+						<img src="/coupon/goods0/img/$!{obj.pic_url}" alt="" width="216"
+							height="145" />
+					</div>
+					<!--end for act_bkright-->
+				</div>
+				<!--end for activity_bk-->
+				#end
+				
+					#if($pageObj.list.size()==0 )
+
+					<div style="text-align: left;padding: 165px 0;padding-left:200px;">
+						<dl class="list_tsB">
+								<dt style="font-size:14px;">没有找到满足条件的活动，试试重新搜索：</dt>
+								<dd style="color: #9A9A9A;">·确认拼写没有错误</dd>
+								<dd style="color: #9A9A9A;">·确认频道没有错误</dd>
+								<dd style="color: #9A9A9A;">·精简查询内容，尽量使用最主要的字词</dd>   
+							</dl>
+					</div>
+					#end
+
+			#if($pageObj.list.size()>0 )
+				<div class="pages">
+				
+				#set($pageNo=${pageObj.pager.pageNumber}) ##当前页码   
+				#set($pageSum=${pageObj.pager.pageCount}) ##总页数   
+				#set($liststep = 4)      ##显示分页页数
+				#set($listpage = $pageNo - 1) 
+				#set($nextpage = $pageNo + 1)                               
+				#if($pageNo < 1)  
+				$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+				#end  
+			                      
+					#set($bar = $liststep/2)  
+			                    
+			                    #if(($pageNo - $bar) < 1)  
+			                    #set($listbegin = 1)  
+			                    #else  
+			                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+			                    #end  
+			                      
+			                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+			                      
+			                    #if($listend > $pageSum)  
+			                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+			                    #end  
+			                     
+			                    ##<strong>$pageNo</strong>                          ##显示当前页  
+			                      
+			                    #if($pageNo > 1)                 ##显示上一页处理  
+			                    <a href="/coupon/activity.html?p=$listpage&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end" class="no_bg">上一页</a>  
+			                    #end  
+			                    #if($listbegin > 1)                  ##第一页控制  
+			                    <A href="/coupon/activity.html?p=1&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end" rel=start>1</A><SPAN class=gap>…</SPAN>  
+			                    #end  
+			                      
+			                      
+			                    #foreach($i in [$listbegin..$listend])  
+			                    ##if($i <= $pageSum)             ##分页码的显示  
+			                        #if($i != $pageNo&&$i!=0)  
+			                        <a href="/coupon/activity.html?p=$i&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end">$i</a>  
+			                        #else  
+			                      	<strong>$i</strong>   
+			                        #end  
+			                    ##end  
+			                      
+			                    #end  
+			                      
+			                    #if($listend < $pageSum)         ##最后一页的处理  
+			                    <SPAN class=gap>…</SPAN><A href="/coupon/activity.html?p=$pageSum&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end" rel=start>$pageSum</A>  
+			                      
+			                    #end  
+			                    #if($pageNo != $pageSum)            ##显示下一页处理  
+			                   <a class="no_bg" href="/coupon/activity.html?p=$nextpage&cat=$!{cat}&bc=${bc}#if(${wd}||$wd!='')&wd=${wd}#end">下一页</a>  
+			                    #end
+			                    </div>
+						
+							
+								 
+			#end 
+
+
+			</div>
+			<div class="act_btmbk">
+
+
+			</div>
+			<!--end for act_btmbk-->
+
+
+			<div class="rec_btm">
+				<div class="rec_btm_title">
+					<div class="rec_btm_left"></div>
+					<div class="rec_btm_middle">
+						精选商户
+					</div>
+					<div class="rec_btm_right"></div>
+				</div>
+				<div class="rec_btm_content" style="border-bottom: 0">
+					<ul class="rec_btm_content_shop">
+						#include("template/product/bk15.htm")
+					</ul>
+					<div class="rec_btm_btm" style="margin-top: 4px"></div>
+				</div>
+			</div>
+			<!--end for rec_btm-->
+
+		</div>
+		<!--end for leftList-->
+
+	</div>
+	<!--left end-->
+
+
+	<div class="rightList">
+
+		#parse("template/product/bk10.htm") 
+			#if($pageObj.list.size()>4)
+		#parse("template/product/bk9.htm")
+		#end
+
+	</div>
+	<!--end for rightList-->
+
+	#parse("footer_front.htm")

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<link rel="stylesheet" type="text/css" href="/coupon/common/css/style.css" />
+<style type="text/css"></style>
+</head>
+<body>
+
+
+
+
+
+
+
+ #if( $a ==3 ) 
+<form action="bcAction?a=2" method="post">
+		<input type="hidden" value="$!{bussinessCircle.id}" name="id"/>
+		<input type="hidden" value="$!{bussinessCircle.belong_city}" name="belong_city"/>
+<table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="10%">字段描述qqq</td>
+      <td class="title_bg" width="90%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>商圈名：</td>
+       <td><input type="text" value="$!{bussinessCircle.bc_name}" name="bc_name"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商圈描述：</td>
+       <td>
+       		<textarea rows="15" cols="50" name="bc_description">$!{bussinessCircle.bc_description}</textarea></td>
+       </tr>
+
+		    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="保存"/> <input type="button" value="返回" onclick="history.go(-1)"/></td>
+		  </tr>
+		  
+		  
+		 
+      </tbody>
+      </table>
+      </form>
+
+#end 
+
+ #if( $a ==4 ) 
+<form action="bcAction?a=1" method="post">
+
+<table class="table_b" align="center" border="0" cellpadding="3" cellspacing="1">
+    <tbody><tr>
+      <td class="title_bg" width="10%">字段描述qqq</td>
+      <td class="title_bg" width="90%">内容</td>
+      </tr>
+      
+    <tr bgcolor="#ffffff">
+      <td>商圈名：</td>
+       <td><input type="text" value="$!{bussinessCircle.bc_name}" name="bc_name"/></td>
+       </tr>
+       
+        <tr bgcolor="#ffffff">
+      <td>商圈描述：</td>
+       <td>
+       		<textarea rows="15" cols="50" name="bc_description">$!{bussinessCircle.bc_description}</textarea></td>
+       </tr>
+
+		    <tr bgcolor="#ffffff">
+		      <td>操作：</td>
+		       <td> <input type="submit" value="保存"/><input type="button" value="返回" onclick="history.go(-1)"/></td>
+		  </tr>
+		  
+		  
+		 
+      </tbody>
+      </table>
+      </form>
+
+ #end 
+</body>
+</html>

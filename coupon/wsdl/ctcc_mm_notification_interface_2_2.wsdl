@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- July 14, 2005 -->
+<wsdl:definitions
+   name="ctcc_mm_notification_interface"
+   targetNamespace="http://www.chinatelecom.com.cn/wsdl/ctcc/multimedia_messaging/notification/v2_2/interface"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:ctcc_mm_notification="http://www.chinatelecom.com.cn/wsdl/ctcc/multimedia_messaging/notification/v2_2/interface"
+   xmlns:ctcc_mm_xsd="http://www.chinatelecom.com.cn/schema/ctcc/multimedia_messaging/v2_2"
+   xmlns:ctcc_common_xsd="http://www.chinatelecom.com.cn/schema/ctcc/common/v2_1"
+   xmlns:ctcc_mm_notification_local_xsd="http://www.chinatelecom.com.cn/schema/ctcc/multimedia_messaging/notification/v2_2/local">
+
+   <wsdl:types>
+      <xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.chinatelecom.com.cn/schema/ctcc/multimedia_messaging/notification/v2_2/local">
+         <xsd:import namespace="http://www.chinatelecom.com.cn/schema/ctcc/multimedia_messaging/v2_2" schemaLocation="ctcc_mm_types_2_2.xsd"/>
+         <xsd:import namespace="http://www.chinatelecom.com.cn/schema/ctcc/common/v2_1" schemaLocation="ctcc_common_types_2_1.xsd"/>
+
+         <xsd:element name="notifyMessageReception" type="ctcc_mm_notification_local_xsd:notifyMessageReception"/>
+         <xsd:complexType name="notifyMessageReception">
+            <xsd:sequence>
+               <xsd:element name="registrationIdentifier" type="xsd:string"/>
+               <xsd:element name="message" type="ctcc_mm_xsd:MessageReference"/>
+            </xsd:sequence>
+         </xsd:complexType>
+
+         <xsd:element name="notifyMessageReceptionResponse" type="ctcc_mm_notification_local_xsd:notifyMessageReceptionResponse"/>
+         <xsd:complexType name="notifyMessageReceptionResponse">
+            <xsd:sequence/>
+         </xsd:complexType>
+         <xsd:element name="notifyMessageDeliveryReceipt" type="ctcc_mm_notification_local_xsd:notifyMessageDeliveryReceipt"/>
+         <xsd:complexType name="notifyMessageDeliveryReceipt">
+            <xsd:sequence>
+               <xsd:element name="correlator" type="xsd:string"/>
+               <xsd:element name="deliveryStatus" type="ctcc_mm_xsd:DeliveryInformation"/>
+            </xsd:sequence>
+         </xsd:complexType>
+             <xsd:element name="notifyMessageDeliveryReceiptResponse" type="ctcc_mm_notification_local_xsd:notifyMessageDeliveryReceiptResponse"/>
+         <xsd:complexType name="notifyMessageDeliveryReceiptResponse">
+            <xsd:sequence/>
+         </xsd:complexType>   
+      </xsd:schema>
+   </wsdl:types>
+
+   <wsdl:message name="MessageNotification_notifyMessageReceptionRequest">
+      <wsdl:part name="parameters" element="ctcc_mm_notification_local_xsd:notifyMessageReception"/>
+   </wsdl:message>
+   
+   <!--增加SOAPHeader部分-->
+  <wsdl:message name="SendMessageNotifySOAPHeader">
+    <wsdl:part name="NotifySOAPHeader" element="ctcc_common_xsd:NotifySOAPHeader" />
+  </wsdl:message>
+  <!--增加SOAPHeader部分-->
+
+   <wsdl:message name="MessageNotification_notifyMessageReceptionResponse">
+      <wsdl:part name="result" element="ctcc_mm_notification_local_xsd:notifyMessageReceptionResponse"/>
+   </wsdl:message>
+
+   <wsdl:message
+   	name="MessageNotification_notifyMessageDeliveryReceiptRequest">
+        <wsdl:part name="parameters" element="ctcc_mm_notification_local_xsd:notifyMessageDeliveryReceipt"/>
+   </wsdl:message>
+   <wsdl:message
+   	name="MessageNotification_notifyMessageDeliveryReceiptResponse">
+   	<wsdl:part name="result" element="ctcc_mm_notification_local_xsd:notifyMessageDeliveryReceiptResponse"/>
+   </wsdl:message>
+   
+   <wsdl:portType name="MessageNotification">
+      <wsdl:operation name="notifyMessageReception">
+         <wsdl:input message="ctcc_mm_notification:MessageNotification_notifyMessageReceptionRequest"/>
+         <wsdl:output message="ctcc_mm_notification:MessageNotification_notifyMessageReceptionResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="notifyMessageDeliveryReceipt">
+      	<wsdl:input message="ctcc_mm_notification:MessageNotification_notifyMessageDeliveryReceiptRequest"></wsdl:input>
+      	<wsdl:output message="ctcc_mm_notification:MessageNotification_notifyMessageDeliveryReceiptResponse"></wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

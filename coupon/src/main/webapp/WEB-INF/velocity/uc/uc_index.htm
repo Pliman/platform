@@ -1,0 +1,232 @@
+#set($nav=3)
+#parse("header_front.htm")
+<script type="text/javascript">
+			
+					
+					jQuery('document').ready(function(){
+						// slider1中显示的块索引，从1开始
+						var currentIndex = 1;
+						var moreElement = true;
+						
+						var isMoving = false;
+						
+						var left = function(){
+							// 如果还可以向左移动
+							if(jQuery('#slider_right>div:first').length >0 && !isMoving){
+								isMoving = true;
+								// 1号块左移
+								jQuery('#slider1>div:first').stop().animate({'marginLeft':-200,'opacity':0.01},300,null,function(){
+									jQuery('#slider_left').append(jQuery('#slider1>div:first'));
+									jQuery('#slider_left>div:last').css({'marginLeft':0,'opacity':1});
+									// 如果左边队列满，就删除第一个
+									if(jQuery('#slider_left>div').length>3){
+										jQuery('#slider_left>div:first').remove();
+									}
+								});
+								// 2号块左移
+								jQuery('#slider2>div:first').stop().animate({'marginLeft':-200,'opacity':0.01},300,null,function(){
+									jQuery('#slider1').append(jQuery('#slider2>div:first'));
+									jQuery('#slider1>div:first').css({'marginLeft':0,'opacity':1});
+									// 用右边的块填充
+									jQuery('#slider2').append(jQuery('#slider_right>div:first'));
+									jQuery('#slider2>div:first').css({'marginLeft':0,'opacity':1});
+									
+									isMoving = false;
+									currentIndex += 1;
+								});
+								// 右边加载一块
+								var index = 5 + currentIndex;
+								jQuery('#slider_temp').load('$!{appContext}/uc/uc_uc?index=' + index,null,function(){
+									// 将加载的移动到右边
+									jQuery('#slider_right').append(jQuery('#slider_temp>div:first'));
+								});
+							}
+						};
+						
+						var right = function(){
+							// 如果还可以向右移动
+							if(jQuery('#slider_left>div:last').length >0 && !isMoving){
+								isMoving = true;
+								// 2号块右移
+								jQuery('#slider2>div:first').stop().animate({'marginLeft':200,'opacity':0.01},300,null,function(){
+									if(jQuery('#slider_right>div:first').length > 0){
+										jQuery('#slider2>div:first').insertBefore(jQuery('#slider_right>div:first'));
+									}else{
+										jQuery('#slider_right').append(jQuery('#slider2>div:first'));
+									}
+									jQuery('#slider_right>div:first').css({'marginLeft':0,'opacity':1});
+									
+									// 如果右边队列满，就删除最后一个
+									if(jQuery('#slider_right>div').length>3){
+										jQuery('#slider_right>div:last').remove();
+									}
+								});
+								
+								// 1号块右移
+								jQuery('#slider1>div:first').stop().animate({'marginLeft':200,'opacity':0.01},300,null,function(){
+									jQuery('#slider2').append(jQuery('#slider1>div:first'));
+									jQuery('#slider2>div:first').css({'marginLeft':0,'opacity':1});
+									// 用左边的块填充
+									jQuery('#slider1').append(jQuery('#slider_left>div:last'));
+									jQuery('#slider1>div:first').css({'marginLeft':0,'opacity':1});
+									
+									isMoving = false;
+									currentIndex -= 1;
+								});
+								
+								// 左边加载一块
+								var index = currentIndex-4;
+								if(index > 0){
+									jQuery('#slider_temp').load('$!{appContext}/uc/uc_uc?index=' + index,null,function(){
+										// 将加载的移动到左边
+										jQuery('#slider_temp>div:first').insertBefore(jQuery('#slider_left>div:first'));
+									});
+								}
+							}
+						};
+						
+						jQuery('#go_left').click(function(){
+							left();
+						});
+						jQuery('#go_right').click(function(){
+							right();
+						});
+					});
+				</script>
+
+<div class="user_center">
+
+	#parse("/uc/uc_menu.htm")
+
+	<!-- right start -->
+	<div class="uc_right_side">
+		<!--右边内容模块 开始-->
+		<div class="right_top">
+			<!--右边导航 开始-->
+			<label>
+				现在位置：
+			</label>
+			&nbsp;&nbsp;
+			<a href="$!{appContext}/index.htm">首页</a>
+			<label></label>
+			>
+			<label>
+				会员中心
+			</label>
+		</div>
+		<!--右边导航 结束-->
+		<div class="right_admin">
+			<div style="padding-top: 10px;">
+				<span style="margin-left: 10px;" class="fontsize">未使用优惠劵</span>
+				<a href="$!{appContext}/uc/uc_coupon_list"
+					style="font-size: 14px; margin-left: 5px;">更多>></a>
+			</div>
+			
+			<!-- iz_slider start -->
+			<div class="couponNo">
+				<!--未使用优惠劵模块 开始-->
+				<div style="margin-right: 12px;">
+					<a href="javascript:void(0)" id="go_left"> <img src="$!{appPic}/right_arrows1.png" /> </a>
+				</div>
+
+				<div id="slider_temp" style="display: none"></div>
+				<div id="slider_left" style="display: none"></div>
+				<div id="slider1">
+					#if($unused2Coupon && $unused2Coupon.size() > 0)
+						#set($goods = $unused2Coupon.get(0))
+						#parse("/uc/uc_index_uc_unit_ajax.htm")
+					#end
+				</div>
+				<div class="bj"></div>
+				<div id="slider2">
+					#if($unused2Coupon && $unused2Coupon.size() > 1)
+						#set($goods = $unused2Coupon.get(1))
+						#parse("/uc/uc_index_uc_unit_ajax.htm")
+					#end
+				</div>
+				<div id="slider_right" style="display: none">
+					#foreach($goods in $unused3Coupon)
+						#parse("/uc/uc_index_uc_unit_ajax.htm")
+					#end
+				</div>
+
+				<div>
+					<a href="javascript:void(0)" id="go_right"><img src="$!{appPic}/right_arrows2.png" /> </a>
+				</div>
+			</div>
+			<!--未使用优惠劵模块 结束-->
+			<!-- iz_slider end -->
+			
+			<div class="bj2"></div>
+			<!--已使用优惠劵 开始-->
+			<div class="couponOk">
+				<div>
+					<span style="margin-left: 10px;" class="fontsize">已使用优惠劵</span>
+					<a href="$!{appContext}/uc/uc_coupon_list"
+						style="font-size: 14px; margin-left: 5px;">更多>></a>
+				</div>
+				<div class="Ok_img">
+					#foreach($goods in $used6Coupon)
+					<a href="$!{appContext}/couponDetail?id=$!{goods.id}">
+					<img widht="100px" height="100px"
+						src="$!appUploadedPic/$!goods.default_pic" />
+						</a>
+					#end
+				</div>
+			</div>
+			<!--已使用优惠劵 结束-->
+		</div>
+		<!--右边内容结束-->
+
+		<div class="issue">
+			<!--常见问题模块 开始
+				<div class="issue_bj1"></div>
+				<div class="issue_bj2">
+					<div class="issue_cjwt">
+						<ul>
+							<li class="fontsize">
+								常见问题
+							</li>
+							<li>
+								<a href="#">更多>></a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="issue_wtnr">
+						<ul>
+							<li>
+								<a href="#">*如何进行详单查询?</a>
+							</li>
+							<li>
+								<a href="#">*如何进行余额查询?</a>
+							</li>
+							<li>
+								<a href="#">*如何登陆中国电信优惠劵?</a>
+							</li>
+						</ul>
+
+						<ul>
+							<li>
+								<a href="#">*如何进行账单查询?</a>
+							</li>
+							<li>
+								<a href="#">*如何设置密码保护?</a>
+							</li>
+							<li>
+								<a href="#">*如何使用银行卡充值消费?</a>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+				<div class="issue_bj3"></div>
+			</div>-->
+		</div>
+
+		<!-- right end -->
+
+		<div class="clr"></div>
+	</div>
+
+	#parse("footer_front.htm")

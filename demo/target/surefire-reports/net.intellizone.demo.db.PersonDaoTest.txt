@@ -1,0 +1,348 @@
+-------------------------------------------------------------------------------
+Test set: net.intellizone.demo.db.PersonDaoTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 4.667 sec <<< FAILURE!
+testAddPerson(net.intellizone.demo.db.PersonDaoTest)  Time elapsed: 1.226 sec  <<< ERROR!
+org.nutz.dao.DaoException: org.nutz.dao.DaoException: !Nutz SQL Error: 'select MAX(person_id) from person'
+PreparedStatement: 
+'select MAX(person_id) from person'
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:74)
+	at org.nutz.dao.impl.DaoSupport._exec(DaoSupport.java:178)
+	at org.nutz.dao.impl.EntityOperator.exec(EntityOperator.java:50)
+	at org.nutz.dao.impl.NutDao.insert(NutDao.java:110)
+	at net.intellizone.demo.services.PersonService.addPerson(PersonService.java:45)
+	at net.intellizone.demo.db.PersonDaoTest.testAddPerson(PersonDaoTest.java:39)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:35)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:115)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:97)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+Caused by: org.nutz.dao.DaoException: !Nutz SQL Error: 'select MAX(person_id) from person'
+PreparedStatement: 
+'select MAX(person_id) from person'
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:147)
+	at org.nutz.dao.impl.DaoSupport$2.invoke(DaoSupport.java:181)
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:63)
+	... 34 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'iz_coupon.person' doesn't exist
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3609)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3541)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2002)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2163)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2618)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2568)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1557)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:60)
+	... 36 more
+
+testGetPersonById(net.intellizone.demo.db.PersonDaoTest)  Time elapsed: 0.875 sec  <<< ERROR!
+org.nutz.dao.DaoException: org.nutz.dao.DaoException: !Nutz SQL Error: 'SELECT * FROM person  WHERE id=?
+    | 1 |
+    |---|
+    | 4 |
+  For example:> "SELECT * FROM person  WHERE id=4"'
+PreparedStatement: 
+'SELECT * FROM person  WHERE id=?'
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:74)
+	at org.nutz.dao.impl.DaoSupport._exec(DaoSupport.java:178)
+	at org.nutz.dao.impl.NutDao.fetch(NutDao.java:413)
+	at net.intellizone.demo.services.PersonService.getPersonById(PersonService.java:56)
+	at net.intellizone.demo.db.PersonDaoTest.testGetPersonById(PersonDaoTest.java:46)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:35)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:115)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:97)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+Caused by: org.nutz.dao.DaoException: !Nutz SQL Error: 'SELECT * FROM person  WHERE id=?
+    | 1 |
+    |---|
+    | 4 |
+  For example:> "SELECT * FROM person  WHERE id=4"'
+PreparedStatement: 
+'SELECT * FROM person  WHERE id=?'
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:147)
+	at org.nutz.dao.impl.DaoSupport$2.invoke(DaoSupport.java:181)
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:63)
+	... 33 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'iz_coupon.person' doesn't exist
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3609)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3541)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2002)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2163)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2624)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2127)
+	at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2293)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:99)
+	... 35 more
+
+testGetAllPerson(net.intellizone.demo.db.PersonDaoTest)  Time elapsed: 0.821 sec  <<< ERROR!
+org.nutz.dao.DaoException: org.nutz.dao.DaoException: !Nutz SQL Error: 'SELECT * FROM person '
+PreparedStatement: 
+'SELECT * FROM person '
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:74)
+	at org.nutz.dao.impl.DaoSupport._exec(DaoSupport.java:178)
+	at org.nutz.dao.impl.NutDao.query(NutDao.java:367)
+	at net.intellizone.demo.services.PersonService.getAllPerson(PersonService.java:65)
+	at net.intellizone.demo.db.PersonDaoTest.testGetAllPerson(PersonDaoTest.java:53)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:35)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:115)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:97)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+Caused by: org.nutz.dao.DaoException: !Nutz SQL Error: 'SELECT * FROM person '
+PreparedStatement: 
+'SELECT * FROM person '
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:147)
+	at org.nutz.dao.impl.DaoSupport$2.invoke(DaoSupport.java:181)
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:63)
+	... 33 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'iz_coupon.person' doesn't exist
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3609)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3541)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2002)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2163)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2618)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2568)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1557)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:60)
+	... 35 more
+
+testUpdatePerson(net.intellizone.demo.db.PersonDaoTest)  Time elapsed: 0.856 sec  <<< ERROR!
+org.nutz.dao.DaoException: org.nutz.dao.DaoException: !Nutz SQL Error: 'UPDATE person SET name=?,age=?  WHERE id=?
+    |     1 | 2 | 3 |
+    |-------|---|---|
+    | Jerry | 0 | 3 |
+  For example:> "UPDATE person SET name='Jerry',age=0  WHERE id=3"'
+PreparedStatement: 
+'UPDATE person SET name=?,age=?  WHERE id=?'
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:74)
+	at org.nutz.dao.impl.DaoSupport._exec(DaoSupport.java:178)
+	at org.nutz.dao.impl.EntityOperator.exec(EntityOperator.java:50)
+	at org.nutz.dao.impl.NutDao.update(NutDao.java:188)
+	at net.intellizone.demo.services.PersonService.updatePerson(PersonService.java:76)
+	at net.intellizone.demo.db.PersonDaoTest.testUpdatePerson(PersonDaoTest.java:64)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:35)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:115)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:97)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+Caused by: org.nutz.dao.DaoException: !Nutz SQL Error: 'UPDATE person SET name=?,age=?  WHERE id=?
+    |     1 | 2 | 3 |
+    |-------|---|---|
+    | Jerry | 0 | 3 |
+  For example:> "UPDATE person SET name='Jerry',age=0  WHERE id=3"'
+PreparedStatement: 
+'UPDATE person SET name=?,age=?  WHERE id=?'
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:147)
+	at org.nutz.dao.impl.DaoSupport$2.invoke(DaoSupport.java:181)
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:63)
+	... 34 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'iz_coupon.person' doesn't exist
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3609)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3541)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2002)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2163)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2624)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2127)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1362)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor._runPreparedStatement(NutDaoExecutor.java:177)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:139)
+	... 36 more
+
+testDeletePerson(net.intellizone.demo.db.PersonDaoTest)  Time elapsed: 0.856 sec  <<< ERROR!
+org.nutz.dao.DaoException: org.nutz.dao.DaoException: !Nutz SQL Error: 'DELETE FROM person WHERE id=?
+    | 1 |
+    |---|
+    | 3 |
+  For example:> "DELETE FROM person WHERE id=3"'
+PreparedStatement: 
+'DELETE FROM person WHERE id=?'
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:74)
+	at org.nutz.dao.impl.DaoSupport._exec(DaoSupport.java:178)
+	at org.nutz.dao.impl.EntityOperator.exec(EntityOperator.java:50)
+	at org.nutz.dao.impl.NutDao.delete(NutDao.java:313)
+	at net.intellizone.demo.services.PersonService.deletePerson(PersonService.java:87)
+	at net.intellizone.demo.db.PersonDaoTest.testDeletePerson(PersonDaoTest.java:72)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:35)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:115)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:97)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.ProviderFactory$ClassLoaderProxy.invoke(ProviderFactory.java:103)
+	at $Proxy0.invoke(Unknown Source)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:150)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcess(SurefireStarter.java:91)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:69)
+Caused by: org.nutz.dao.DaoException: !Nutz SQL Error: 'DELETE FROM person WHERE id=?
+    | 1 |
+    |---|
+    | 3 |
+  For example:> "DELETE FROM person WHERE id=3"'
+PreparedStatement: 
+'DELETE FROM person WHERE id=?'
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:147)
+	at org.nutz.dao.impl.DaoSupport$2.invoke(DaoSupport.java:181)
+	at org.nutz.dao.impl.sql.run.NutDaoRunner.run(NutDaoRunner.java:63)
+	... 34 more
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'iz_coupon.person' doesn't exist
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3609)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3541)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2002)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2163)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2624)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2127)
+	at com.mysql.jdbc.PreparedStatement.execute(PreparedStatement.java:1362)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor._runPreparedStatement(NutDaoExecutor.java:177)
+	at org.nutz.dao.impl.sql.run.NutDaoExecutor.exec(NutDaoExecutor.java:139)
+	... 36 more
+

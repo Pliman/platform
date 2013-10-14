@@ -1,0 +1,190 @@
+
+<!-- from==2 为多选城市 -->
+#if($from == 2)
+
+<script type="text/javascript">
+
+ 	function selectCity(id,obj){
+ 		$("#belong_shop").val(id);
+ 		$("#shopName").val($(obj).attr("shopname"));
+ 		$(".pop_win_bgct").hide();
+ 		$(".pop_winct").hide();
+ 	}
+
+ 	function searchCity(p){
+ 		   //$("#shopajax").html("<div class='load_div'></div>");
+ 		   p || (p=1);
+ 	 		var wd=$("#wd").val();
+ 			$("#cityajax").load("/coupon/admin/getCitys.html?from=$!{from}&wd="+wd + "&p=" + p);
+ 	 	}
+
+	function confirmBelongCitys(){
+		var oldHtml=$("#avtivtyBelongCity").html();
+		  var s='';
+		  var html="";
+		  $('input[name="idList"]:checked').each(function(){
+			 var name=$(this).attr("shopname");
+	 		 html+="<p id='citynameWrap"+$(this).val()+"'><span>"+name+"</span><input type='hidden' name='idCityList' value='"+$(this).val()+"'/><a onclick='javascript:deleteBelongCity("+$(this).val()+",this)'>删除</a></p>";
+
+	 		 var value=$(this).val()+",";
+		    	s+=value;
+		  });
+		  if(s==''){
+	 		  alert("请选择城市！");
+	 		  return;
+	 	 }
+		oldHtml+=html;
+	 	$("#avtivtyBelongCity").html(oldHtml);
+		$(".pop_win_bgct").hide();
+		$(".pop_winct").hide();
+	 	}
+ </script>
+
+ <div class="searchCity" style="width:100%">
+
+ <table cellspacing="1" cellpadding="1" border="0" bgcolor="#CBD8AC"  width="100%" style="margin-top: 8px">
+		<tbody>
+			<tr bgcolor="#EEF4EA">
+				<td background="/coupon/common/img/wbg.gif" align="left">
+					<table height="32" cellspacing="0" cellpadding="0" border="0">
+						<tbody>
+							<tr>
+					
+								<td nowrap="">
+									&nbsp;&nbsp;关键字：
+								</td>
+								<td width="250" id="text">
+								 <input type="text" value="" name="wd" id="wd"  style="width:200px;height:20px;"/>
+								</td>
+							
+						
+
+								<td>
+									<input height="22" border="0" width="60" type="image" name="imageField" src="/coupon/common/img/button_search.gif" class="np" onclick="searchCity();">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+ 
+ 
+ </div>
+ <div class="clear"></div>
+
+ <table cellspacing="1" cellpadding="3" border="0" align="center" class="table_b">
+    <tbody><tr>
+    <td width="8%" class="title_bg">选择</td>
+      <td width="52%" class="title_bg">城市名</td>
+      <!--<td width="40%" class="title_bg">操作</td>-->
+    </tr>
+   
+    #foreach($city in $cityList.list) 
+    <tr onmouseover="this.bgColor='#EBFFDC';" onmouseout="this.bgColor='#ffffff';" bgcolor="#ffffff">
+		<td align="center"><input name="idList" onclick="unselectall()" value="$!{city.id}" type="checkbox" shopname="$!{city.city}"></td>	
+		<td><a href="#" id="sname">$!{city.city}</a></td>
+		<!--<td align="center">
+			<a onclick="javascript:selectCity('$!{city.id}',this)" shopname="$!{city.city}">选择</a> 
+		</td>  -->
+	</tr>
+	#end
+		
+
+        <tr>
+		<td align="center" class="tdbg" colspan="2">
+         #if($cityList.list.size()>0 )
+	<div class="pages">
+	
+	#set($pageNo=${cityList.pager.pageNumber}) ##当前页码   
+	#set($pageSum=${cityList.pager.pageCount}) ##总页数   
+	#set($liststep = 4)      ##显示分页页数
+	#set($listpage = $pageNo - 1) 
+	#set($nextpage = $pageNo + 1)                               
+	#if($pageNo < 1)  
+	$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+	#end  
+                    
+		#set($bar = $liststep/2)  
+                    
+                    #if(($pageNo - $bar) < 1)  
+                    #set($listbegin = 1)  
+                    #else  
+                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+                    #end  
+                      
+                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+                      
+                    #if($listend > $pageSum)  
+                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+                    #end  
+                     
+                    ##<strong>$pageNo</strong>                          ##显示当前页  
+                      
+                    #if($pageNo > 1)                 ##显示上一页处理  
+                    <a href="javascript:void(0)" onclick="searchCity($listpage)" class="no_bg">上一页</a>  
+                    #end  
+                    #if($listbegin > 1)                  ##第一页控制  
+                    <A href="javascript:void(0)" onclick="searchCity(1)" rel=start>1</A><SPAN class=gap>…</SPAN>  
+                    #end  
+                      
+                      
+                    #foreach($i in [$listbegin..$listend])  
+                    ##if($i <= $pageSum)             ##分页码的显示  
+                        #if($i != $pageNo&&$i!=0)  
+                        <a href="javascript:void(0)" onclick="searchCity($i)">$i</a>  
+                        #else  
+                      	<strong>$i</strong>   
+                        #end  
+                    ##end  
+                      
+                    #end  
+                      
+                    #if($listend < $pageSum)         ##最后一页的处理  
+                    <SPAN class=gap>…</SPAN><A href="javascript:void(0)" onclick="searchCity($pageSum)" rel=start>$pageSum</A>  
+                      
+                    #end  
+                    #if($pageNo != $pageSum)            ##显示下一页处理  
+                   <a class="no_bg" href="javascript:void(0)" onclick="searchCity($nextpage)">下一页</a>  
+                    #end
+                    
+			 #else
+			 
+			 没有搜索到你要的结果  
+			 #end 
+			 </div>
+						
+		</td>
+    </tr>
+      </tbody></table>
+      
+        <div class="confirm_select">
+      <p style="text-align:center">	<a href="javascript:confirmBelongCitys();"><img src="/coupon//res/images/button_ok.gif"/></a></p>
+      </div>
+
+
+#else
+<script type="text/javascript">
+ 	function selectCity(id,obj){
+		$(".pop_win").hide();
+ 		
+		jQuery('#cityId').val(id);
+		jQuery('#currentURL').val(window.location.href);
+		jQuery('#cityForm').submit();
+ 	}
+</script>
+
+<form id="cityForm" method="get" action="$!{appContext}change_city">
+	<ul class="header_citys_ul">
+		#foreach($city in $cityList)
+		<li>
+			<a onclick="javascript:selectCity('$!{city.id}',this)"
+				cityname="$!{city.city}">$!{city.city}</a>
+		</li>
+		#end
+	</ul>
+	<input type="hidden" id="cityId" name="cityId" />
+	<input type="hidden" id="currentURL" name="currentURL"/>
+</form>
+#end

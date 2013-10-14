@@ -1,0 +1,18 @@
+ <!--同商户的其他优惠劵 start-->
+ #if($shop.couponList.size()>0)
+		<div class="rightcontainer">
+			<div class="moretvbanner">
+				该商家的其他优惠券
+			</div>
+			#foreach($obj in $shop.couponList)
+              #if($velocityCount<=6)
+            <ul class="other_coupon">
+              <li><a href="couponDetail.html?id=${obj.id}" target="_blank">$obj.name</a>
+			  <span style="color:#FA5F03;margin-left:30px;">有效期至$!date.format('yyyy-MM-dd ',$!obj.end_time)</span></li>
+            </ul>
+            #end
+             #end
+		</div>
+        <!--同商户的其他优惠劵 end-->
+        
+   #end

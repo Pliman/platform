@@ -1,0 +1,253 @@
+#parse("/header_front.htm")
+<script language="javascript" type="text/javascript" src="/coupon/res/js/WdatePicker.js"></script>
+<link rel="stylesheet" href="$!{appContext}/res/css/uc.css"
+	type="text/css" />
+<script type="text/javascript">
+		$('#uc_index').addClass('nav_contenton');
+	</script>
+<div class="user_center">
+		#parse("/uc/uc_menu.htm")
+		
+	<!-- right start -->
+	<div class="uc_right_side">
+		<!--右边内容模块 开始-->
+		<div class="right_top">
+			<!--右边导航 开始-->
+			<label>
+				现在位置：
+			</label>
+			&nbsp;&nbsp;
+			<a href="$!{appContext}/index.htm">首页</a>
+			<label></label>
+			>
+			<label>
+				订单查询
+			</label>
+		</div>
+		<!--右边导航 结束-->
+		
+		<form action="$!{appContext}/uc/uc_order_search" id="clForm"
+				method="get">
+				
+				
+					
+		<div class="hy_coup_search">
+					<script type="text/javascript">
+						function spanChooseValue(obj,value){
+								var htmlvalue=$(obj).html();
+								$(obj).parent().parent().parent().parent().find(".hy_searchtext").val(htmlvalue);
+								$(obj).parent().parent().parent().parent().find(".hy_search_hidden").val(value);
+								$(obj).parent().parent().parent().parent().find(".span_xiala_menu").hide();
+								
+						}
+						function spanDroplist(obj){
+								$(obj).parent().find(".span_xiala_menu").show();
+						}
+					</script>
+					<script type="text/javascript">
+						function spanChooseZtValue(obj,value){
+								var htmlvalue=$(obj).html();
+								$(obj).parent().parent().parent().parent().find(".hy_searchtext").val(htmlvalue);
+								$(obj).parent().parent().parent().parent().find(".zt_search_hidden").val(value);
+								$(obj).parent().parent().parent().parent().find(".span_xiala_menu").hide();
+								
+						}
+						function spanDropZtlist(obj){
+								$(obj).parent().find(".span_xiala_menu").show();
+						}
+					</script>
+					<style>
+					.span_xiala_menu{margin-left:3px;}
+					</style>
+						<!--优惠劵搜索 开始-->
+						<table width="720" border="0">
+						  <tr>
+							<td><span class="span_xialawrap">
+								<input type="hidden" value="1" name="time" class="hy_search_hidden"/>
+								<input type="text" value="近一个月订单"   class="hy_searchtext"/>
+								<a onclick="javascript:spanDroplist(this)" class="span_xiala_trigeger">
+								<img src="/coupon/res/images/hy_xialabg.png"/></a>
+								<div class="span_xiala_menu">
+									<ul>
+										<li><a onclick="javascript:spanChooseValue(this,'1')">近一个月订单</a></li>
+										<li><a onclick="javascript:spanChooseValue(this,'2')">近两个月订单</a></li>
+										<li><a onclick="javascript:spanChooseValue(this,'3')">近3个月订单</a></li>
+									</ul>
+								</span>
+								</div>
+							</td>
+							<td>
+							
+							
+							<span class="span_xialawrap">
+							<input type="hidden" value="" name="orderstatus" class="zt_search_hidden"/>
+							<input type="text" value="订单状态"  class="hy_searchtext"/>
+							<a onclick="javascript:spanDropZtlist(this)" class="span_xiala_trigeger">
+							<img src="/coupon/res/images/hy_xialabg.png"/></a>
+							<div class="span_xiala_menu">
+								<ul>
+									<li><a onclick="javascript:spanChooseZtValue(this,'0')">未支付</a></li>
+									<li><a onclick="javascript:spanChooseZtValue(this,'1')">已支付</a></li>
+									<li><a onclick="javascript:spanChooseZtValue(this,'2')">已锁定</a></li>
+								</ul>
+							</span>
+							</div>
+
+							</td>
+							<td><input type="text" value="订单编号" name="orderNo" class="hy_searchtext"/></td>
+							<td></td>
+							<td><input type="image" src="/coupon/res/images/hy_search_btn.png"/></td>
+						  </tr>
+						</table>
+
+
+					</div>
+					<!--优惠劵搜索 结束-->
+		#**<div class="order_sech_top">
+				<span class="inp_blk">订单号<input type="text"
+						class="schtext" value="$!{orderNo}" name="orderNo" id="txtKeywords" />
+					下单时间：从<input type="text"
+						value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!{beginTime})"
+						class="schtext" name="beginTime"
+						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />&nbsp;&nbsp;到<input
+						type="text"
+						value="$!date.format('yyyy-MM-dd HH:mm:ss ',$!{endTime})"
+						class="schtext" name="endTime"
+						onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" /> </span>
+						<input type="submit" value="立即搜索" class="normal_btn" />
+		</div>**#
+		
+		
+		
+		
+		</form>
+			<div>
+				<div class="tb-void tb-line">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<tbody>
+							<tr>
+								<th width="12%">
+									订单编号
+								</th>
+								<th width="28%">
+									订单商品
+								</th>
+								<th width="12%">
+									订单金额
+								</th>
+								<th width="12%">
+									下单时间
+								</th>
+								<th width="12%">
+									订单状态
+								</th>
+								<th width="14%">
+									操作
+								</th>
+							</tr>
+							#foreach($order in $orderList)
+							<tr>
+								<td>
+									<a href="$!{appContext}/uc/uc_order_view?order_id=$!{order.id}">$!{order.orderNo}</a>
+								</td>
+								<td>
+									<div class="img-list">
+										<a href="#"><img src="/coupon/res/images/2849.jpg" width="50" height="58" class="order_goodsimg"/><a href="$!{appContext}/couponDetail?id=$!{order.goods.id}">$!{order.goods.name}</a>
+									</div>
+								</td>
+								<td>
+									$!{order.orderAmount}
+								</td>
+								<td>
+									<span class="ftx-03">$!date.format("yyyy-MM-dd HH:mm:ss",$order.createTime)</span>
+								</td>
+								<td>
+								#if($order.orderStatus == 0)
+									#set($statusStr = "未支付")
+								#else
+									#set($statusStr = "已支付")
+								#end
+									<span class="ftx-03">$statusStr</span>
+								</td>
+								<td class="order-doi">
+									<p><a href="#"><img src="/coupon/res/images/pay_btn.png" alt=""/></a></p>
+									<p><a href="$!{appContext}/uc/uc_order_view?order_id=$!{order.id}">查看</a></p>
+								</td>
+							</tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				
+				
+				<!-- paging start -->
+							#if($orderList.size()>0 )
+								<div class="pages">
+								#set($pageNo=${page}) ##当前页码   
+								#set($pageSum=${totalPage}) ##总页数   
+								#set($liststep = 4)      ##显示分页页数
+								#set($listpage = $pageNo - 1) 
+								#set($nextpage = $pageNo + 1)                               
+								#if($pageNo < 1)  
+								$pageNo = 1     ##如果分页变量小于１,则将分页变量设为１  
+								#end  
+							                      
+									#set($bar = $liststep/2)  
+							                     
+							                    #if(($pageNo - $bar) < 1)  
+							                    #set($listbegin = 1)  
+							                    #else  
+							                    #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页  
+							                    #end  
+							                      
+							                    #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页  
+							                      
+							                    #if($listend > $pageSum)  
+							                    #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理   
+							                    #end  
+							                     
+							                    ##<strong>$pageNo</strong>                          ##显示当前页  
+							                      
+							                    #if($pageNo > 1)                 ##显示上一页处理  
+							                    <a href="$!{appContext}/uc/uc_order_list?p=$listpage$!{queryString}" class="no_bg">上一页</a>  
+							                    #end  
+							                    #if($listbegin > 1)                  ##第一页控制  
+							                    <A href="$!{appContext}/uc/uc_order_list?p=1$!{queryString}" rel=start>1</A><SPAN class=gap>…</SPAN>  
+							                    #end  
+							                      
+							                      
+							                    #foreach($i in [$listbegin..$listend])  
+							                    ##if($i <= $pageSum)             ##分页码的显示  
+							                        #if($i != $pageNo&&$i!=0)  
+							                        <a href="$!{appContext}/uc/uc_order_list?p=$i$!{queryString}">$i</a>  
+							                        #else  
+							                      	<strong>$i</strong>   
+							                        #end  
+							                    ##end  
+							                      
+							                    #end  
+							                      
+							                    #if($listend < $pageSum)         ##最后一页的处理  
+							                    <SPAN class=gap>…</SPAN><A href="$!{appContext}/uc/uc_order_list?p=$pageSum$!{queryString}" rel=start>$pageSum</A>  
+							                      
+							                    #end  
+							                    #if($pageNo != $pageSum)            ##显示下一页处理  
+							                   <a class="no_bg" href="$!{appContext}/uc/uc_order_list?p=$nextpage$!{queryString}">下一页</a>  
+							                    #end
+							                    
+							 #else
+							 
+							 没有搜索到你要的结果  
+							 #end 
+							          </div>
+							<!-- paging end -->
+				
+				
+				
+			</div>
+		</div>
+
+		<div class="clr"></div>
+</div>
+
+#parse("/footer_front.htm")

@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Course List</title>
+</head>
+    
+<body>22222222222
+    <h2>COURSE LIST</h2>
+    <table width="600" border="1" cellspacing="1" cellpadding="1">
+      <tr bgcolor="#999999">
+        <td>Person ID</td>
+        <td>Person Name</td>
+        <td>AGE</td>
+      </tr>
+    #foreach($person in $personList)  
+      <tr>
+        <td>
+          <a href="dispalyCourse.htm?id=${person.id}">
+          ${person.id}  
+          </a>
+        </td>
+        <td>$!{person.name}</td>
+        <td>$!{person.age} </td>
+      </tr>
+    #end  
+    </table>
+</body>
+</html>
