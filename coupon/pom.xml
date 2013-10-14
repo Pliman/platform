@@ -154,6 +154,57 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.4</version>
 		</dependency>
+
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>antlr</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>oro</artifactId>
+			<version>2.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>sslext</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>struts-core</artifactId>
+			<version>1.3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>struts-taglib</artifactId>
+			<version>1.3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>struts-tiles</artifactId>
+			<version>1.3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>net.pliman</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>2.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>coupon</finalName>
